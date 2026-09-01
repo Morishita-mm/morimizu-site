@@ -1,6 +1,7 @@
 import { generatedQiitaArticles } from '@/lib/generated/qiita-articles';
 
-const qiitaUser = 'mzk_tech';
+const qiitaUser = 'morimizu';
+const legacyQiitaProfileUrl = 'https://qiita.com/mzk_tech';
 
 type GeneratedQiitaArticle = (typeof generatedQiitaArticles)[number];
 
@@ -17,20 +18,22 @@ export type QiitaArticle = {
 };
 
 function normalizeQiitaNotes(markdown: string) {
-  return markdown.replace(
-    /^:::note(?:\s+([^\n]+))?\r?\n([\s\S]*?)^:::\s*$/gm,
-    (_match, rawKind: string | undefined, body: string) => {
-      const kind = rawKind?.trim().toLowerCase();
-      const label = kind === 'warn' || kind === 'warning' ? '注意' : 'メモ';
-      const quotedBody = body
-        .trim()
-        .split(/\r?\n/)
-        .map((line) => (line ? `> ${line}` : '>'))
-        .join('\n');
+  return markdown
+    .replaceAll(legacyQiitaProfileUrl, `https://qiita.com/${qiitaUser}`)
+    .replace(
+      /^:::note(?:\s+([^\n]+))?\r?\n([\s\S]*?)^:::\s*$/gm,
+      (_match, rawKind: string | undefined, body: string) => {
+        const kind = rawKind?.trim().toLowerCase();
+        const label = kind === 'warn' || kind === 'warning' ? '注意' : 'メモ';
+        const quotedBody = body
+          .trim()
+          .split(/\r?\n/)
+          .map((line) => (line ? `> ${line}` : '>'))
+          .join('\n');
 
-      return `> **${label}**\n>\n${quotedBody}`;
-    },
-  );
+        return `> **${label}**\n>\n${quotedBody}`;
+      },
+    );
 }
 
 function extractSummary(markdown: string) {
@@ -69,12 +72,16 @@ function extractSummary(markdown: string) {
 }
 
 function extractFirstImage(markdown: string) {
-  const markdownImage = markdown.match(/!\[[^\]]*\]\((https?:\/\/[^\s)]+)[^)]*\)/i);
+  const markdownImage = markdown.match(
+    /!\[[^\]]*\]\((https?:\/\/[^\s)]+)[^)]*\)/i,
+  );
   if (markdownImage?.[1]) {
     return markdownImage[1];
   }
 
-  const htmlImage = markdown.match(/<img\b[^>]*\bsrc=["'](https?:\/\/[^"']+)["']/i);
+  const htmlImage = markdown.match(
+    /<img\b[^>]*\bsrc=["'](https?:\/\/[^"']+)["']/i,
+  );
   return htmlImage?.[1];
 }
 

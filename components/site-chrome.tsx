@@ -48,7 +48,7 @@ export function SiteHeader({ active }: SiteHeaderProps) {
 
         <a
           className="header-qiita"
-          href="https://qiita.com/mzk_tech"
+          href="https://qiita.com/morimizu"
           rel="noreferrer"
           target="_blank"
         >
