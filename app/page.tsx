@@ -5,7 +5,7 @@ import {
   Code2,
   GitFork,
 } from 'lucide-react';
-import Link from 'next/link';
+import { FullPageLink } from '@/components/full-page-link';
 import { MizuGlyph } from '@/components/mizu-glyph';
 import { SiteFooter, SiteHeader } from '@/components/site-chrome';
 import {
@@ -162,10 +162,10 @@ export default function Home() {
                   strokeWidth={1.8}
                 />
               </a>
-              <Link className="text-link" href="/notes">
+              <FullPageLink className="text-link" href="/notes">
                 技術ノートを読む
                 <ArrowDownRight aria-hidden="true" size={15} strokeWidth={1.8} />
-              </Link>
+              </FullPageLink>
             </div>
 
             <div className="hero-proof" aria-label="Site overview">
@@ -205,7 +205,7 @@ export default function Home() {
               <MizuGlyph className="activity-mark" />
             </span>
 
-            <Link className="activity-card activity-write" href="/notes">
+            <FullPageLink className="activity-card activity-write" href="/notes">
               <span className="activity-head">
                 <span>02 / WRITE</span>
                 <BookOpen aria-hidden="true" size={20} strokeWidth={1.6} />
@@ -219,7 +219,7 @@ export default function Home() {
                 {articleCount} notes
                 <ArrowDownRight aria-hidden="true" size={15} strokeWidth={1.7} />
               </span>
-            </Link>
+            </FullPageLink>
 
             <p className="cycle-caption">IDEA → BUILD → NOTE → NEXT IDEA</p>
           </div>
@@ -316,7 +316,7 @@ export default function Home() {
               <ol className="home-note-list" aria-label="Recent notes">
                 {recentArticles.map((article, index) => (
                   <li key={article.id}>
-                    <Link href={`/notes/${article.id}`}>
+                    <FullPageLink href={`/notes/${article.id}`}>
                       <span className="home-note-index">
                         {String(index + 1).padStart(2, '0')}
                       </span>
@@ -327,15 +327,15 @@ export default function Home() {
                         <strong>{article.title}</strong>
                       </span>
                       <ArrowUpRight aria-hidden="true" size={17} strokeWidth={1.6} />
-                    </Link>
+                    </FullPageLink>
                   </li>
                 ))}
               </ol>
 
-              <Link className="qiita-link" href="/notes">
+              <FullPageLink className="qiita-link" href="/notes">
                 すべての技術ノートを見る
                 <ArrowDownRight aria-hidden="true" size={18} strokeWidth={1.7} />
-              </Link>
+              </FullPageLink>
             </div>
           </div>
         </section>

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ArrowLeft, ArrowUpRight } from 'lucide-react';
+import { FullPageLink } from '@/components/full-page-link';
 import { MarkdownArticle } from '@/components/markdown-article';
 import { SiteFooter, SiteHeader } from '@/components/site-chrome';
 import {
@@ -73,10 +73,10 @@ export default async function NotePage({ params }: NotePageProps) {
       <main className="note-detail">
         <article>
           <header className="note-article-header page-shell-narrow">
-            <Link className="note-back" href="/notes">
+            <FullPageLink className="note-back" href="/notes">
               <ArrowLeft aria-hidden="true" size={16} strokeWidth={1.7} />
               記事一覧に戻る
-            </Link>
+            </FullPageLink>
 
             <div className="note-article-kicker">
               <span>FIELD NOTE</span>

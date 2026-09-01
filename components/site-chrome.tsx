@@ -1,5 +1,5 @@
 import { ArrowUpRight } from 'lucide-react';
-import Link from 'next/link';
+import { FullPageLink } from '@/components/full-page-link';
 import { MizuGlyph } from '@/components/mizu-glyph';
 
 type SiteHeaderProps = {
@@ -10,24 +10,24 @@ export function SiteHeader({ active }: SiteHeaderProps) {
   return (
     <header className="site-header">
       <div className="site-header-inner page-shell">
-        <Link className="brand" href="/" aria-label="morimizu.dev ホーム">
+        <FullPageLink className="brand" href="/" aria-label="morimizu.dev ホーム">
           <MizuGlyph className="brand-mark" />
           <span className="brand-copy">
             <strong>morimizu.dev</strong>
             <small>PERSONAL DEV LAB</small>
           </span>
-        </Link>
+        </FullPageLink>
 
         <nav aria-label="Main navigation">
-          <Link aria-current={active === 'apps' ? 'page' : undefined} href="/#work">
+          <FullPageLink aria-current={active === 'apps' ? 'page' : undefined} href="/#work">
             Apps
-          </Link>
-          <Link aria-current={active === 'notes' ? 'page' : undefined} href="/notes">
+          </FullPageLink>
+          <FullPageLink aria-current={active === 'notes' ? 'page' : undefined} href="/notes">
             Notes
-          </Link>
-          <Link aria-current={active === 'about' ? 'page' : undefined} href="/#about">
+          </FullPageLink>
+          <FullPageLink aria-current={active === 'about' ? 'page' : undefined} href="/#about">
             About
-          </Link>
+          </FullPageLink>
         </nav>
 
         <a

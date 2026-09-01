@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import { ArrowUpRight, BookOpen } from 'lucide-react';
+import { FullPageLink } from '@/components/full-page-link';
 import { SiteFooter, SiteHeader } from '@/components/site-chrome';
 import {
   formatArticleDate,
@@ -51,7 +51,7 @@ export default function NotesPage() {
           <ol className="notes-list">
             {articles.map((article, index) => (
               <li key={article.id}>
-                <Link className="note-row" href={`/notes/${article.id}`}>
+                <FullPageLink className="note-row" href={`/notes/${article.id}`}>
                   <span className="note-row-index">
                     {String(index + 1).padStart(2, '0')}
                   </span>
@@ -71,7 +71,7 @@ export default function NotesPage() {
                     </span>
                   </span>
                   <ArrowUpRight aria-hidden="true" size={20} strokeWidth={1.5} />
-                </Link>
+                </FullPageLink>
               </li>
             ))}
           </ol>
