@@ -10,22 +10,38 @@ export function SiteHeader({ active }: SiteHeaderProps) {
   return (
     <header className="site-header">
       <div className="site-header-inner page-shell">
-        <FullPageLink className="brand" href="/" aria-label="morimizu.dev ホーム">
+        <FullPageLink
+          className="brand"
+          href="/"
+          aria-label="morimizu.dev ホーム"
+        >
           <MizuGlyph className="brand-mark" />
           <span className="brand-copy">
             <strong>morimizu.dev</strong>
-            <small>PERSONAL DEV LAB</small>
+            <small>MIZUKI&apos;S PERSONAL SITE</small>
           </span>
         </FullPageLink>
 
-        <nav aria-label="Main navigation">
-          <FullPageLink aria-current={active === 'apps' ? 'page' : undefined} href="/#work">
+        <nav aria-label="メインナビゲーション">
+          <FullPageLink
+            aria-current={active === 'apps' ? 'page' : undefined}
+            data-section-link="work"
+            href="/#work"
+          >
             Apps
           </FullPageLink>
-          <FullPageLink aria-current={active === 'notes' ? 'page' : undefined} href="/notes">
+          <FullPageLink
+            aria-current={active === 'notes' ? 'page' : undefined}
+            data-section-link="writing"
+            href="/notes"
+          >
             Notes
           </FullPageLink>
-          <FullPageLink aria-current={active === 'about' ? 'page' : undefined} href="/#about">
+          <FullPageLink
+            aria-current={active === 'about' ? 'page' : undefined}
+            data-section-link="about"
+            href="/#about"
+          >
             About
           </FullPageLink>
         </nav>
@@ -40,6 +56,7 @@ export function SiteHeader({ active }: SiteHeaderProps) {
           <ArrowUpRight aria-hidden="true" size={13} strokeWidth={1.8} />
         </a>
       </div>
+      <span className="site-progress" aria-hidden="true" />
     </header>
   );
 }
@@ -55,7 +72,7 @@ export function SiteFooter() {
             <small>© 2026 Mizuki</small>
           </span>
         </span>
-        <span className="footer-note">A SMALL, GROWING SOFTWARE LAB.</span>
+        <span className="footer-note">つくったものと、書いたもの。</span>
       </div>
     </footer>
   );

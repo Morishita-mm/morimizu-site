@@ -72,30 +72,33 @@ export default async function NotePage({ params }: NotePageProps) {
       <SiteHeader active="notes" />
       <main className="note-detail">
         <article>
-          <header className="note-article-header page-shell-narrow">
+          <header
+            className="note-article-header page-shell-narrow"
+            data-reveal="up"
+          >
             <FullPageLink className="note-back" href="/notes">
               <ArrowLeft aria-hidden="true" size={16} strokeWidth={1.7} />
               記事一覧に戻る
             </FullPageLink>
 
             <div className="note-article-kicker">
-              <span>FIELD NOTE</span>
+              <span>技術ノート</span>
               <time dateTime={article.updatedAt}>
                 {formatArticleDate(article.updatedAt)}
               </time>
-              <span>{article.readingMinutes} MIN READ</span>
+              <span>{article.readingMinutes}分で読めます</span>
             </div>
 
             <h1>{article.title}</h1>
 
-            <ul className="note-article-tags" aria-label="Tags">
+            <ul className="note-article-tags" aria-label="タグ">
               {article.tags.map((tag) => (
                 <li key={tag}>{tag}</li>
               ))}
             </ul>
 
             <p className="note-source-notice">
-              この記事はQiitaへ投稿したMarkdownを同期して表示しています。
+              Qiitaに投稿したMarkdownを、このサイトにも同じ内容で載せています。
               <a href={article.qiitaUrl} rel="noreferrer" target="_blank">
                 Qiitaで読む
                 <ArrowUpRight aria-hidden="true" size={14} strokeWidth={1.7} />
@@ -109,7 +112,7 @@ export default async function NotePage({ params }: NotePageProps) {
             <MarkdownArticle content={article.content} />
 
             <footer className="note-article-footer">
-              <span>END OF NOTE</span>
+              <span>この記事はここまで</span>
               <a href={article.qiitaUrl} rel="noreferrer" target="_blank">
                 Qiitaで原文を見る
                 <ArrowUpRight aria-hidden="true" size={16} strokeWidth={1.7} />

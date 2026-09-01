@@ -1,387 +1,333 @@
-import {
-  ArrowDownRight,
-  ArrowUpRight,
-  BookOpen,
-  Code2,
-  GitFork,
-} from 'lucide-react';
+import { ArrowDownRight, ArrowUpRight, GitFork } from 'lucide-react';
+import { DiagnosticMark } from '@/components/diagnostic-mark';
+import { DiagnosticProjectPreview } from '@/components/diagnostic-project-preview';
 import { FullPageLink } from '@/components/full-page-link';
 import { MizuGlyph } from '@/components/mizu-glyph';
 import { SiteFooter, SiteHeader } from '@/components/site-chrome';
 import {
   formatArticleDate,
-  getAllQiitaArticles,
   getRecentQiitaArticles,
 } from '@/lib/qiita-articles';
 
-const projects = [
-  {
-    index: '01',
-    name: 'morimizu.dev',
-    label: 'THIS SITE',
-    description:
-      '個人開発・Qiitaの技術ノート・プロフィールをまとめる、このサイト自身。',
-    status: '開発中',
-    tags: ['Next.js', 'Cloudflare'],
-    kind: 'site',
-  },
-  {
-    index: '02',
-    name: '設計診断',
-    label: 'AI SYSTEM DESIGN INTERVIEW',
-    description:
-      '25分・ヒントなしの初見課題で、設計判断とトレードオフを振り返るAI技術面接アプリ。',
-    status: '開発中',
-    tags: ['React Router', 'Firestore'],
-    kind: 'diagnostic',
-  },
-];
-
-function MizuMark({ className = '' }: { className?: string }) {
-  return (
-    <svg
-      aria-hidden="true"
-      className={className}
-      viewBox="0 0 512 512"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        className="mizu-line mizu-line-jade"
-        d="M358 154A144 144 0 0 0 154 358"
-        fill="none"
-        stroke="var(--jade, #327871)"
-        strokeLinecap="round"
-        strokeWidth="14"
-      />
-      <path
-        className="mizu-line mizu-line-ink"
-        d="M154 358A144 144 0 0 0 358 154"
-        fill="none"
-        stroke="var(--ink, #17241e)"
-        strokeLinecap="round"
-        strokeWidth="14"
-      />
-      <path
-        className="mizu-line mizu-line-ink"
-        d="M358 154C374 206 324 238 256 256"
-        fill="none"
-        stroke="var(--ink, #17241e)"
-        strokeLinecap="round"
-        strokeWidth="14"
-      />
-      <path
-        className="mizu-line mizu-line-jade"
-        d="M256 256C188 274 138 306 154 358"
-        fill="none"
-        stroke="var(--jade, #327871)"
-        strokeLinecap="round"
-        strokeWidth="14"
-      />
-      <circle
-        className="mizu-dew"
-        cx="414"
-        cy="92"
-        fill="var(--jade, #327871)"
-        r="24"
-      />
-      <circle
-        className="mizu-dew-glint"
-        cx="407"
-        cy="85"
-        fill="var(--paper, #f4f1e8)"
-        r="6"
-      />
-    </svg>
-  );
-}
-
-function ArchitectureDiagnosticMark({
-  className = '',
-}: {
-  className?: string;
-}) {
-  return (
-    <svg
-      aria-hidden="true"
-      className={className}
-      viewBox="0 0 48 48"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M18 15 31 6l11 7v22l-11 7-13-9"
-        stroke="#182b36"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="5.5"
-      />
-      <path
-        d="m18 15-12 9 12 9 11-9-11-9Z"
-        stroke="#1d6b63"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="5.5"
-      />
-    </svg>
-  );
-}
-
 export default function Home() {
-  const recentArticles = getRecentQiitaArticles(3);
-  const articleCount = getAllQiitaArticles().length;
+  const recentArticles = getRecentQiitaArticles(4);
+  const featuredArticle = recentArticles[0];
+  const remainingArticles = recentArticles.slice(1);
 
   return (
     <>
       <SiteHeader />
 
-      <main>
-        <section className="hero page-shell" id="top">
-          <div className="hero-copy">
-            <p className="eyebrow">
-              <span className="eyebrow-dot" aria-hidden="true" />
-              MIZUKI&apos;S PERSONAL DEVELOPMENT LAB
-            </p>
-            <h1>
-              <span className="hero-title-line">小さなアプリをつくる。</span>
-              <span className="hero-title-line hero-title-accent">
-                学びを記録する。
-              </span>
-            </h1>
-            <p className="hero-description">
-              morimizu.devは、Mizukiの個人開発ラボです。つくっているアプリと
-              制作の過程を公開し、技術的な学びはQiitaに記録しています。
-            </p>
+      <main className="journal-home">
+        <section
+          className="journal-hero page-shell"
+          data-section-id="top"
+          id="top"
+        >
+          <p className="journal-dateline">
+            <span>Mizukiの個人開発</span>
+            <span>つくったもの / 技術ノート</span>
+            <span>morimizu.dev</span>
+          </p>
 
-            <div className="hero-actions">
-              <a className="primary-link" href="#work">
-                個人開発を見る
-                <ArrowDownRight
-                  aria-hidden="true"
-                  size={17}
-                  strokeWidth={1.8}
-                />
-              </a>
-              <FullPageLink className="text-link" href="/notes">
-                技術ノートを読む
-                <ArrowDownRight aria-hidden="true" size={15} strokeWidth={1.8} />
-              </FullPageLink>
+          <div className="journal-hero-heading">
+            <div className="journal-hero-copy">
+              <h1>
+                <span>自分で使うものを、</span>
+                <span className="journal-serif">まず小さく</span>
+                <span>つくっています。</span>
+              </h1>
+
+              <div className="journal-hero-note">
+                <p>
+                  Mizukiです。開発中に感じる「もう少し楽にできそう」を、
+                  自分で使う小さな道具にしています。使って気づいたことも、ここに残しています。
+                </p>
+                <div className="journal-hero-actions">
+                  <a href="#work">
+                    つくったものを見る
+                    <ArrowDownRight
+                      aria-hidden="true"
+                      size={17}
+                      strokeWidth={1.7}
+                    />
+                  </a>
+                  <FullPageLink href="/notes">
+                    書いたものを読む
+                    <ArrowDownRight
+                      aria-hidden="true"
+                      size={17}
+                      strokeWidth={1.7}
+                    />
+                  </FullPageLink>
+                </div>
+              </div>
             </div>
 
-            <div className="hero-proof" aria-label="Site overview">
-              <span>
-                <strong>02</strong>
-                PROJECTS IN PROGRESS
-              </span>
-              <span>
-                <strong>{String(articleCount).padStart(2, '0')}</strong>
-                PUBLIC NOTES
-              </span>
-            </div>
-          </div>
+            <aside
+              aria-label="現在制作中のプロジェクト"
+              className="journal-hero-current"
+              data-reveal="up"
+            >
+              <div className="journal-hero-current-head">
+                <span>Now making</span>
+                <span>01</span>
+              </div>
 
-          <div className="cycle-panel" aria-label="Build and write cycle">
-            <a className="activity-card activity-build" href="#work">
-              <span className="activity-head">
-                <span>01 / BUILD</span>
-                <Code2 aria-hidden="true" size={20} strokeWidth={1.6} />
-              </span>
-              <span className="activity-copy">
-                <small>PERSONAL PROJECTS</small>
-                <strong>個人開発</strong>
-                <span>小さな課題を、使える道具へ。</span>
-              </span>
-              <span className="activity-foot">
-                2 projects
+              <div className="journal-hero-current-mark" aria-hidden="true">
+                <DiagnosticMark />
+              </div>
+
+              <div className="journal-hero-current-copy">
+                <span>AI技術面接アプリ</span>
+                <strong>設計診断</strong>
+                <p>正解を当てるより、自分の設計判断を確かめる。</p>
+              </div>
+
+              <a href="#work">
+                制作中の内容を見る
                 <ArrowDownRight
                   aria-hidden="true"
-                  size={15}
+                  size={16}
                   strokeWidth={1.7}
                 />
-              </span>
-            </a>
+              </a>
+            </aside>
+          </div>
 
-            <span className="activity-mark-wrap" aria-hidden="true">
-              <MizuGlyph className="activity-mark" />
-            </span>
-
-            <FullPageLink className="activity-card activity-write" href="/notes">
-              <span className="activity-head">
-                <span>02 / WRITE</span>
-                <BookOpen aria-hidden="true" size={20} strokeWidth={1.6} />
-              </span>
-              <span className="activity-copy">
-                <small>TECHNICAL NOTES</small>
-                <strong>技術ノート</strong>
-                <span>実装で得た学びを、次のために。</span>
-              </span>
-              <span className="activity-foot">
-                {articleCount} notes
-                <ArrowDownRight aria-hidden="true" size={15} strokeWidth={1.7} />
-              </span>
-            </FullPageLink>
-
-            <p className="cycle-caption">IDEA → BUILD → NOTE → NEXT IDEA</p>
+          <div
+            aria-label="Mizukiの個人開発の流れ"
+            className="journal-hero-cycle"
+            data-reveal="up"
+            data-reveal-delay="100"
+          >
+            <div className="journal-hero-cycle-label">
+              <MizuGlyph />
+              <span>My own development loop</span>
+            </div>
+            <ol>
+              <li>
+                <span>01</span>
+                <strong>気づく</strong>
+                <small>開発中の小さな不便</small>
+              </li>
+              <li>
+                <span>02</span>
+                <strong>つくる</strong>
+                <small>まず動く形にする</small>
+              </li>
+              <li>
+                <span>03</span>
+                <strong>使う</strong>
+                <small>自分で確かめる</small>
+              </li>
+              <li>
+                <span>04</span>
+                <strong>直す・残す</strong>
+                <small>次の自分につなげる</small>
+              </li>
+            </ol>
           </div>
         </section>
 
-        <section className="work-section section-block page-shell" id="work">
-          <div className="section-heading">
-            <p className="section-index">01 / Personal projects</p>
-            <div className="section-title-group">
-              <span>APPS BY MIZUKI</span>
-              <h2>個人開発</h2>
-            </div>
-            <p className="section-description">
-              日々の小さな課題から生まれたアプリと、いま育てているプロジェクト。
-            </p>
-          </div>
+        <section className="journal-projects" data-section-id="work" id="work">
+          <div className="page-shell">
+            <header className="journal-projects-heading" data-reveal="up">
+              <p>つくったもの</p>
+              <h2>いま作っているもの</h2>
+              <p>
+                まだ途中のものも含めて、いま手を動かしているものを載せています。
+              </p>
+            </header>
 
-          <div className="project-grid">
-            {projects.map((project) => (
+            <div className="journal-project-grid">
               <article
-                className={`project-card project-card-${project.kind}`}
-                key={project.index}
+                className="journal-project-card journal-project-card-featured"
+                data-reveal="up"
               >
-                <span className="project-accent" aria-hidden="true" />
-                <div className="project-visual">
-                  <div className="project-topline">
-                    <span>{project.label}</span>
-                    <span className="project-status">
-                      <i aria-hidden="true" />
-                      {project.status}
-                    </span>
-                  </div>
+                <DiagnosticProjectPreview />
 
-                  <div className="project-emblem" aria-hidden="true">
-                    {project.kind === 'site' ? (
-                      <MizuMark className="project-site-mark" />
-                    ) : (
-                      <ArchitectureDiagnosticMark className="diagnostic-mark" />
-                    )}
-                  </div>
-
-                  <span className="project-surface-caption">
-                    {project.kind === 'site'
-                      ? 'BUILD / WRITE / GROW'
-                      : 'DESIGN / DECIDE / REVIEW'}
-                  </span>
-                </div>
-
-                <div className="project-body">
-                  <span className="project-index">{project.index}</span>
-                  <div>
-                    <h3>{project.name}</h3>
-                    <p>{project.description}</p>
-                    <ul className="project-tags" aria-label="Technologies">
-                      {project.tags.map((tag) => (
-                        <li key={tag}>{tag}</li>
-                      ))}
-                    </ul>
+                <div className="journal-project-copy">
+                  <p className="journal-project-meta">
+                    <span>試作中</span>
+                    <span>AI技術面接アプリ</span>
+                  </p>
+                  <h3>設計診断</h3>
+                  <p>
+                    初めて見る設計課題に25分、ヒントなしで取り組みます。答えたあとに、
+                    自分の判断やトレードオフをAIと振り返るためのアプリです。
+                  </p>
+                  <div className="journal-project-foot">
+                    <span>いまは公開に向けて調整中です</span>
+                    <span>React Router / Firestore</span>
                   </div>
                 </div>
               </article>
-            ))}
+
+              <article
+                className="journal-project-card journal-project-card-site"
+                data-reveal="up"
+                data-reveal-delay="80"
+              >
+                <div className="journal-site-visual">
+                  <span className="journal-site-domain">morimizu.dev</span>
+                  <MizuGlyph className="journal-site-mark" />
+                  <span className="journal-site-caption">
+                    つくったものと、書いたもの。
+                  </span>
+                </div>
+
+                <div className="journal-project-copy">
+                  <p className="journal-project-meta">
+                    <span>公開中</span>
+                    <span>このサイト</span>
+                  </p>
+                  <h3>morimizu.dev</h3>
+                  <p>
+                    作ったアプリと、作りながら考えたことをまとめるために作ったサイトです。
+                    気になるところを見つけるたびに、少しずつ直しています。
+                  </p>
+                  <div className="journal-project-links">
+                    <FullPageLink href="/">
+                      サイトを開く
+                      <ArrowUpRight
+                        aria-hidden="true"
+                        size={15}
+                        strokeWidth={1.6}
+                      />
+                    </FullPageLink>
+                    <a
+                      href="https://github.com/Morishita-mm/morimizu-site"
+                      rel="noreferrer"
+                      target="_blank"
+                    >
+                      <GitFork aria-hidden="true" size={14} strokeWidth={1.6} />
+                      GitHub
+                      <ArrowUpRight
+                        aria-hidden="true"
+                        size={14}
+                        strokeWidth={1.6}
+                      />
+                    </a>
+                  </div>
+                </div>
+              </article>
+            </div>
           </div>
         </section>
 
-        <section className="writing-section" id="writing">
-          <div className="writing-layout page-shell">
-            <div className="writing-intro">
-              <p className="section-index section-index-light">
-                02 / Qiita notes
-              </p>
-              <span className="writing-label">WRITE</span>
-              <h2>
-                公開済みの
-                <br />
-                技術ノート
-              </h2>
-              <p>
-                Qiitaへ投稿したMarkdownを同期し、このサイトでも同じ記事を読めるようにしています。
-              </p>
-            </div>
+        <section
+          className="journal-notes page-shell"
+          data-section-id="writing"
+          id="writing"
+        >
+          <header className="journal-section-heading" data-reveal="up">
+            <p>技術ノート</p>
+            <h2>
+              作りながら
+              <span className="journal-serif">考えたこと。</span>
+            </h2>
+            <p className="journal-section-description">
+              実装で詰まったところや、あとから残しておきたいことをQiitaに書いています。
+              公開した記事は、ここでも読めます。
+            </p>
+          </header>
 
-            <div className="qiita-card">
-              <span className="qiita-card-top">
-                <span className="qiita-icon" aria-hidden="true">
-                  <BookOpen size={22} strokeWidth={1.55} />
-                </span>
+          {featuredArticle ? (
+            <FullPageLink
+              className="journal-featured-note"
+              data-reveal="up"
+              href={`/notes/${featuredArticle.id}`}
+            >
+              <span className="journal-note-number">01</span>
+              <span className="journal-featured-copy">
                 <span>
-                  <small>RECENTLY UPDATED</small>
-                  <strong>{articleCount} public notes</strong>
+                  <time dateTime={featuredArticle.updatedAt}>
+                    {formatArticleDate(featuredArticle.updatedAt)}
+                  </time>
+                  <span>{featuredArticle.readingMinutes}分で読めます</span>
+                </span>
+                <strong>{featuredArticle.title}</strong>
+                <span className="journal-note-summary">
+                  {featuredArticle.summary}
                 </span>
               </span>
+              <ArrowUpRight aria-hidden="true" size={24} strokeWidth={1.4} />
+            </FullPageLink>
+          ) : null}
 
-              <ol className="home-note-list" aria-label="Recent notes">
-                {recentArticles.map((article, index) => (
-                  <li key={article.id}>
-                    <FullPageLink href={`/notes/${article.id}`}>
-                      <span className="home-note-index">
-                        {String(index + 1).padStart(2, '0')}
-                      </span>
-                      <span className="home-note-copy">
-                        <time dateTime={article.updatedAt}>
-                          {formatArticleDate(article.updatedAt)}
-                        </time>
-                        <strong>{article.title}</strong>
-                      </span>
-                      <ArrowUpRight aria-hidden="true" size={17} strokeWidth={1.6} />
-                    </FullPageLink>
-                  </li>
-                ))}
-              </ol>
+          <ol className="journal-note-index" aria-label="最近の技術ノート">
+            {remainingArticles.map((article, index) => (
+              <li
+                key={article.id}
+                data-reveal="up"
+                data-reveal-delay={String(index * 40)}
+              >
+                <FullPageLink href={`/notes/${article.id}`}>
+                  <span>{String(index + 2).padStart(2, '0')}</span>
+                  <time dateTime={article.updatedAt}>
+                    {formatArticleDate(article.updatedAt)}
+                  </time>
+                  <strong>{article.title}</strong>
+                  <ArrowUpRight
+                    aria-hidden="true"
+                    size={17}
+                    strokeWidth={1.5}
+                  />
+                </FullPageLink>
+              </li>
+            ))}
+          </ol>
 
-              <FullPageLink className="qiita-link" href="/notes">
-                すべての技術ノートを見る
-                <ArrowDownRight aria-hidden="true" size={18} strokeWidth={1.7} />
-              </FullPageLink>
-            </div>
-          </div>
+          <FullPageLink className="journal-all-notes" href="/notes">
+            書いたものをすべて見る
+            <ArrowUpRight aria-hidden="true" size={16} strokeWidth={1.6} />
+          </FullPageLink>
         </section>
 
-        <section className="about-section page-shell" id="about">
-          <MizuMark className="about-mark" />
-          <div className="about-grid">
-            <div className="about-heading">
-              <p className="section-index">03 / About this lab</p>
-              <span>ABOUT</span>
-              <h2>
-                <span className="about-title-line">
-                  つくりながら、考えながら、
-                </span>
-                <span className="about-title-line">少しずつ育てる。</span>
-              </h2>
-            </div>
-
-            <div className="about-copy">
+        <section className="journal-about" data-section-id="about" id="about">
+          <div className="journal-about-inner page-shell">
+            <p className="journal-about-label">この場所について</p>
+            <p className="journal-about-copy" data-reveal="up">
+              <span className="journal-about-line">
+                できたものと、その途中を
+              </span>
+              <span className="journal-serif journal-about-line">
+                残していきます。
+              </span>
+            </p>
+            <div className="journal-about-side">
               <p>
-                morimizu.devは、Mizukiが個人でつくるソフトウェアと、
-                その過程を置いておく場所です。暮らしの中の小さな違和感を起点に、
-                試作と改善を重ねています。
+                morimizu.devは、Mizukiが個人で作っているものと、
+                その途中で考えたことを置いておく場所です。試している途中の記録も、
+                少しずつ増やしていきます。
               </p>
-
-              <dl className="about-facts">
-                <div>
-                  <dt>NAME</dt>
-                  <dd>Mizuki</dd>
-                </div>
-                <div>
-                  <dt>FOCUS</dt>
-                  <dd>Small tools &amp; web apps</dd>
-                </div>
-              </dl>
-
-              <a
-                className="github-link"
-                href="https://github.com/Morishita-mm"
-                rel="noreferrer"
-                target="_blank"
-              >
-                <GitFork aria-hidden="true" size={17} strokeWidth={1.7} />
-                GitHubでコードを見る
-                <ArrowUpRight aria-hidden="true" size={16} strokeWidth={1.7} />
-              </a>
+              <div className="journal-about-links">
+                <a
+                  href="https://github.com/Morishita-mm"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  GitHub{' '}
+                  <ArrowUpRight
+                    aria-hidden="true"
+                    size={15}
+                    strokeWidth={1.6}
+                  />
+                </a>
+                <a
+                  href="https://qiita.com/mzk_tech"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  Qiita{' '}
+                  <ArrowUpRight
+                    aria-hidden="true"
+                    size={15}
+                    strokeWidth={1.6}
+                  />
+                </a>
+              </div>
             </div>
           </div>
         </section>

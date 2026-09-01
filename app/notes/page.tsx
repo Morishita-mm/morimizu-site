@@ -2,10 +2,7 @@ import type { Metadata } from 'next';
 import { ArrowUpRight, BookOpen } from 'lucide-react';
 import { FullPageLink } from '@/components/full-page-link';
 import { SiteFooter, SiteHeader } from '@/components/site-chrome';
-import {
-  formatArticleDate,
-  getAllQiitaArticles,
-} from '@/lib/qiita-articles';
+import { formatArticleDate, getAllQiitaArticles } from '@/lib/qiita-articles';
 
 export const metadata: Metadata = {
   title: '技術ノート | morimizu.dev',
@@ -23,35 +20,45 @@ export default function NotesPage() {
       <SiteHeader active="notes" />
       <main className="notes-index">
         <section className="notes-hero page-shell">
-          <div>
+          <div data-reveal="up">
             <p className="eyebrow">
               <span className="eyebrow-dot" aria-hidden="true" />
-              MIZUKI&apos;S TECHNICAL FIELD NOTES
+              Mizukiの技術ノート
             </p>
             <h1>
-              Qiitaの記事を、
+              Qiitaに書いたものを、
               <br />
-              ここでも読む。
+              ここでも。
             </h1>
           </div>
-          <div className="notes-hero-copy">
+          <div
+            className="notes-hero-copy"
+            data-reveal="up"
+            data-reveal-delay="50"
+          >
             <p>
-              実装で得た知見や、個人開発の設計判断をまとめています。記事の正本はQiitaで管理し、この場所には公開済みの記事だけを同期しています。
+              実装で詰まったところや、あとで見返したいことを書いています。Qiitaで公開した記事を、このサイトにもそのまま載せています。
             </p>
-            <span>{String(articles.length).padStart(2, '0')} PUBLIC NOTES</span>
+            <span>{articles.length}本の記事</span>
           </div>
         </section>
 
-        <section className="notes-list-section page-shell" aria-labelledby="notes-list-title">
-          <div className="notes-list-heading">
-            <span>UPDATED / DESCENDING</span>
-            <h2 id="notes-list-title">記事一覧</h2>
+        <section
+          className="notes-list-section page-shell"
+          aria-labelledby="notes-list-title"
+        >
+          <div className="notes-list-heading" data-reveal="up">
+            <span>新しい順</span>
+            <h2 id="notes-list-title">記事を読む</h2>
           </div>
 
           <ol className="notes-list">
             {articles.map((article, index) => (
               <li key={article.id}>
-                <FullPageLink className="note-row" href={`/notes/${article.id}`}>
+                <FullPageLink
+                  className="note-row"
+                  href={`/notes/${article.id}`}
+                >
                   <span className="note-row-index">
                     {String(index + 1).padStart(2, '0')}
                   </span>
@@ -60,17 +67,21 @@ export default function NotesPage() {
                       <time dateTime={article.updatedAt}>
                         {formatArticleDate(article.updatedAt)}
                       </time>
-                      <span>{article.readingMinutes} MIN READ</span>
+                      <span>{article.readingMinutes}分で読めます</span>
                     </span>
                     <strong>{article.title}</strong>
                     <span className="note-row-summary">{article.summary}</span>
-                    <span className="note-row-tags" aria-label="Tags">
+                    <span className="note-row-tags" aria-label="タグ">
                       {article.tags.map((tag) => (
                         <i key={tag}>{tag}</i>
                       ))}
                     </span>
                   </span>
-                  <ArrowUpRight aria-hidden="true" size={20} strokeWidth={1.5} />
+                  <ArrowUpRight
+                    aria-hidden="true"
+                    size={20}
+                    strokeWidth={1.5}
+                  />
                 </FullPageLink>
               </li>
             ))}
