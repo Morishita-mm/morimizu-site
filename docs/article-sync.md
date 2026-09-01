@@ -48,6 +48,7 @@ npm run sync:articles
 
 ```text
 QiitaArticle/mainへpush
+  → Qiita上により新しい変更があれば先にpull
   → Qiita CLIがQiitaへ公開
   → id / updated_atの更新をcommit・push
   → 公開後のcommit SHAでサイトWorkflowを起動
@@ -93,7 +94,7 @@ Variables:
 
 ## Qiita上で直接編集した場合
 
-QiitaArticle側で次を実行し、差分を確認してからcommit・pushします。
+公開Workflowも投稿前に `qiita pull` を実行します。ただし、意図しない差分を早めに見つけられるよう、QiitaArticle側で次を実行してからcommit・pushする運用を推奨します。
 
 ```bash
 npx qiita pull
