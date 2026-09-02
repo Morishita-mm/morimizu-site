@@ -75,6 +75,16 @@ export const RESUME_JA: PosterResumeData = {
   ],
   experiences: [
     {
+      period: '2026.07 - Present',
+      company: '銀行預り物件管理システム開発',
+      role: '業務アプリケーション開発',
+      description: [
+        '地方銀行の預り物件管理業務を支援する業務アプリケーションを開発。',
+        'Figmaを用いた画面デザインを担当し、30画面を超えるUIを設計。',
+        'HTMLで業務ロジックを実装。今後はバックエンド側の開発も担当予定。',
+      ],
+    },
+    {
       period: '2026.01 - Present',
       company:
         '鉄道会社基盤システム リプレイス・新機能追加（株式会社ユーベック）',
@@ -179,6 +189,16 @@ export const RESUME_EN: PosterResumeData = {
     },
   ],
   experiences: [
+    {
+      period: '2026.07 - Present',
+      company: 'Bank Custodied-Asset Management System Development',
+      role: 'Business Application Developer',
+      description: [
+        'Developing a business application for safekeeping-asset operations at a regional bank.',
+        'Designed more than 30 screens in Figma.',
+        'Implementing business logic in HTML and scheduled to take on backend development next.',
+      ],
+    },
     {
       period: '2026.01 - Present',
       company:
