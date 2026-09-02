@@ -44,14 +44,14 @@ export default function Home() {
                   自分で使う小さな道具にしています。使って気づいたことも、ここに残しています。
                 </p>
                 <div className="journal-hero-actions">
-                  <a href="#work">
+                  <FullPageLink href="/projects">
                     つくったものを見る
                     <ArrowDownRight
                       aria-hidden="true"
                       size={17}
                       strokeWidth={1.7}
                     />
-                  </a>
+                  </FullPageLink>
                   <FullPageLink href="/notes">
                     書いたものを読む
                     <ArrowDownRight
@@ -213,6 +213,11 @@ export default function Home() {
                 </div>
               </article>
             </div>
+
+            <FullPageLink className="journal-all-projects" href="/projects">
+              公開中のプロダクトをすべて見る
+              <ArrowUpRight aria-hidden="true" size={16} strokeWidth={1.6} />
+            </FullPageLink>
           </div>
         </section>
 

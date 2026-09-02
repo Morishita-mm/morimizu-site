@@ -26,7 +26,7 @@ export function SiteHeader({ active }: SiteHeaderProps) {
           <FullPageLink
             aria-current={active === 'apps' ? 'page' : undefined}
             data-section-link="work"
-            href="/#work"
+            href="/projects"
           >
             Apps
           </FullPageLink>
