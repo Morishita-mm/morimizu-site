@@ -97,8 +97,8 @@ export default function ProjectsPage() {
             <header className="products-list-heading" data-reveal="up">
               <p>公開リポジトリから選んだもの</p>
               <h2 id="selected-products-title">
-                <span>つくって、</span>
-                <span>使っているもの</span>
+                <span>ほしかったもの</span>
+                <span>つくってみたもの</span>
               </h2>
               <p>
                 配布中、日常利用中、技術プロトタイプ。状態を分けて、実物と設計判断を載せています。

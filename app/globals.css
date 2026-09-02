@@ -5408,6 +5408,10 @@ nav a[aria-current='location']::after {
   letter-spacing: -0.07em;
 }
 
+.products-list-heading h2 > span {
+  display: block;
+}
+
 .products-list-heading > p:last-child {
   grid-column: 9 / -1;
   margin: 0;
@@ -6666,10 +6670,6 @@ nav a[aria-current='location']::after {
   .products-hero h1 {
     font-size: clamp(39px, 12vw, 54px);
     line-height: 1.08;
-  }
-
-  .products-list-heading h2 > span {
-    display: block;
   }
 
   .products-list-heading h2 > span:last-child {
