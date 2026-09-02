@@ -14,33 +14,33 @@ type ProjectArtworkProps = {
 function ProjectGlyph({ visual }: Pick<Project, 'visual'>) {
   if (visual === 'lissue') {
     return (
-      <svg aria-hidden="true" className="product-glyph" viewBox="0 0 112 112">
-        <path d="M26 27h44a8 8 0 0 1 8 8v48H34a8 8 0 0 1-8-8V27Z" />
-        <path className="product-glyph-accent" d="m48 55 8 8 20-22" />
-        <path d="M42 76h22" />
-        <circle className="product-glyph-dot" cx="84" cy="28" r="7" />
+      <svg aria-hidden="true" className="product-glyph" viewBox="0 0 120 120">
+        <rect height="68" rx="9" width="86" x="17" y="26" />
+        <path d="M17 43h86M46 43v51M75 43v51" />
+        <circle cx="31" cy="58" r="5" />
+        <circle className="product-glyph-accent-fill" cx="60" cy="69" r="6" />
+        <path className="product-glyph-accent" d="m84 63 5 5 9-12" />
       </svg>
     );
   }
 
   if (visual === 'ragy') {
     return (
-      <svg aria-hidden="true" className="product-glyph" viewBox="0 0 112 112">
-        <path d="M56 22 86 39v34L56 90 26 73V39L56 22Z" />
-        <path className="product-glyph-accent" d="M39 65 56 48l17 17" />
-        <circle className="product-glyph-dot" cx="56" cy="43" r="7" />
-        <circle cx="38" cy="70" r="5" />
-        <circle cx="74" cy="70" r="5" />
+      <svg aria-hidden="true" className="product-glyph" viewBox="0 0 120 120">
+        <path d="M20 35c24 0 24 50 48 50s24-25 32-25" />
+        <path className="product-glyph-accent" d="M20 85c24 0 24-50 48-50s24 25 32 25" />
+        <circle cx="20" cy="35" r="5" />
+        <circle className="product-glyph-accent-fill" cx="20" cy="85" r="5" />
+        <circle className="product-glyph-accent-fill" cx="100" cy="60" r="7" />
       </svg>
     );
   }
 
   return (
-    <svg aria-hidden="true" className="product-glyph" viewBox="0 0 112 112">
-      <path d="M22 30h68v52H22z" />
-      <path d="m31 63 10-14 10 21 11-30 9 23 10-9" />
-      <path className="product-glyph-accent" d="M31 74h50" />
-      <circle className="product-glyph-dot" cx="84" cy="28" r="7" />
+    <svg aria-hidden="true" className="product-glyph" viewBox="0 0 120 120">
+      <path className="product-glyph-light" d="M14 37h21c13 0 13 23 25 23M14 60h46M14 83h21c13 0 13-23 25-23" />
+      <path className="product-glyph-accent" d="M68 60c13 0 14-25 37-25M68 60h37M68 60c13 0 14 25 37 25" />
+      <circle className="product-glyph-light-fill" cx="64" cy="60" r="7" />
     </svg>
   );
 }

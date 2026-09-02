@@ -1601,6 +1601,266 @@ nav a:hover::after,
   }
 }
 
+/* Local icon comparison surface. Kept out of site navigation. */
+.icon-lab {
+  padding-block: clamp(64px, 8vw, 112px) 120px;
+}
+
+.icon-lab-heading {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 24px;
+  padding-bottom: clamp(72px, 9vw, 120px);
+}
+
+.icon-lab-heading > p:first-child {
+  grid-column: 1 / span 3;
+  margin: 7px 0 0;
+  color: var(--jade-deep);
+  font-family: var(--font-plex-mono), monospace;
+  font-size: 8px;
+  letter-spacing: 0.1em;
+}
+
+.icon-lab-heading h1 {
+  grid-column: 4 / span 6;
+  margin: 0;
+  font-size: clamp(46px, 5vw, 72px);
+  font-weight: 560;
+  letter-spacing: -0.075em;
+  line-height: 1.08;
+}
+
+.icon-lab-heading h1 > span {
+  display: block;
+  color: var(--jade-deep);
+}
+
+.icon-lab-heading > p:last-child {
+  grid-column: 10 / -1;
+  align-self: end;
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 12px;
+  line-height: 1.9;
+}
+
+.icon-lab-section {
+  padding-block: 54px 72px;
+  border-top: 1px solid var(--ink);
+}
+
+.icon-lab-section-heading {
+  display: grid;
+  grid-template-columns: 1fr minmax(260px, 0.52fr);
+  align-items: end;
+  gap: 40px;
+  margin-bottom: 34px;
+}
+
+.icon-lab-section-heading h2 {
+  margin: 0;
+  font-family: var(--journal-serif);
+  font-size: clamp(38px, 4vw, 58px);
+  font-weight: 600;
+  letter-spacing: -0.055em;
+}
+
+.icon-lab-section-heading p {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 11px;
+  line-height: 1.85;
+}
+
+.icon-lab-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.icon-lab-grid.is-four {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.icon-lab-grid.is-four .icon-lab-artwork {
+  min-height: 238px;
+}
+
+.icon-lab-grid.is-four .icon-lab-artwork svg {
+  width: 124px;
+  height: 124px;
+}
+
+.icon-lab-card {
+  overflow: hidden;
+  border: 1px solid rgb(23 36 30 / 24%);
+  border-radius: 14px;
+  background: var(--paper-light);
+}
+
+.icon-lab-artwork {
+  display: grid;
+  min-height: 270px;
+  place-items: center;
+  border-bottom: 1px solid var(--rule);
+  background:
+    linear-gradient(rgb(50 120 113 / 7%) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(50 120 113 / 7%) 1px, transparent 1px), #e8efec;
+  background-size: 42px 42px;
+}
+
+.icon-lab-artwork svg {
+  width: 142px;
+  height: 142px;
+  overflow: visible;
+  fill: none;
+  stroke: var(--ink);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 4.5;
+}
+
+.icon-lab-artwork .accent-stroke {
+  stroke: var(--jade);
+  stroke-width: 6;
+}
+
+.icon-lab-artwork .accent-fill {
+  fill: var(--jade);
+  stroke: var(--paper-light);
+  stroke-width: 3;
+}
+
+.icon-lab-artwork .paper-stroke {
+  stroke: var(--paper-light);
+  stroke-width: 5;
+}
+
+.icon-lab-card-copy {
+  min-height: 152px;
+  padding: 23px 24px 26px;
+}
+
+.icon-lab-card-copy > span {
+  color: var(--jade-deep);
+  font-family: var(--font-plex-mono), monospace;
+  font-size: 8px;
+  letter-spacing: 0.1em;
+}
+
+.icon-lab-card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.icon-lab-card-meta > span {
+  color: var(--teal);
+  font-family: var(--font-mono), monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+}
+
+.icon-lab-card-meta > strong {
+  border: 1px solid rgba(33, 111, 108, 0.45);
+  border-radius: 999px;
+  color: var(--teal);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  padding: 0.25rem 0.65rem;
+}
+
+.icon-lab-card-copy h3 {
+  margin: 12px 0 10px;
+  font-size: 21px;
+  font-weight: 580;
+  letter-spacing: -0.035em;
+}
+
+.icon-lab-card-copy p {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 11px;
+  line-height: 1.8;
+}
+
+.icon-lab-card.is-dark .icon-lab-artwork {
+  border-color: rgb(251 250 245 / 16%);
+  background:
+    linear-gradient(rgb(143 195 185 / 8%) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(143 195 185 / 8%) 1px, transparent 1px), #11251f;
+}
+
+.icon-lab-card.is-dark .icon-lab-artwork svg {
+  stroke: #f4f1e8;
+}
+
+.icon-lab-card.is-dark .icon-lab-artwork .accent-stroke {
+  stroke: #73c8ba;
+}
+
+.icon-lab-card.is-dark .icon-lab-artwork .bright-fill {
+  fill: #f4f1e8;
+  stroke: #73c8ba;
+  stroke-width: 3;
+}
+
+.icon-lab-card.is-dark .icon-lab-artwork .light-stroke {
+  stroke: #f4f1e8;
+  stroke-width: 5;
+}
+
+@media (max-width: 900px) {
+  .icon-lab-heading,
+  .icon-lab-section-heading {
+    grid-template-columns: 1fr;
+  }
+
+  .icon-lab-heading > p:first-child,
+  .icon-lab-heading h1,
+  .icon-lab-heading > p:last-child {
+    grid-column: auto;
+  }
+
+  .icon-lab-heading > p:last-child {
+    max-width: 520px;
+  }
+
+  .icon-lab-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .icon-lab-grid.is-four {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .icon-lab-section-heading {
+    align-items: start;
+    gap: 14px;
+  }
+}
+
+@media (max-width: 640px) {
+  .icon-lab-heading {
+    gap: 26px;
+  }
+
+  .icon-lab-heading h1 {
+    font-size: clamp(38px, 11vw, 50px);
+  }
+
+  .icon-lab-artwork {
+    min-height: 230px;
+  }
+
+  .icon-lab-grid.is-four {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* Personal work cards
  * Real screenshots, owned marks and honest availability replace product-style copy. */
 .journal-hero-actions {
@@ -5311,6 +5571,20 @@ nav a[aria-current='location']::after {
   stroke-width: 6;
 }
 
+.product-glyph-accent-fill {
+  fill: var(--jade);
+  stroke: var(--jade);
+}
+
+.product-glyph-light {
+  stroke: var(--paper-light);
+}
+
+.product-glyph-light-fill {
+  fill: var(--paper-light);
+  stroke: var(--paper-light);
+}
+
 .product-glyph-dot {
   fill: var(--jade);
   stroke: var(--paper-light);
@@ -5395,6 +5669,14 @@ nav a[aria-current='location']::after {
 
 .product-artwork-rust-log-analyzer {
   background: #14201c;
+}
+
+.product-artwork-rust-log-analyzer .product-artwork-icon-state {
+  color: var(--paper-light);
+}
+
+.product-artwork-rust-log-analyzer .product-artwork-icon-state > span {
+  color: rgb(244 241 232 / 68%);
 }
 
 .product-artwork-rust-log-analyzer img {
