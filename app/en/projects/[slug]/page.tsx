@@ -5,32 +5,29 @@ import { ArrowLeft, ArrowUpRight, GitFork, PackageOpen } from 'lucide-react';
 import { FullPageLink } from '@/components/full-page-link';
 import { ProjectArtwork } from '@/components/project-artwork';
 import { SiteFooter, SiteHeader } from '@/components/site-chrome';
-import { getProject, projects } from '@/lib/projects';
+import { getProjectEn, projectsEn } from '@/lib/projects-en';
 import { LINKEDIN_URL } from '@/lib/social-links';
 
-type ProjectPageProps = {
-  params: Promise<{ slug: string }>;
-};
+type ProjectPageProps = { params: Promise<{ slug: string }> };
 
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return projects.map((project) => ({ slug: project.slug }));
+  return projectsEn.map((project) => ({ slug: project.slug }));
 }
 
 export async function generateMetadata({
   params,
 }: ProjectPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const project = getProject(slug);
-
+  const project = getProjectEn(slug);
   if (!project) return {};
 
   return {
-    title: `${project.name} | つくったもの | morimizu.dev`,
+    title: `${project.name} | Products | morimizu.dev`,
     description: project.summary,
     alternates: {
-      canonical: `/projects/${project.slug}`,
+      canonical: `/en/projects/${project.slug}`,
       languages: {
         'ja-JP': `/projects/${project.slug}`,
         'en-US': `/en/projects/${project.slug}`,
@@ -39,19 +36,21 @@ export async function generateMetadata({
     openGraph: {
       title: `${project.name} | morimizu.dev`,
       description: project.summary,
+      locale: 'en_US',
       images: project.image ? [project.image.src] : [],
     },
   };
 }
 
-export default async function ProjectPage({ params }: ProjectPageProps) {
+export default async function EnglishProjectPage({ params }: ProjectPageProps) {
   const { slug } = await params;
-  const project = getProject(slug);
-
+  const project = getProjectEn(slug);
   if (!project) notFound();
 
-  const projectIndex = projects.findIndex((item) => item.slug === project.slug);
-  const nextProject = projects[(projectIndex + 1) % projects.length];
+  const projectIndex = projectsEn.findIndex(
+    (item) => item.slug === project.slug,
+  );
+  const nextProject = projectsEn[(projectIndex + 1) % projectsEn.length];
   const jsonLd = JSON.stringify({
     '@context': 'https://schema.org',
     '@type': 'SoftwareSourceCode',
@@ -59,23 +58,28 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
     description: project.summary,
     codeRepository: project.repositoryUrl,
     programmingLanguage: project.languages,
+    inLanguage: 'en',
     author: {
       '@type': 'Person',
       name: 'Mizuki',
-      url: 'https://morimizu.dev',
+      url: 'https://morimizu.dev/en',
       sameAs: [LINKEDIN_URL, 'https://github.com/Morishita-mm'],
     },
   }).replace(/</g, '\\u003c');
 
   return (
     <>
-      <SiteHeader active="apps" languageHref={`/en/projects/${project.slug}`} />
-      <main className="product-detail-page">
+      <SiteHeader
+        active="apps"
+        locale="en"
+        languageHref={`/projects/${project.slug}`}
+      />
+      <main className="product-detail-page english-site">
         <article>
           <header className="product-detail-hero page-shell">
-            <FullPageLink className="product-detail-back" href="/projects">
+            <FullPageLink className="product-detail-back" href="/en/projects">
               <ArrowLeft aria-hidden="true" size={15} strokeWidth={1.7} />
-              つくったものへ戻る
+              Back to products
             </FullPageLink>
 
             <div className="product-detail-heading" data-reveal="up">
@@ -123,7 +127,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                   target="_blank"
                 >
                   <GitFork aria-hidden="true" size={14} strokeWidth={1.6} />
-                  GitHubで見る
+                  View on GitHub
                   <ArrowUpRight
                     aria-hidden="true"
                     size={14}
@@ -157,16 +161,16 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           >
             <p className="product-section-label">WHY / HOW</p>
             <h2 id="story-title" data-reveal="up">
-              不便だったことと、
-              <span className="journal-serif">つくった答え。</span>
+              The friction,
+              <span className="journal-serif">and the answer I built.</span>
             </h2>
             <div className="product-story-columns">
               <div data-reveal="up">
-                <span>01 / 気になっていたこと</span>
+                <span>01 / THE PROBLEM</span>
                 <p>{project.challenge}</p>
               </div>
               <div data-reveal="up" data-reveal-delay="70">
-                <span>02 / こうしてみた</span>
+                <span>02 / THE APPROACH</span>
                 <p>{project.answer}</p>
               </div>
             </div>
@@ -180,13 +184,13 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
               <header className="product-architecture-heading" data-reveal="up">
                 <p className="product-section-label">SYSTEM ARCHITECTURE</p>
                 <div>
-                  <h2 id="architecture-title">どうつながっているか。</h2>
+                  <h2 id="architecture-title">How the pieces connect.</h2>
                   <p>
-                    入力から保存・処理・表示までを、実装に沿って一枚にまとめました。
+                    A view of the path from input through storage, processing,
+                    and presentation.
                   </p>
                 </div>
               </header>
-
               <figure className="product-architecture-figure" data-reveal="up">
                 <div className="product-architecture-viewport">
                   <Image
@@ -199,7 +203,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                 </div>
                 <figcaption>
                   <span>{project.name}</span>
-                  <span>実装をもとにしたシステム構成</span>
+                  <span>Architecture based on the working implementation</span>
                 </figcaption>
               </figure>
             </div>
@@ -211,8 +215,8 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           >
             <div className="page-shell">
               <header className="product-flow-heading" data-reveal="up">
-                <p>使うときの流れ</p>
-                <h2 id="flow-title">入力から、次の判断まで。</h2>
+                <p>THE WORKFLOW</p>
+                <h2 id="flow-title">From input to the next decision.</h2>
               </header>
               <ol className="product-flow-list" data-reveal="up">
                 {project.flow.map((step, index) => (
@@ -233,7 +237,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           >
             <header data-reveal="up">
               <p className="product-section-label">DESIGN DECISIONS</p>
-              <h2 id="decisions-title">作るときに決めたこと</h2>
+              <h2 id="decisions-title">Decisions that shaped the system</h2>
             </header>
             <ol>
               {project.decisions.map((decision, index) => (
@@ -259,51 +263,48 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
             <div className="page-shell product-status-grid">
               <div data-reveal="up">
                 <p className="product-section-label">CURRENT STATUS</p>
-                <h2 id="status-title">いまの状態</h2>
+                <h2 id="status-title">Where it is now</h2>
                 <p>{project.now}</p>
               </div>
-
               <div
                 className="product-evidence"
                 data-reveal="up"
                 data-reveal-delay="60"
               >
-                <h3>確認できること</h3>
+                <h3>WORKING EVIDENCE</h3>
                 <ul>
                   {project.evidence.map((item) => (
                     <li key={item}>{item}</li>
                   ))}
                 </ul>
               </div>
-
               <div
                 className="product-next"
                 data-reveal="up"
                 data-reveal-delay="100"
               >
-                <h3>次に整えること</h3>
+                <h3>NEXT STEPS</h3>
                 <ul>
                   {project.next.map((item) => (
                     <li key={item}>{item}</li>
                   ))}
                 </ul>
               </div>
-
               <div className="product-detail-bottom-links">
                 <a
                   href={project.repositoryUrl}
                   rel="noreferrer"
                   target="_blank"
                 >
-                  GitHubでコードを見る
+                  View the code on GitHub
                   <ArrowUpRight
                     aria-hidden="true"
                     size={15}
                     strokeWidth={1.7}
                   />
                 </a>
-                <FullPageLink href={`/projects/${nextProject.slug}`}>
-                  次のプロダクト：{nextProject.name}
+                <FullPageLink href={`/en/projects/${nextProject.slug}`}>
+                  Next product: {nextProject.name}
                   <ArrowUpRight
                     aria-hidden="true"
                     size={15}
@@ -315,7 +316,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           </section>
         </article>
       </main>
-      <SiteFooter />
+      <SiteFooter locale="en" />
       <script
         dangerouslySetInnerHTML={{ __html: jsonLd }}
         type="application/ld+json"

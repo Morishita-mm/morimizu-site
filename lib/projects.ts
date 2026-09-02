@@ -1,4 +1,10 @@
-export type ProjectStatus = '公開中' | '日常利用中' | '技術プロトタイプ';
+export type ProjectStatus =
+  | '公開中'
+  | '日常利用中'
+  | '技術プロトタイプ'
+  | 'Public'
+  | 'In daily use'
+  | 'Technical prototype';
 
 export type Project = {
   slug: string;

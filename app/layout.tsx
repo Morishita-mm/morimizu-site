@@ -25,6 +25,10 @@ export const metadata: Metadata = {
   description: 'Mizukiが個人で作っているアプリと、作りながら書いた技術ノート。',
   alternates: {
     canonical: '/',
+    languages: {
+      'ja-JP': '/',
+      'en-US': '/en',
+    },
   },
   icons: {
     icon: '/favicon.svg',

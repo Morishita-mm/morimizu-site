@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Ragy system architecture</title>
+  <desc id="desc">Two lanes show asynchronous document synchronization and local-first RAG queries through Dify, Redis, LiteLLM, and Ollama with a cloud fallback.</desc>
+  <defs>
+    <marker id="arrow-jade" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M1 1L9 5L1 9" fill="none" stroke="#327871" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></marker>
+    <marker id="arrow-ink" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M1 1L9 5L1 9" fill="none" stroke="#17241e" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></marker>
+    <style>
+      .sans{font-family:-apple-system,BlinkMacSystemFont,"Noto Sans JP","Hiragino Sans",sans-serif}.serif{font-family:Georgia,"Times New Roman",serif}.mono{font-family:"SFMono-Regular",Consolas,"Liberation Mono",monospace}.ink{fill:#17241e}.soft{fill:#536159}.jade{fill:#327871}.rule{stroke:#17241e;stroke-opacity:.18;stroke-width:1}.surface{fill:#fbfaf5;stroke:#17241e;stroke-opacity:.25;stroke-width:1.5}.accent{fill:#eaf1ec;stroke:#327871;stroke-width:2}.dark{fill:#17241e}.nodeTitle{font-size:21px;font-weight:500}.nodeMeta{font-size:13px;letter-spacing:.02em}.micro{font-size:13px;letter-spacing:.13em}.flow{fill:none;stroke:#327871;stroke-width:2.4;stroke-linecap:round;marker-end:url(#arrow-jade)}.flowInk{fill:none;stroke:#17241e;stroke-width:1.8;stroke-linecap:round;stroke-opacity:.7;marker-end:url(#arrow-ink)}.fallback{fill:none;stroke:#536159;stroke-width:1.7;stroke-linecap:round;stroke-dasharray:7 7;marker-end:url(#arrow-ink)}
+    </style>
+  </defs>
+  <rect width="1600" height="900" fill="#f4f1e8"/>
+  <circle cx="1485" cy="105" r="112" fill="none" stroke="#327871" stroke-opacity=".08" stroke-width="2"/>
+  <circle cx="1485" cy="105" r="72" fill="none" stroke="#327871" stroke-opacity=".08" stroke-width="2"/>
+  <circle cx="1485" cy="105" r="31" fill="none" stroke="#327871" stroke-opacity=".14" stroke-width="2"/>
+
+  <g class="mono micro soft"><text x="56" y="52">02 / SYSTEM ARCHITECTURE</text><text x="1544" y="52" text-anchor="end">LOCAL-FIRST / DAILY USE</text></g>
+  <line x1="56" y1="76" x2="1544" y2="76" class="rule"/>
+  <text x="58" y="183" class="serif ink" font-size="112" font-weight="500">Ragy</text>
+  <text x="60" y="230" class="sans jade" font-size="25" font-weight="500">One local entry point for document sync and retrieval.</text>
+
+  <text x="56" y="306" class="mono micro jade">01 / DOCUMENT SYNC — ASYNCHRONOUS LANE</text>
+  <line x1="56" y1="328" x2="1544" y2="328" class="rule"/>
+
+  <g transform="translate(56 360)">
+    <rect x="0" y="0" width="232" height="112" rx="8" class="surface"/>
+    <text x="24" y="40" class="sans ink nodeTitle">Project documents</text>
+    <text x="24" y="72" class="mono soft nodeMeta">md / pdf / docx / xlsx</text>
+    <text x="24" y="94" class="mono soft nodeMeta">images / diagrams</text>
+
+    <rect x="304" y="0" width="218" height="112" rx="8" class="accent"/>
+    <text x="328" y="40" class="sans ink nodeTitle">Sync Watchdog</text>
+    <text x="328" y="72" class="mono soft nodeMeta">MD5 change detection</text>
+    <text x="328" y="94" class="mono soft nodeMeta">changed files only</text>
+
+    <rect x="600" y="0" width="180" height="112" rx="56" class="dark"/>
+    <text x="690" y="46" text-anchor="middle" class="sans" font-size="21" font-weight="500" fill="#fbfaf5">Redis queue</text>
+    <text x="690" y="76" text-anchor="middle" class="mono" font-size="13" fill="#8fc3b9">job + cache</text>
+
+    <rect x="858" y="0" width="232" height="112" rx="8" class="surface"/>
+    <text x="882" y="40" class="sans ink nodeTitle">Python worker</text>
+    <text x="882" y="72" class="mono soft nodeMeta">parse / vision / upload</text>
+    <text x="882" y="94" class="mono soft nodeMeta">normalize + upload</text>
+
+    <rect x="1168" y="0" width="232" height="112" rx="8" class="accent"/>
+    <text x="1192" y="40" class="sans ink nodeTitle">Dify datasets</text>
+    <text x="1192" y="72" class="mono soft nodeMeta">project namespace</text>
+    <text x="1192" y="94" class="mono soft nodeMeta">one dataset / project</text>
+  </g>
+  <path d="M288 416H360" class="flow"/><path d="M578 416H656" class="flow"/><path d="M836 416H914" class="flow"/><path d="M1146 416H1224" class="flow"/>
+
+  <text x="56" y="548" class="mono micro jade">02 / QUERY — INTERACTIVE LANE</text>
+  <line x1="56" y1="570" x2="1544" y2="570" class="rule"/>
+
+  <g transform="translate(56 602)">
+    <rect x="0" y="0" width="232" height="130" rx="8" class="surface"/>
+    <text x="24" y="38" class="sans ink nodeTitle">Entry points</text>
+    <text x="24" y="70" class="mono soft nodeMeta">Rust CLI / TUI</text>
+    <text x="24" y="94" class="mono soft nodeMeta">IDE via MCP</text>
+
+    <rect x="344" y="0" width="254" height="130" rx="8" class="accent"/>
+    <text x="368" y="38" class="sans ink nodeTitle">RAG gateway</text>
+    <text x="368" y="70" class="mono soft nodeMeta">MCP server / Dify API</text>
+    <text x="368" y="94" class="mono soft nodeMeta">search + cache + routing</text>
+
+    <rect x="676" y="0" width="254" height="130" rx="8" class="surface"/>
+    <text x="700" y="38" class="sans ink nodeTitle">Context optimizer</text>
+    <text x="700" y="70" class="mono soft nodeMeta">retrieve / rerank / rewrite</text>
+    <text x="700" y="94" class="mono soft nodeMeta">rank + rewrite when needed</text>
+
+    <rect x="1008" y="0" width="204" height="130" rx="65" class="dark"/>
+    <text x="1110" y="50" text-anchor="middle" class="sans" font-size="21" font-weight="500" fill="#fbfaf5">LiteLLM</text>
+    <text x="1110" y="82" text-anchor="middle" class="mono" font-size="13" fill="#8fc3b9">model router</text>
+
+    <rect x="1290" y="0" width="166" height="58" rx="8" class="accent"/>
+    <text x="1373" y="36" text-anchor="middle" class="sans ink" font-size="19" font-weight="500">Ollama / local</text>
+    <rect x="1290" y="72" width="166" height="58" rx="8" class="surface"/>
+    <text x="1373" y="108" text-anchor="middle" class="sans soft" font-size="18">Cloud fallback</text>
+  </g>
+  <path d="M288 667H400" class="flow"/>
+  <path d="M654 667H732" class="flow"/>
+  <path d="M986 667H1064" class="flow"/>
+  <path d="M1268 649C1305 649 1310 631 1346 631" class="flow"/>
+  <path d="M1268 687C1305 687 1310 703 1346 703" class="fallback"/>
+  <path d="M1356 472C1356 516 650 518 560 602" class="flowInk"/>
+  <text x="1010" y="506" text-anchor="middle" class="mono soft nodeMeta">Dify retrieval</text>
+  <path d="M746 472C746 526 520 526 485 602" class="fallback"/>
+  <text x="655" y="548" text-anchor="middle" class="mono soft nodeMeta">semantic cache</text>
+
+  <line x1="56" y1="790" x2="1544" y2="790" class="rule"/>
+  <g class="mono micro soft"><text x="56" y="835">DESIGN INTENT</text><text x="307" y="835">PROJECT ISOLATION</text><text x="604" y="835">DIFFERENTIAL SYNC</text><text x="914" y="835">SEMANTIC CACHE</text><text x="1191" y="835">LOCAL-FIRST ROUTING</text></g>
+  <circle cx="287" cy="830" r="4" fill="#327871"/><circle cx="584" cy="830" r="4" fill="#327871"/><circle cx="894" cy="830" r="4" fill="#327871"/><circle cx="1171" cy="830" r="4" fill="#327871"/>
+</svg>

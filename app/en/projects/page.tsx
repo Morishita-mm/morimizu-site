@@ -3,41 +3,41 @@ import { ArrowDownRight, ArrowUpRight, GitFork } from 'lucide-react';
 import { FullPageLink } from '@/components/full-page-link';
 import { ProjectArtwork } from '@/components/project-artwork';
 import { SiteFooter, SiteHeader } from '@/components/site-chrome';
-import { projects } from '@/lib/projects';
+import { projectsEn } from '@/lib/projects-en';
 
 export const metadata: Metadata = {
-  title: 'つくったもの | morimizu.dev',
+  title: 'Products | morimizu.dev',
   description:
-    'Mizukiが自分の開発体験を少し良くするために作り、公開しているプロダクト。',
+    'Public software products Mizuki builds to improve a personal development workflow.',
   alternates: {
-    canonical: '/projects',
+    canonical: '/en/projects',
     languages: { 'ja-JP': '/projects', 'en-US': '/en/projects' },
   },
   openGraph: {
-    title: 'つくったもの | morimizu.dev',
+    title: 'Products | morimizu.dev',
     description:
-      'Mizukiが自分の開発体験を少し良くするために作り、公開しているプロダクト。',
-    url: '/projects',
+      'Public software products Mizuki builds to improve a personal development workflow.',
+    url: '/en/projects',
     images: ['/og.png'],
   },
 };
 
-export default function ProjectsPage() {
+export default function EnglishProjectsPage() {
   return (
     <>
-      <SiteHeader active="apps" languageHref="/en/projects" />
-      <main className="products-index">
+      <SiteHeader active="apps" locale="en" languageHref="/projects" />
+      <main className="products-index english-site">
         <section className="products-hero page-shell">
           <p className="products-kicker" data-reveal="up">
             <span>PUBLIC PRODUCTS</span>
-            <span>{String(projects.length).padStart(2, '0')} SELECTED</span>
+            <span>{String(projectsEn.length).padStart(2, '0')} SELECTED</span>
           </p>
 
           <div className="products-hero-grid">
             <h1 data-reveal="up">
-              <span>つくったもの。</span>
-              <span className="journal-serif">使いながら、</span>
-              <span>直しているもの。</span>
+              <span>Things I built.</span>
+              <span className="journal-serif">Things I use,</span>
+              <span>learn from, and refine.</span>
             </h1>
 
             <div
@@ -46,10 +46,12 @@ export default function ProjectsPage() {
               data-reveal-delay="60"
             >
               <p>
-                自分の開発体験を少し良くするために作った道具です。公開して終わりではなく、実際に使いながら更新しています。
+                These tools started from friction in my own development
+                workflow. Publishing is not the finish line: I keep using and
+                improving them.
               </p>
               <a href="#selected-products">
-                選んだプロダクトを見る
+                Explore selected products
                 <ArrowDownRight
                   aria-hidden="true"
                   size={16}
@@ -67,22 +69,22 @@ export default function ProjectsPage() {
             <div>
               <dt>01</dt>
               <dd>
-                <strong>使える</strong>
-                <span>動作と使い方を確認できる</span>
+                <strong>Working</strong>
+                <span>The software and its usage are visible</span>
               </dd>
             </div>
             <div>
               <dt>02</dt>
               <dd>
-                <strong>説明できる</strong>
-                <span>作った理由と判断が残っている</span>
+                <strong>Explainable</strong>
+                <span>The decisions behind it are documented</span>
               </dd>
             </div>
             <div>
               <dt>03</dt>
               <dd>
-                <strong>続きがある</strong>
-                <span>今の開発へつながっている</span>
+                <strong>Still evolving</strong>
+                <span>Each product connects to ongoing work</span>
               </dd>
             </div>
           </dl>
@@ -95,18 +97,19 @@ export default function ProjectsPage() {
         >
           <div className="page-shell">
             <header className="products-list-heading" data-reveal="up">
-              <p>公開リポジトリから選んだもの</p>
+              <p>Selected from public repositories</p>
               <h2 id="selected-products-title">
-                <span>いま見せたい</span>
-                <span>3つ</span>
+                <span>Three products</span>
+                <span>worth opening.</span>
               </h2>
               <p>
-                配布中、日常利用中、技術プロトタイプ。状態を分けて、実物と設計判断を載せています。
+                A published tool, a system in daily use, and a technical
+                prototype—each with working evidence and architecture decisions.
               </p>
             </header>
 
             <div className="product-card-grid">
-              {projects.map((project, index) => (
+              {projectsEn.map((project, index) => (
                 <article
                   className={`product-card${index === 0 ? ' product-card-featured' : ''}`}
                   data-reveal="up"
@@ -114,9 +117,9 @@ export default function ProjectsPage() {
                   key={project.slug}
                 >
                   <FullPageLink
-                    aria-label={`${project.name}の詳細を見る`}
+                    aria-label={`View ${project.name}`}
                     className="product-card-main"
-                    href={`/projects/${project.slug}`}
+                    href={`/en/projects/${project.slug}`}
                   >
                     <div className="product-card-head">
                       <span>{project.number}</span>
@@ -126,19 +129,17 @@ export default function ProjectsPage() {
                         {project.status}
                       </span>
                     </div>
-
                     <ProjectArtwork compact project={project} />
-
                     <div className="product-card-copy">
                       <h3>{project.name}</h3>
                       <p>{project.tagline}</p>
-                      <ul aria-label="主な技術">
+                      <ul aria-label="Main technologies">
                         {project.stack.slice(0, 4).map((item) => (
                           <li key={item}>{item}</li>
                         ))}
                       </ul>
                       <span className="product-card-detail">
-                        プロダクトを見る
+                        View the product
                         <ArrowDownRight
                           aria-hidden="true"
                           size={17}
@@ -147,7 +148,6 @@ export default function ProjectsPage() {
                       </span>
                     </div>
                   </FullPageLink>
-
                   <a
                     className="product-card-repository"
                     href={project.repositoryUrl}
@@ -168,7 +168,7 @@ export default function ProjectsPage() {
           </div>
         </section>
       </main>
-      <SiteFooter />
+      <SiteFooter locale="en" />
     </>
   );
 }

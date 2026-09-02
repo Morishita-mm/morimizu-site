@@ -10,51 +10,52 @@ import {
 } from '@/lib/qiita-articles';
 import { LINKEDIN_URL } from '@/lib/social-links';
 
-export default function Home() {
+export default function EnglishHome() {
   const recentArticles = getRecentQiitaArticles(4);
   const featuredArticle = recentArticles[0];
   const remainingArticles = recentArticles.slice(1);
 
   return (
     <>
-      <SiteHeader />
+      <SiteHeader locale="en" languageHref="/" />
 
-      <main className="journal-home">
+      <main className="journal-home english-site">
         <section
           className="journal-hero page-shell"
           data-section-id="top"
           id="top"
         >
           <p className="journal-dateline">
-            <span>Mizukiの個人開発</span>
-            <span>つくったもの / 技術ノート</span>
+            <span>Mizuki&apos;s personal development</span>
+            <span>Products / Technical notes</span>
             <span>morimizu.dev</span>
           </p>
 
           <div className="journal-hero-heading">
             <div className="journal-hero-copy">
               <h1>
-                <span>自分で使うものを、</span>
-                <span className="journal-serif">まず小さく</span>
-                <span>つくっています。</span>
+                <span>I build tools</span>
+                <span className="journal-serif">for my own work,</span>
+                <span>then learn from using them.</span>
               </h1>
 
               <div className="journal-hero-note">
                 <p>
-                  Mizukiです。開発中に感じる「もう少し楽にできそう」を、
-                  自分で使う小さな道具にしています。使って気づいたことも、ここに残しています。
+                  I&apos;m Mizuki. I turn small friction in software development
+                  into tools I can use myself, then document what the process
+                  teaches me.
                 </p>
                 <div className="journal-hero-actions">
-                  <FullPageLink href="/projects">
-                    つくったものを見る
+                  <FullPageLink href="/en/projects">
+                    Explore the products
                     <ArrowDownRight
                       aria-hidden="true"
                       size={17}
                       strokeWidth={1.7}
                     />
                   </FullPageLink>
-                  <FullPageLink href="/notes">
-                    書いたものを読む
+                  <FullPageLink href="/en/notes">
+                    Browse technical notes
                     <ArrowDownRight
                       aria-hidden="true"
                       size={17}
@@ -66,7 +67,7 @@ export default function Home() {
             </div>
 
             <aside
-              aria-label="現在制作中のプロジェクト"
+              aria-label="Current project"
               className="journal-hero-current"
               data-reveal="up"
             >
@@ -74,19 +75,18 @@ export default function Home() {
                 <span>Now making</span>
                 <span>01</span>
               </div>
-
               <div className="journal-hero-current-mark" aria-hidden="true">
                 <DiagnosticMark />
               </div>
-
               <div className="journal-hero-current-copy">
-                <span>AI技術面接アプリ</span>
-                <strong>設計診断</strong>
-                <p>正解を当てるより、自分の設計判断を確かめる。</p>
+                <span>AI system design interview</span>
+                <strong>Design Review</strong>
+                <p>
+                  Practice the quality of a decision, not the memorized answer.
+                </p>
               </div>
-
               <a href="#work">
-                制作中の内容を見る
+                See what I am building
                 <ArrowDownRight
                   aria-hidden="true"
                   size={16}
@@ -97,7 +97,7 @@ export default function Home() {
           </div>
 
           <div
-            aria-label="Mizukiの個人開発の流れ"
+            aria-label="Mizuki's development loop"
             className="journal-hero-cycle"
             data-reveal="up"
             data-reveal-delay="100"
@@ -109,23 +109,23 @@ export default function Home() {
             <ol>
               <li>
                 <span>01</span>
-                <strong>気づく</strong>
-                <small>開発中の小さな不便</small>
+                <strong>Notice</strong>
+                <small>Friction in daily development</small>
               </li>
               <li>
                 <span>02</span>
-                <strong>つくる</strong>
-                <small>まず動く形にする</small>
+                <strong>Build</strong>
+                <small>Start with a working slice</small>
               </li>
               <li>
                 <span>03</span>
-                <strong>使う</strong>
-                <small>自分で確かめる</small>
+                <strong>Use</strong>
+                <small>Test it in my own workflow</small>
               </li>
               <li>
                 <span>04</span>
-                <strong>直す・残す</strong>
-                <small>次の自分につなげる</small>
+                <strong>Refine</strong>
+                <small>Keep the lesson for next time</small>
               </li>
             </ol>
           </div>
@@ -134,10 +134,10 @@ export default function Home() {
         <section className="journal-projects" data-section-id="work" id="work">
           <div className="page-shell">
             <header className="journal-projects-heading" data-reveal="up">
-              <p>つくったもの</p>
-              <h2>いま作っているもの</h2>
+              <p>Products</p>
+              <h2>What I am building now</h2>
               <p>
-                まだ途中のものも含めて、いま手を動かしているものを載せています。
+                Working products and experiments that are still taking shape.
               </p>
             </header>
 
@@ -147,19 +147,19 @@ export default function Home() {
                 data-reveal="up"
               >
                 <DiagnosticProjectPreview />
-
                 <div className="journal-project-copy">
                   <p className="journal-project-meta">
-                    <span>試作中</span>
-                    <span>AI技術面接アプリ</span>
+                    <span>Prototype</span>
+                    <span>AI system design interview</span>
                   </p>
-                  <h3>設計診断</h3>
+                  <h3>Design Review</h3>
                   <p>
-                    初めて見る設計課題に25分、ヒントなしで取り組みます。答えたあとに、
-                    自分の判断やトレードオフをAIと振り返るためのアプリです。
+                    Work through an unfamiliar system design prompt for 25
+                    minutes without hints, then review the decisions and
+                    trade-offs with AI.
                   </p>
                   <div className="journal-project-foot">
-                    <span>いまは公開に向けて調整中です</span>
+                    <span>Preparing for a public release</span>
                     <span>React Router / Firestore</span>
                   </div>
                 </div>
@@ -174,23 +174,22 @@ export default function Home() {
                   <span className="journal-site-domain">morimizu.dev</span>
                   <MizuGlyph className="journal-site-mark" />
                   <span className="journal-site-caption">
-                    つくったものと、書いたもの。
+                    Things I build and write.
                   </span>
                 </div>
-
                 <div className="journal-project-copy">
                   <p className="journal-project-meta">
-                    <span>公開中</span>
-                    <span>このサイト</span>
+                    <span>Public</span>
+                    <span>This site</span>
                   </p>
                   <h3>morimizu.dev</h3>
                   <p>
-                    作ったアプリと、作りながら考えたことをまとめるために作ったサイトです。
-                    気になるところを見つけるたびに、少しずつ直しています。
+                    A home for the tools I build, the architecture behind them,
+                    and the notes that come out of the work.
                   </p>
                   <div className="journal-project-links">
-                    <FullPageLink href="/">
-                      サイトを開く
+                    <FullPageLink href="/en">
+                      Open the site
                       <ArrowUpRight
                         aria-hidden="true"
                         size={15}
@@ -215,8 +214,8 @@ export default function Home() {
               </article>
             </div>
 
-            <FullPageLink className="journal-all-projects" href="/projects">
-              公開中のプロダクトをすべて見る
+            <FullPageLink className="journal-all-projects" href="/en/projects">
+              See all public products
               <ArrowUpRight aria-hidden="true" size={16} strokeWidth={1.6} />
             </FullPageLink>
           </div>
@@ -228,14 +227,14 @@ export default function Home() {
           id="writing"
         >
           <header className="journal-section-heading" data-reveal="up">
-            <p>技術ノート</p>
+            <p>Technical notes</p>
             <h2>
-              作りながら
-              <span className="journal-serif">考えたこと。</span>
+              What I learned
+              <span className="journal-serif">while building.</span>
             </h2>
             <p className="journal-section-description">
-              実装で詰まったところや、あとから残しておきたいことをQiitaに書いています。
-              公開した記事は、ここでも読めます。
+              The source articles are published on Qiita in Japanese. This index
+              keeps the original writing accessible alongside the product work.
             </p>
           </header>
 
@@ -243,7 +242,7 @@ export default function Home() {
             <FullPageLink
               className="journal-featured-note"
               data-reveal="up"
-              href={`/notes/${featuredArticle.id}`}
+              href={`/en/notes/${featuredArticle.id}`}
             >
               <span className="journal-note-number">01</span>
               <span className="journal-featured-copy">
@@ -251,7 +250,9 @@ export default function Home() {
                   <time dateTime={featuredArticle.updatedAt}>
                     {formatArticleDate(featuredArticle.updatedAt)}
                   </time>
-                  <span>{featuredArticle.readingMinutes}分で読めます</span>
+                  <span>
+                    {featuredArticle.readingMinutes} min read · Japanese
+                  </span>
                 </span>
                 <strong>{featuredArticle.title}</strong>
                 <span className="journal-note-summary">
@@ -262,14 +263,17 @@ export default function Home() {
             </FullPageLink>
           ) : null}
 
-          <ol className="journal-note-index" aria-label="最近の技術ノート">
+          <ol
+            className="journal-note-index"
+            aria-label="Recent technical notes in Japanese"
+          >
             {remainingArticles.map((article, index) => (
               <li
                 key={article.id}
                 data-reveal="up"
                 data-reveal-delay={String(index * 40)}
               >
-                <FullPageLink href={`/notes/${article.id}`}>
+                <FullPageLink href={`/en/notes/${article.id}`}>
                   <span>{String(index + 2).padStart(2, '0')}</span>
                   <time dateTime={article.updatedAt}>
                     {formatArticleDate(article.updatedAt)}
@@ -285,28 +289,29 @@ export default function Home() {
             ))}
           </ol>
 
-          <FullPageLink className="journal-all-notes" href="/notes">
-            書いたものをすべて見る
+          <FullPageLink className="journal-all-notes" href="/en/notes">
+            Browse all notes
             <ArrowUpRight aria-hidden="true" size={16} strokeWidth={1.6} />
           </FullPageLink>
         </section>
 
         <section className="journal-about" data-section-id="about" id="about">
           <div className="journal-about-inner page-shell">
-            <p className="journal-about-label">この場所について</p>
+            <p className="journal-about-label">About this place</p>
             <p className="journal-about-copy" data-reveal="up">
               <span className="journal-about-line">
-                できたものと、その途中を
+                I keep the finished work
               </span>
               <span className="journal-serif journal-about-line">
-                残していきます。
+                and the thinking behind it.
               </span>
             </p>
             <div className="journal-about-side">
               <p>
-                morimizu.devは、Mizukiが個人で作っているものと、
-                その途中で考えたことを置いておく場所です。試している途中の記録も、
-                少しずつ増やしていきます。
+                morimizu.dev is where I document personal software projects,
+                architecture decisions, and work still in progress. I am
+                building toward a software architecture role with hands-on
+                product experience.
               </p>
               <div className="journal-about-links">
                 <a
@@ -347,7 +352,7 @@ export default function Home() {
         </section>
       </main>
 
-      <SiteFooter />
+      <SiteFooter locale="en" />
     </>
   );
 }

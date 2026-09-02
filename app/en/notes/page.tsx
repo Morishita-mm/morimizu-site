@@ -5,31 +5,32 @@ import { SiteFooter, SiteHeader } from '@/components/site-chrome';
 import { formatArticleDate, getAllQiitaArticles } from '@/lib/qiita-articles';
 
 export const metadata: Metadata = {
-  title: '技術ノート | morimizu.dev',
-  description: 'MizukiがQiitaに投稿した技術記事を、morimizu.devでも読めます。',
+  title: 'Technical Notes | morimizu.dev',
+  description:
+    'Technical articles by Mizuki. The original articles are published in Japanese on Qiita.',
   alternates: {
-    canonical: '/notes',
+    canonical: '/en/notes',
     languages: { 'ja-JP': '/notes', 'en-US': '/en/notes' },
   },
 };
 
-export default function NotesPage() {
+export default function EnglishNotesPage() {
   const articles = getAllQiitaArticles();
 
   return (
     <>
-      <SiteHeader active="notes" languageHref="/en/notes" />
-      <main className="notes-index">
+      <SiteHeader active="notes" locale="en" languageHref="/notes" />
+      <main className="notes-index english-site">
         <section className="notes-hero page-shell">
           <div data-reveal="up">
             <p className="eyebrow">
               <span className="eyebrow-dot" aria-hidden="true" />
-              Mizukiの技術ノート
+              Mizuki&apos;s technical field notes
             </p>
             <h1>
-              Qiitaに書いたものを、
+              Technical notes,
               <br />
-              ここでも。
+              kept close to the work.
             </h1>
           </div>
           <div
@@ -38,9 +39,11 @@ export default function NotesPage() {
             data-reveal-delay="50"
           >
             <p>
-              実装で詰まったところや、あとで見返したいことを書いています。Qiitaで公開した記事を、このサイトにもそのまま載せています。
+              These are implementation notes and lessons I want to return to.
+              The original articles are written in Japanese and published on
+              Qiita.
             </p>
-            <span>{articles.length}本の記事</span>
+            <span>{articles.length} articles · Japanese</span>
           </div>
         </section>
 
@@ -49,16 +52,16 @@ export default function NotesPage() {
           aria-labelledby="notes-list-title"
         >
           <div className="notes-list-heading" data-reveal="up">
-            <span>新しい順</span>
-            <h2 id="notes-list-title">記事を読む</h2>
+            <span>Newest first</span>
+            <h2 id="notes-list-title">Browse the notes</h2>
           </div>
-
           <ol className="notes-list">
             {articles.map((article, index) => (
               <li key={article.id}>
                 <FullPageLink
                   className="note-row"
-                  href={`/notes/${article.id}`}
+                  href={`/en/notes/${article.id}`}
+                  lang="ja"
                 >
                   <span className="note-row-index">
                     {String(index + 1).padStart(2, '0')}
@@ -68,11 +71,11 @@ export default function NotesPage() {
                       <time dateTime={article.updatedAt}>
                         {formatArticleDate(article.updatedAt)}
                       </time>
-                      <span>{article.readingMinutes}分で読めます</span>
+                      <span>{article.readingMinutes} min read · Japanese</span>
                     </span>
                     <strong>{article.title}</strong>
                     <span className="note-row-summary">{article.summary}</span>
-                    <span className="note-row-tags" aria-label="タグ">
+                    <span className="note-row-tags" aria-label="Tags">
                       {article.tags.map((tag) => (
                         <i key={tag}>{tag}</i>
                       ))}
@@ -87,7 +90,6 @@ export default function NotesPage() {
               </li>
             ))}
           </ol>
-
           <a
             className="notes-qiita-link"
             href="https://qiita.com/morimizu"
@@ -95,12 +97,12 @@ export default function NotesPage() {
             target="_blank"
           >
             <BookOpen aria-hidden="true" size={17} strokeWidth={1.6} />
-            Qiitaのプロフィールを見る
+            View the Qiita profile
             <ArrowUpRight aria-hidden="true" size={16} strokeWidth={1.7} />
           </a>
         </section>
       </main>
-      <SiteFooter />
+      <SiteFooter locale="en" />
     </>
   );
 }

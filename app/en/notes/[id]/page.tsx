@@ -10,9 +10,7 @@ import {
   getQiitaArticle,
 } from '@/lib/qiita-articles';
 
-type NotePageProps = {
-  params: Promise<{ id: string }>;
-};
+type NotePageProps = { params: Promise<{ id: string }> };
 
 export const dynamicParams = false;
 
@@ -25,13 +23,10 @@ export async function generateMetadata({
 }: NotePageProps): Promise<Metadata> {
   const { id } = await params;
   const article = getQiitaArticle(id);
-
-  if (!article) {
-    return {};
-  }
+  if (!article) return {};
 
   return {
-    title: `${article.title} | morimizu.dev`,
+    title: `${article.title} | Technical Notes | morimizu.dev`,
     description: article.summary,
     alternates: {
       canonical: article.qiitaUrl,
@@ -42,6 +37,7 @@ export async function generateMetadata({
     },
     openGraph: {
       type: 'article',
+      locale: 'ja_JP',
       title: article.title,
       description: article.summary,
       publishedTime: article.updatedAt,
@@ -50,82 +46,78 @@ export async function generateMetadata({
   };
 }
 
-export default async function NotePage({ params }: NotePageProps) {
+export default async function EnglishNotePage({ params }: NotePageProps) {
   const { id } = await params;
   const article = getQiitaArticle(id);
-
-  if (!article) {
-    notFound();
-  }
+  if (!article) notFound();
 
   const jsonLd = JSON.stringify({
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
     headline: article.title,
     dateModified: article.updatedAt,
+    inLanguage: 'ja',
     author: {
       '@type': 'Person',
       name: 'Mizuki',
-      url: 'https://morimizu.dev',
+      url: 'https://morimizu.dev/en',
     },
     mainEntityOfPage: article.qiitaUrl,
   }).replace(/</g, '\\u003c');
 
   return (
     <>
-      <SiteHeader active="notes" languageHref={`/en/notes/${article.id}`} />
-      <main className="note-detail">
-        <article>
+      <SiteHeader
+        active="notes"
+        locale="en"
+        languageHref={`/notes/${article.id}`}
+      />
+      <main className="note-detail english-site">
+        <article lang="ja">
           <header
             className="note-article-header page-shell-narrow"
             data-reveal="up"
           >
-            <FullPageLink className="note-back" href="/notes">
+            <FullPageLink className="note-back" href="/en/notes" lang="en">
               <ArrowLeft aria-hidden="true" size={16} strokeWidth={1.7} />
-              記事一覧に戻る
+              Back to technical notes
             </FullPageLink>
-
             <div className="note-article-kicker">
-              <span>技術ノート</span>
+              <span>Japanese technical note</span>
               <time dateTime={article.updatedAt}>
                 {formatArticleDate(article.updatedAt)}
               </time>
-              <span>{article.readingMinutes}分で読めます</span>
+              <span>{article.readingMinutes} min read</span>
             </div>
-
             <h1>{article.title}</h1>
-
-            <ul className="note-article-tags" aria-label="タグ">
+            <ul className="note-article-tags" aria-label="Tags">
               {article.tags.map((tag) => (
                 <li key={tag}>{tag}</li>
               ))}
             </ul>
-
-            <p className="note-source-notice">
-              Qiitaに投稿したMarkdownを、このサイトにも同じ内容で載せています。
+            <p className="note-source-notice" lang="en">
+              This article is available in Japanese. The same Markdown is
+              published here and on Qiita.
               <a href={article.qiitaUrl} rel="noreferrer" target="_blank">
-                Qiitaで読む
+                Read on Qiita{' '}
                 <ArrowUpRight aria-hidden="true" size={14} strokeWidth={1.7} />
               </a>
             </p>
           </header>
-
           <div className="note-article-rule" aria-hidden="true" />
-
           <div className="page-shell-narrow note-article-content">
             <MarkdownArticle content={article.content} />
-
-            <footer className="note-article-footer">
-              <span>この記事はここまで</span>
+            <footer className="note-article-footer" lang="en">
+              <span>End of article</span>
               <a href={article.qiitaUrl} rel="noreferrer" target="_blank">
-                Qiitaで原文を見る
+                View the original on Qiita
                 <ArrowUpRight aria-hidden="true" size={16} strokeWidth={1.7} />
               </a>
             </footer>
           </div>
         </article>
       </main>
-      <SiteFooter />
+      <SiteFooter locale="en" />
       <script
         dangerouslySetInnerHTML={{ __html: jsonLd }}
         type="application/ld+json"
