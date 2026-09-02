@@ -21,6 +21,10 @@ export type Project = {
     alt: string;
     caption: string;
   };
+  architecture: {
+    src: string;
+    alt: string;
+  };
   languages: string[];
   stack: string[];
   facts: Array<{
@@ -65,6 +69,10 @@ export const projects: Project[] = [
       src: '/projects/lissue-tui.webp',
       alt: 'LissueのTUIでタスクと関連ファイルを操作している画面',
       caption: '実際のTUIデモから切り出した画面',
+    },
+    architecture: {
+      src: '/projects/architecture/lissue.svg',
+      alt: 'LissueのCLIとTUI、アプリケーションコア、SQLite、JSON、Gitの関係を示したアーキテクチャ図',
     },
     languages: ['Rust'],
     stack: ['Rust', 'Ratatui', 'SQLite', 'JSON'],
@@ -142,6 +150,10 @@ export const projects: Project[] = [
       'プロジェクトごとのドキュメントを同期し、CLI・TUI・MCPから同じ知識へアクセスするための個人用RAG基盤です。検索だけでなく、同期状況やキャッシュもひとつの入口から扱います。',
     repositoryUrl: 'https://github.com/Morishita-mm/My-RAG-Agent-System',
     visual: 'ragy',
+    architecture: {
+      src: '/projects/architecture/ragy.svg',
+      alt: 'Ragyのドキュメント同期経路とRAG検索経路を示したアーキテクチャ図',
+    },
     languages: ['Rust', 'Python'],
     stack: ['Rust', 'Python', 'Dify', 'Redis', 'Ollama'],
     facts: [
@@ -222,6 +234,10 @@ export const projects: Project[] = [
       src: '/projects/rust-log-analyzer.webp',
       alt: 'Rust Log Analyzerでログ一覧と集計を表示しているターミナル画面',
       caption: '実際のデモから切り出した画面',
+    },
+    architecture: {
+      src: '/projects/architecture/rust-log-analyzer.svg',
+      alt: 'Rust Log Analyzerのログ送信元、Redis、RustとPythonの処理、ターミナル画面の関係を示したアーキテクチャ図',
     },
     languages: ['Rust', 'Python'],
     stack: ['Rust', 'Tokio', 'Ratatui', 'Python', 'Polars', 'Redis'],

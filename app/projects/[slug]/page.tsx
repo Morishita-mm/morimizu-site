@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { ArrowLeft, ArrowUpRight, GitFork, PackageOpen } from 'lucide-react';
 import { FullPageLink } from '@/components/full-page-link';
@@ -162,6 +163,39 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                 <span>02 / こうしてみた</span>
                 <p>{project.answer}</p>
               </div>
+            </div>
+          </section>
+
+          <section
+            className="product-architecture-section"
+            aria-labelledby="architecture-title"
+          >
+            <div className="page-shell">
+              <header className="product-architecture-heading" data-reveal="up">
+                <p className="product-section-label">SYSTEM ARCHITECTURE</p>
+                <div>
+                  <h2 id="architecture-title">どうつながっているか。</h2>
+                  <p>
+                    入力から保存・処理・表示までを、実装に沿って一枚にまとめました。
+                  </p>
+                </div>
+              </header>
+
+              <figure className="product-architecture-figure" data-reveal="up">
+                <div className="product-architecture-viewport">
+                  <Image
+                    src={project.architecture.src}
+                    alt={project.architecture.alt}
+                    width="1600"
+                    height="900"
+                    loading="lazy"
+                  />
+                </div>
+                <figcaption>
+                  <span>{project.name}</span>
+                  <span>実装をもとにしたシステム構成</span>
+                </figcaption>
+              </figure>
             </div>
           </section>
 
