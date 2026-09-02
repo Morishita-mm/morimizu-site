@@ -15,11 +15,13 @@ function ProjectGlyph({ visual }: Pick<Project, 'visual'>) {
   if (visual === 'lissue') {
     return (
       <svg aria-hidden="true" className="product-glyph" viewBox="0 0 120 120">
-        <rect height="68" rx="9" width="86" x="17" y="26" />
-        <path d="M17 43h86M46 43v51M75 43v51" />
-        <circle cx="31" cy="58" r="5" />
-        <circle className="product-glyph-accent-fill" cx="60" cy="69" r="6" />
-        <path className="product-glyph-accent" d="m84 63 5 5 9-12" />
+        <path d="M28 26v48c0 12 10 22 22 22h44" />
+        <path className="product-glyph-accent" d="M48 26v32c0 10 8 18 18 18h28" />
+        <circle cx="28" cy="26" r="5" />
+        <circle cx="28" cy="74" r="5" />
+        <circle className="product-glyph-accent-fill" cx="48" cy="26" r="5" />
+        <circle className="product-glyph-accent-fill" cx="94" cy="76" r="6" />
+        <circle className="product-glyph-light-fill" cx="94" cy="96" r="5" />
       </svg>
     );
   }

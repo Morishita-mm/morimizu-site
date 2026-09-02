@@ -347,6 +347,16 @@ export default function EnglishHome() {
                   />
                 </a>
               </div>
+              <div style={{ marginTop: '16px' }}>
+                <FullPageLink className="text-link" href="/en/about">
+                  View full resume / experience
+                  <ArrowUpRight
+                    aria-hidden="true"
+                    size={14}
+                    strokeWidth={1.8}
+                  />
+                </FullPageLink>
+              </div>
             </div>
           </div>
         </section>

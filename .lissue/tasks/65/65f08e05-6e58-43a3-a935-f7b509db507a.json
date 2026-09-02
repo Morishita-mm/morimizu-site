@@ -1,0 +1,14 @@
+{
+  "local_id": 3,
+  "global_id": "65f08e05-6e58-43a3-a935-f7b509db507a",
+  "title": "スタイルの定義 (app/globals.css)",
+  "description": "既存デザインシステム（--paper, --ink, --jade）と調和したタイムライン・スキルタグ・印刷用@media printスタイルを定義する",
+  "status": "Close",
+  "assignee": null,
+  "parent_global_id": null,
+  "linked_files": [
+    "app/globals.css"
+  ],
+  "created_at": "2026-09-02T18:26:11.398739Z",
+  "updated_at": "2026-09-02T18:27:29.544555Z"
+}

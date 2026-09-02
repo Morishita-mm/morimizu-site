@@ -1,6 +1,7 @@
 import { ArrowUpRight } from 'lucide-react';
 import { FullPageLink } from '@/components/full-page-link';
 import { MizuGlyph } from '@/components/mizu-glyph';
+import { GitHubIcon, LinkedInIcon, QiitaIcon } from '@/components/social-icons';
 import { LINKEDIN_URL } from '@/lib/social-links';
 
 type SiteHeaderProps = {
@@ -50,13 +51,46 @@ export function SiteHeader({
           <FullPageLink
             aria-current={active === 'about' ? 'page' : undefined}
             data-section-link="about"
-            href={`${prefix}/#about`}
+            href={english ? '/en/about' : '/about'}
           >
             About
           </FullPageLink>
         </nav>
 
         <div className="header-actions">
+          <a
+            aria-label="GitHub"
+            className="header-qiita"
+            href="https://github.com/Morishita-mm"
+            rel="noreferrer"
+            target="_blank"
+          >
+            <GitHubIcon size={14} />
+            <span>GitHub</span>
+            <ArrowUpRight aria-hidden="true" size={12} strokeWidth={1.8} />
+          </a>
+          <a
+            className="header-qiita"
+            href={LINKEDIN_URL}
+            rel="noreferrer"
+            target="_blank"
+            aria-label="LinkedIn"
+          >
+            <LinkedInIcon size={14} />
+            <span>LinkedIn</span>
+            <ArrowUpRight aria-hidden="true" size={12} strokeWidth={1.8} />
+          </a>
+          <a
+            className="header-qiita"
+            href="https://qiita.com/morimizu"
+            rel="noreferrer"
+            target="_blank"
+            aria-label="Qiita"
+          >
+            <QiitaIcon size={14} />
+            <span>Qiita</span>
+            <ArrowUpRight aria-hidden="true" size={12} strokeWidth={1.8} />
+          </a>
           <FullPageLink
             className="language-switch"
             href={languageHref ?? (english ? '/' : '/en')}
@@ -66,24 +100,6 @@ export function SiteHeader({
           >
             {english ? 'JP' : 'EN'}
           </FullPageLink>
-          <a
-            className="header-qiita"
-            href={LINKEDIN_URL}
-            rel="noreferrer"
-            target="_blank"
-          >
-            LinkedIn
-            <ArrowUpRight aria-hidden="true" size={13} strokeWidth={1.8} />
-          </a>
-          <a
-            className="header-qiita"
-            href="https://qiita.com/morimizu"
-            rel="noreferrer"
-            target="_blank"
-          >
-            Qiita
-            <ArrowUpRight aria-hidden="true" size={13} strokeWidth={1.8} />
-          </a>
         </div>
       </div>
       <span className="site-progress" aria-hidden="true" />

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { IBM_Plex_Mono, Instrument_Sans, Noto_Sans_JP } from 'next/font/google';
+import { AgentationClient } from '@/components/agentation-client';
 import { SiteMotion } from '@/components/site-motion';
 import './globals.css';
 
@@ -63,6 +64,7 @@ export default function RootLayout({
       >
         <SiteMotion />
         {children}
+        <AgentationClient />
       </body>
     </html>
   );

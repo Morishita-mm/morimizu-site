@@ -1,0 +1,14 @@
+{
+  "local_id": 5,
+  "global_id": "552de8ec-702c-4c4d-91a7-bb780f2b12e1",
+  "title": "ナビゲーション連携と全体動作確認",
+  "description": "ヘッダーのAboutリンクやトップページからの遷移、印刷表示の検証、lint/buildの確認",
+  "status": "Close",
+  "assignee": null,
+  "parent_global_id": null,
+  "linked_files": [
+    "components/site-chrome.tsx"
+  ],
+  "created_at": "2026-09-02T18:26:16.240149Z",
+  "updated_at": "2026-09-02T18:28:55.144539Z"
+}

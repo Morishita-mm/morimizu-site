@@ -1,10 +1,18 @@
-export function MizuGlyph({ className = '' }: { className?: string }) {
+export function MizuGlyph({
+  className = '',
+  size,
+}: {
+  className?: string;
+  size?: number;
+}) {
   return (
     <svg
       aria-hidden="true"
       className={className}
-      viewBox="0 0 32 32"
       fill="none"
+      height={size}
+      viewBox="0 0 32 32"
+      width={size}
       xmlns="http://www.w3.org/2000/svg"
     >
       <path

@@ -1,0 +1,12 @@
+{
+  "local_id": 6,
+  "global_id": "29c34a04-553e-4ea3-8ca9-a7dd44fa38da",
+  "title": "リジュメレイアウト刷新と日英対応",
+  "description": "参考画像の01-05構成への刷新、名前の修正（森下 瑞基）、LinkedIn整合、/aboutおよび/en/aboutの実装",
+  "status": "Close",
+  "assignee": null,
+  "parent_global_id": null,
+  "linked_files": [],
+  "created_at": "2026-09-02T18:42:41.854191Z",
+  "updated_at": "2026-09-02T18:45:06.155448Z"
+}

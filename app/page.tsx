@@ -293,10 +293,9 @@ export default function Home() {
 
         <section className="journal-about" data-section-id="about" id="about">
           <div className="journal-about-inner page-shell">
-            <p className="journal-about-label">この場所について</p>
             <p className="journal-about-copy" data-reveal="up">
               <span className="journal-about-line">
-                できたものと、その途中を
+                できたものと、その経過を
               </span>
               <span className="journal-serif journal-about-line">
                 残していきます。
@@ -341,6 +340,16 @@ export default function Home() {
                     strokeWidth={1.6}
                   />
                 </a>
+              </div>
+              <div style={{ marginTop: '16px' }}>
+                <FullPageLink className="text-link" href="/about">
+                  詳しい経歴・職務情報を見る
+                  <ArrowUpRight
+                    aria-hidden="true"
+                    size={14}
+                    strokeWidth={1.8}
+                  />
+                </FullPageLink>
               </div>
             </div>
           </div>

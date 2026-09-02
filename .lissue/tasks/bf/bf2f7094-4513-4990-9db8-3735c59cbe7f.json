@@ -1,0 +1,12 @@
+{
+  "local_id": 1,
+  "global_id": "bf2f7094-4513-4990-9db8-3735c59cbe7f",
+  "title": "データモジュールの作成 (lib/resume.ts)",
+  "description": "経歴、スキル、哲学、実績を含む型定義と自然なサンプルデータを型安全に定義する",
+  "status": "Close",
+  "assignee": null,
+  "parent_global_id": null,
+  "linked_files": [],
+  "created_at": "2026-09-02T18:26:06.391305Z",
+  "updated_at": "2026-09-02T18:26:46.669248Z"
+}

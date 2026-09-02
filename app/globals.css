@@ -79,6 +79,19 @@ a {
   text-decoration: none;
 }
 
+.site-canvas {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+#main-content {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
 .page-shell {
   width: min(1220px, calc(100% - 72px));
   margin-inline: auto;
@@ -239,7 +252,7 @@ nav a:hover::after,
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 9px;
+  gap: 12px;
 }
 
 .language-switch {
@@ -2114,12 +2127,12 @@ nav a:hover::after,
 
 .journal-site-mark {
   z-index: 1;
-  width: 104px;
-  height: 104px;
+  width: 124px;
+  height: 124px;
 }
 
 .journal-site-mark .glyph-line {
-  stroke-width: 1.35;
+  stroke-width: 1.85;
 }
 
 .journal-site-caption {
@@ -2253,7 +2266,7 @@ nav a:hover::after,
 }
 
 .journal-about-copy {
-  grid-column: 3 / span 6;
+  grid-column: 1 / span 8;
 }
 
 .journal-about-side {
@@ -2381,8 +2394,8 @@ nav a:hover::after,
   }
 
   .journal-site-mark {
-    width: 90px;
-    height: 90px;
+    width: 108px;
+    height: 108px;
   }
 
   .journal-site-caption {
@@ -4219,6 +4232,11 @@ nav a[aria-current='location']::after {
   display: block;
 }
 
+.journal-hero-heading h1 .journal-serif {
+  font-size: 0.86em;
+  margin-top: 0.08em;
+}
+
 .journal-hero-note {
   max-width: 660px;
   padding-top: clamp(36px, 4vw, 52px);
@@ -4779,7 +4797,7 @@ nav a[aria-current='location']::after {
 }
 
 .journal-about-copy {
-  grid-column: 3 / span 8;
+  grid-column: 1 / span 8;
   margin: 0;
   font-size: clamp(34px, 4.3vw, 60px);
   font-weight: 540;
@@ -6774,5 +6792,776 @@ nav a[aria-current='location']::after {
   .product-artwork-preview-state,
   .product-artwork-toggle {
     transition: none;
+  }
+}
+
+/* ==========================================================================
+   Poster Resume / Developer Profile (Reference Layout)
+   ========================================================================== */
+
+.poster-page-wide {
+  width: min(1380px, calc(100% - 48px));
+  margin-inline: auto;
+}
+
+.poster-page-wrapper {
+  padding-block: clamp(32px, 4vw, 56px) clamp(48px, 6vw, 80px);
+}
+
+.poster-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.poster-resume {
+  display: grid;
+  grid-template-columns: clamp(220px, 22%, 270px) 1fr;
+  gap: clamp(32px, 3.5vw, 56px);
+  padding: clamp(32px, 3.5vw, 56px);
+  border: 1px solid var(--rule);
+  background: var(--paper-light);
+  box-shadow: 0 4px 24px -6px rgb(0 0 0 / 4%);
+}
+
+/* Left Sidebar */
+.poster-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(32px, 4vw, 48px);
+}
+
+.poster-graphic-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  color: var(--jade-deep);
+}
+
+.poster-brand-glyph {
+  width: clamp(120px, 15vw, 160px);
+  height: clamp(120px, 15vw, 160px);
+}
+
+.poster-brand-glyph .glyph-line {
+  stroke-width: 1.8;
+}
+
+/* Contacts Section */
+.poster-contacts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.poster-contact-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.poster-contact-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--ink-soft);
+  font-family: var(--font-plex-mono), monospace;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.poster-contact-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink);
+  opacity: 0.85;
+}
+
+.poster-contact-value {
+  color: var(--ink);
+  font-family: var(--font-plex-mono), monospace;
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  word-break: break-all;
+}
+
+.poster-contact-value a {
+  color: inherit;
+  transition: color 180ms ease;
+}
+
+.poster-contact-value a:hover {
+  color: var(--jade-deep);
+}
+
+/* Right Main Area */
+.poster-main {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(36px, 4vw, 52px);
+}
+
+.poster-header h1 {
+  margin: 0;
+  font-family: var(--font-instrument), sans-serif;
+  font-size: clamp(38px, 4.2vw, 58px);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1.08;
+}
+
+.poster-summary {
+  max-width: 840px;
+  margin: 14px 0 0;
+  padding-left: 14px;
+  border-left: 2.5px solid var(--jade);
+  color: var(--ink-soft);
+  font-size: 13.5px;
+  line-height: 1.75;
+}
+
+/* Section Header Component (01, 02, 03, 04, 05) */
+.poster-section-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding-bottom: 8px;
+  margin-bottom: 20px;
+  border-bottom: 1.5px solid var(--ink);
+}
+
+.poster-section-title {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font-plex-mono), monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.poster-section-num {
+  color: var(--ink);
+  font-family: var(--font-plex-mono), monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+/* Two Column Content Area (PC 2-Column Grid) */
+.poster-content-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: clamp(28px, 3.5vw, 48px);
+}
+
+.poster-column {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(32px, 3.5vw, 48px);
+}
+
+/* Git Log Style Experience Timeline */
+.poster-timeline {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  padding-left: 20px;
+  border-left: 2px solid var(--rule);
+}
+
+.poster-timeline-node {
+  position: relative;
+}
+
+.poster-timeline-bullet {
+  position: absolute;
+  top: 4px;
+  left: -27px;
+  width: 12px;
+  height: 12px;
+  border: 2.5px solid var(--paper-light);
+  border-radius: 50%;
+  background: var(--jade-deep);
+  box-shadow: 0 0 0 1.5px var(--ink);
+  transition:
+    transform 180ms ease,
+    background-color 180ms ease;
+}
+
+.poster-timeline-node[open] .poster-timeline-bullet {
+  background: var(--jade);
+  transform: scale(1.15);
+}
+
+.poster-timeline-summary {
+  display: block;
+  cursor: pointer;
+  list-style: none;
+}
+
+.poster-timeline-summary::-webkit-details-marker {
+  display: none;
+}
+
+.poster-timeline-summary-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.poster-timeline-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.poster-timeline-toggle-icon {
+  display: inline-flex;
+  align-items: center;
+  color: var(--ink-soft);
+  transition: transform 200ms ease;
+}
+
+.poster-timeline-node[open] .poster-timeline-toggle-icon {
+  transform: rotate(180deg);
+}
+
+.poster-entry-period {
+  color: var(--ink-soft);
+  font-family: var(--font-plex-mono), monospace;
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+
+.poster-entry-title {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font-instrument), sans-serif;
+  font-size: 15.5px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.poster-entry-role {
+  margin: 0;
+  color: var(--jade-deep);
+  font-family: var(--font-instrument), sans-serif;
+  font-size: 12.5px;
+  font-weight: 600;
+}
+
+.poster-timeline-details {
+  padding-top: 8px;
+}
+
+.poster-entry-desc-list {
+  padding-left: 18px;
+  margin: 0;
+  color: var(--ink);
+  font-size: 12.5px;
+  line-height: 1.65;
+}
+
+.poster-entry-desc-list li {
+  margin-bottom: 5px;
+}
+
+/* Education Entries */
+.poster-education-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.poster-experience-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.poster-entry-desc {
+  margin: 0;
+  color: var(--ink);
+  font-size: 12.5px;
+  line-height: 1.6;
+}
+
+/* Skills 2-Column Grid with Tech Icons */
+.poster-skills-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px 18px;
+}
+
+.poster-skill-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--ink);
+  font-family: var(--font-instrument), sans-serif;
+  font-size: 13px;
+  font-weight: 550;
+  letter-spacing: -0.01em;
+}
+
+.poster-skill-icon {
+  flex-shrink: 0;
+  color: var(--ink);
+  opacity: 0.85;
+}
+
+/* Languages List */
+.poster-languages-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.poster-language-item {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 12.5px;
+}
+
+.poster-language-name {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.poster-language-level {
+  color: var(--ink-soft);
+  font-family: var(--font-plex-mono), monospace;
+  font-size: 11px;
+}
+
+/* Print Button Component */
+.resume-print-group {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.resume-print-button {
+  display: inline-flex;
+  min-height: 38px;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border: 1px solid var(--ink);
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--paper);
+  cursor: pointer;
+  font-family: var(--font-instrument), sans-serif;
+  font-size: 13px;
+  font-weight: 550;
+  transition:
+    opacity 180ms ease,
+    background 180ms ease,
+    color 180ms ease;
+}
+
+.resume-print-button:hover {
+  opacity: 0.88;
+}
+
+.resume-print-button-secondary {
+  border-color: var(--rule);
+  background: var(--paper-light);
+  color: var(--ink);
+}
+
+.resume-print-button-secondary:hover {
+  border-color: var(--ink);
+  background: var(--paper-deep);
+}
+
+/* Mobile Screen Only (段組みなし・1カラム縦積み): media screen を明示して印刷時の誤適用を防止 */
+@media screen and (max-width: 820px) {
+  .poster-resume {
+    grid-template-columns: 1fr;
+    gap: 36px;
+    padding: 28px 20px;
+  }
+
+  .poster-sidebar {
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  .poster-graphic-container {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto;
+  }
+
+  .poster-content-grid {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+}
+
+/* Print Layout: Perfect A4 1-Page Output (今見えているポスター段組みデザインのままA4 1枚に保存) */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 8mm 10mm;
+  }
+
+  body {
+    background: #fff !important;
+    color: #000 !important;
+    font-size: 9pt !important;
+    line-height: 1.4 !important;
+  }
+
+  .site-header,
+  .site-footer,
+  .poster-toolbar,
+  [data-agentation],
+  [data-agentation-theme],
+  [data-feedback-toolbar],
+  [class*='styles-module__toolbar'],
+  [class*='styles-module__fixedMarkersLayer'],
+  [class*='styles-module__markersLayer'],
+  [class*='agentation'],
+  div:has(> [data-feedback-toolbar]) {
+    display: none !important;
+  }
+
+  .page-shell {
+    width: 100% !important;
+    max-width: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .poster-page-wrapper {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* CONTACTS と EXPERIENCE を横並び（2段組）に強制維持 */
+  .poster-resume {
+    display: grid !important;
+    grid-template-columns: 200px 1fr !important;
+    gap: 32px !important;
+    padding: 0 !important;
+    border: none !important;
+    background: #fff !important;
+    box-shadow: none !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  .poster-sidebar {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 24px !important;
+  }
+
+  .poster-graphic-container {
+    width: 115px !important;
+    height: 115px !important;
+    margin: 0 auto 6px !important;
+    color: #000 !important;
+  }
+
+  .poster-brand-glyph {
+    width: 115px !important;
+    height: 115px !important;
+  }
+
+  .poster-contacts-list {
+    gap: 12px !important;
+  }
+
+  .poster-contact-label {
+    font-size: 7.5pt !important;
+  }
+
+  .poster-contact-value {
+    font-size: 8.5pt !important;
+  }
+
+  .poster-main {
+    gap: 20px !important;
+  }
+
+  .poster-header h1 {
+    font-size: 26pt !important;
+    line-height: 1.05 !important;
+    margin: 0 !important;
+  }
+
+  .poster-summary {
+    font-size: 8.2pt !important;
+    line-height: 1.45 !important;
+    margin-top: 6px !important;
+    padding-left: 10px !important;
+    border-left: 2pt solid #327871 !important;
+    color: #222 !important;
+  }
+
+  .poster-section-header {
+    padding-bottom: 4px !important;
+    margin-bottom: 12px !important;
+    border-bottom: 1.5pt solid #000 !important;
+  }
+
+  .poster-section-title {
+    font-size: 8.5pt !important;
+  }
+
+  .poster-section-num {
+    font-size: 8.5pt !important;
+  }
+
+  /* 右側内部も 2段組（EXPERIENCE/EDUCATION と SKILLS/LANGUAGES）を維持 */
+  .poster-content-grid {
+    display: grid !important;
+    grid-template-columns: 1.15fr 0.85fr !important;
+    gap: 26px !important;
+  }
+
+  .poster-column {
+    gap: 20px !important;
+  }
+
+  /* タイムラインのコンパクト化 */
+  .poster-timeline {
+    gap: 14px !important;
+    padding-left: 14px !important;
+    border-left: 1.5pt solid #bbb !important;
+  }
+
+  .poster-timeline-bullet {
+    top: 3px !important;
+    left: -19px !important;
+    width: 9px !important;
+    height: 9px !important;
+    border-width: 1.5pt !important;
+    background: #000 !important;
+    box-shadow: none !important;
+  }
+
+  .poster-entry-period {
+    font-size: 7.5pt !important;
+  }
+
+  .poster-entry-title {
+    font-size: 10pt !important;
+  }
+
+  .poster-entry-role {
+    font-size: 8.5pt !important;
+    color: #222 !important;
+  }
+
+  .poster-timeline-details {
+    padding-top: 4px !important;
+  }
+
+  .poster-entry-desc-list {
+    padding-left: 14px !important;
+    font-size: 8pt !important;
+    line-height: 1.45 !important;
+  }
+
+  .poster-entry-desc-list li {
+    margin-bottom: 3px !important;
+  }
+
+  .poster-education-list {
+    gap: 10px !important;
+  }
+
+  .poster-entry-desc {
+    font-size: 8pt !important;
+    line-height: 1.4 !important;
+  }
+
+  /* スキルリストのコンパクト化 */
+  .poster-skills-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 8px 12px !important;
+  }
+
+  .poster-skill-item {
+    font-size: 8.5pt !important;
+    gap: 6px !important;
+  }
+
+  .poster-languages-list {
+    gap: 8px !important;
+  }
+
+  .poster-language-item {
+    font-size: 8pt !important;
+  }
+
+  .poster-timeline-node {
+    display: block !important;
+  }
+
+  .poster-timeline-details {
+    display: block !important;
+  }
+
+  .poster-timeline-toggle-icon {
+    display: none !important;
+  }
+
+  /* ==========================================================================
+     A4 Landscape (横向き) Print Optimization
+     横長比率（297mm × 210mm）の空間を活かし、A4横1枚に完璧に収めるスタイル
+     ========================================================================== */
+  html[data-print-orientation='landscape'] .poster-resume {
+    grid-template-columns: 165px 1fr !important;
+    gap: 22px !important;
+  }
+
+  html[data-print-orientation='landscape'] .poster-sidebar {
+    gap: 14px !important;
+  }
+
+  html[data-print-orientation='landscape'] .poster-graphic-container {
+    width: 72px !important;
+    height: 72px !important;
+    margin-bottom: 2px !important;
+  }
+
+  html[data-print-orientation='landscape'] .poster-brand-glyph {
+    width: 72px !important;
+    height: 72px !important;
+  }
+
+  html[data-print-orientation='landscape'] .poster-contacts-list {
+    gap: 7px !important;
+  }
+
+  html[data-print-orientation='landscape'] .poster-contact-label {
+    font-size: 6.8pt !important;
+  }
+
+  html[data-print-orientation='landscape'] .poster-contact-value {
+    font-size: 7.2pt !important;
+  }
+
+  html[data-print-orientation='landscape'] .poster-main {
+    gap: 10px !important;
+  }
+
+  html[data-print-orientation='landscape'] .poster-header h1 {
+    font-size: 17pt !important;
+    line-height: 1.05 !important;
+  }
+
+  html[data-print-orientation='landscape'] .poster-summary {
+    font-size: 7.2pt !important;
+    line-height: 1.3 !important;
+    margin-top: 3px !important;
+    padding-left: 8px !important;
+  }
+
+  html[data-print-orientation='landscape'] .poster-content-grid {
+    grid-template-columns: 1.25fr 0.95fr !important;
+    gap: 22px !important;
+  }
+
+  html[data-print-orientation='landscape'] .poster-column {
+    gap: 12px !important;
+  }
+
+  html[data-print-orientation='landscape'] .poster-section-header {
+    margin-bottom: 6px !important;
+    padding-bottom: 3px !important;
+  }
+
+  html[data-print-orientation='landscape'] .poster-section-title,
+  html[data-print-orientation='landscape'] .poster-section-num {
+    font-size: 7.5pt !important;
+  }
+
+  html[data-print-orientation='landscape'] .poster-timeline {
+    gap: 8px !important;
+    padding-left: 10px !important;
+    border-left-width: 1pt !important;
+  }
+
+  html[data-print-orientation='landscape'] .poster-timeline-bullet {
+    top: 2px !important;
+    left: -14.5px !important;
+    width: 7px !important;
+    height: 7px !important;
+    border-width: 1pt !important;
+  }
+
+  html[data-print-orientation='landscape'] .poster-entry-period {
+    font-size: 6.8pt !important;
+    margin-bottom: 1px !important;
+  }
+
+  html[data-print-orientation='landscape'] .poster-entry-title {
+    font-size: 8.5pt !important;
+    line-height: 1.2 !important;
+  }
+
+  html[data-print-orientation='landscape'] .poster-entry-role {
+    font-size: 7.5pt !important;
+  }
+
+  html[data-print-orientation='landscape'] .poster-entry-desc-list {
+    font-size: 7pt !important;
+    line-height: 1.32 !important;
+    padding-left: 12px !important;
+  }
+
+  html[data-print-orientation='landscape'] .poster-entry-desc-list li {
+    margin-bottom: 2px !important;
+  }
+
+  html[data-print-orientation='landscape'] .poster-education-list {
+    gap: 6px !important;
+  }
+
+  html[data-print-orientation='landscape'] .poster-entry-desc {
+    font-size: 7.2pt !important;
+    line-height: 1.25 !important;
+  }
+
+  html[data-print-orientation='landscape'] .poster-skills-grid {
+    gap: 5px 10px !important;
+  }
+
+  html[data-print-orientation='landscape'] .poster-skill-item {
+    font-size: 7.5pt !important;
+    gap: 5px !important;
+  }
+
+  html[data-print-orientation='landscape'] .poster-languages-list {
+    gap: 5px !important;
+  }
+
+  html[data-print-orientation='landscape'] .poster-language-item {
+    font-size: 7.2pt !important;
   }
 }
