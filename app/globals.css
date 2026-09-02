@@ -4950,7 +4950,8 @@ nav a[aria-current='location']::after {
 
 @media (max-width: 760px) {
   .journal-section-heading > .journal-section-description,
-  .journal-about-copy {
+  .journal-about-copy,
+  .journal-about-side {
     grid-column: auto;
   }
 
@@ -4961,6 +4962,22 @@ nav a[aria-current='location']::after {
 
   .journal-about-copy {
     font-size: clamp(25px, 6.6vw, 30px);
+  }
+
+  .journal-about-side {
+    width: 100%;
+    min-width: 0;
+    max-width: 520px;
+  }
+
+  .journal-about-side > p {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+
+  .journal-about-side .journal-about-links {
+    width: 100%;
+    flex-wrap: wrap;
   }
 }
 
