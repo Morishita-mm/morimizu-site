@@ -29,15 +29,14 @@ export default function ProjectsPage() {
       <main className="products-index">
         <section className="products-hero page-shell">
           <p className="products-kicker" data-reveal="up">
-            <span>PUBLIC PRODUCTS</span>
-            <span>{String(projects.length).padStart(2, '0')} SELECTED</span>
+            <span>PERSONAL TOOLBOX</span>
+            <span>{String(projects.length).padStart(2, '0')} TOOLS IN USE</span>
           </p>
 
           <div className="products-hero-grid">
             <h1 data-reveal="up">
-              <span>つくったもの。</span>
-              <span className="journal-serif">使いながら、</span>
-              <span>直しているもの。</span>
+              <span>不自由を</span>
+              <span className="journal-serif">道具に変える。</span>
             </h1>
 
             <div
@@ -46,10 +45,10 @@ export default function ProjectsPage() {
               data-reveal-delay="60"
             >
               <p>
-                自分の開発体験を少し良くするために作った道具です。公開して終わりではなく、実際に使いながら更新しています。
+                自分が毎日使うものだから、速さや使い心地まで試せます。うまくいった結果だけでなく、設計で悩んだ過程も残しています。
               </p>
               <a href="#selected-products">
-                選んだプロダクトを見る
+                使っている道具を見る
                 <ArrowDownRight
                   aria-hidden="true"
                   size={16}
