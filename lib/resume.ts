@@ -45,8 +45,8 @@ export const RESUME_JA: PosterResumeData = {
   contacts: [
     {
       label: 'EMAIL',
-      value: 'contact@morimizu.dev',
-      href: 'mailto:contact@morimizu.dev',
+      value: 'mzk.tech0711@gmail.com',
+      href: 'mailto:mzk.tech0711@gmail.com',
     },
     {
       label: 'GITHUB',
@@ -150,8 +150,8 @@ export const RESUME_EN: PosterResumeData = {
   contacts: [
     {
       label: 'EMAIL',
-      value: 'contact@morimizu.dev',
-      href: 'mailto:contact@morimizu.dev',
+      value: 'mzk.tech0711@gmail.com',
+      href: 'mailto:mzk.tech0711@gmail.com',
     },
     {
       label: 'GITHUB',
