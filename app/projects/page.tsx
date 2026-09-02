@@ -97,8 +97,8 @@ export default function ProjectsPage() {
             <header className="products-list-heading" data-reveal="up">
               <p>公開リポジトリから選んだもの</p>
               <h2 id="selected-products-title">
-                <span>いま見せたい</span>
-                <span>3つ</span>
+                <span>つくって、</span>
+                <span>使っているもの</span>
               </h2>
               <p>
                 配布中、日常利用中、技術プロトタイプ。状態を分けて、実物と設計判断を載せています。
@@ -113,11 +113,12 @@ export default function ProjectsPage() {
                   data-reveal-delay={String(index * 50)}
                   key={project.slug}
                 >
-                  <FullPageLink
-                    aria-label={`${project.name}の詳細を見る`}
-                    className="product-card-main"
-                    href={`/projects/${project.slug}`}
-                  >
+                  <div className="product-card-main">
+                    <FullPageLink
+                      aria-label={`${project.name}の詳細を見る`}
+                      className="product-card-overlay"
+                      href={`/projects/${project.slug}`}
+                    />
                     <div className="product-card-head">
                       <span>{project.number}</span>
                       <span>{project.category}</span>
@@ -127,7 +128,7 @@ export default function ProjectsPage() {
                       </span>
                     </div>
 
-                    <ProjectArtwork compact project={project} />
+                    <ProjectArtwork compact locale="ja" project={project} />
 
                     <div className="product-card-copy">
                       <h3>{project.name}</h3>
@@ -146,7 +147,7 @@ export default function ProjectsPage() {
                         />
                       </span>
                     </div>
-                  </FullPageLink>
+                  </div>
 
                   <a
                     className="product-card-repository"

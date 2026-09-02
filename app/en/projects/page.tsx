@@ -99,8 +99,8 @@ export default function EnglishProjectsPage() {
             <header className="products-list-heading" data-reveal="up">
               <p>Selected from public repositories</p>
               <h2 id="selected-products-title">
-                <span>Three products</span>
-                <span>worth opening.</span>
+                <span>Things I build,</span>
+                <span>and use.</span>
               </h2>
               <p>
                 A published tool, a system in daily use, and a technical
@@ -116,11 +116,12 @@ export default function EnglishProjectsPage() {
                   data-reveal-delay={String(index * 50)}
                   key={project.slug}
                 >
-                  <FullPageLink
-                    aria-label={`View ${project.name}`}
-                    className="product-card-main"
-                    href={`/en/projects/${project.slug}`}
-                  >
+                  <div className="product-card-main">
+                    <FullPageLink
+                      aria-label={`View ${project.name}`}
+                      className="product-card-overlay"
+                      href={`/en/projects/${project.slug}`}
+                    />
                     <div className="product-card-head">
                       <span>{project.number}</span>
                       <span>{project.category}</span>
@@ -129,7 +130,7 @@ export default function EnglishProjectsPage() {
                         {project.status}
                       </span>
                     </div>
-                    <ProjectArtwork compact project={project} />
+                    <ProjectArtwork compact locale="en" project={project} />
                     <div className="product-card-copy">
                       <h3>{project.name}</h3>
                       <p>{project.tagline}</p>
@@ -147,7 +148,7 @@ export default function EnglishProjectsPage() {
                         />
                       </span>
                     </div>
-                  </FullPageLink>
+                  </div>
                   <a
                     className="product-card-repository"
                     href={project.repositoryUrl}
