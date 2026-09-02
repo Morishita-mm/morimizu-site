@@ -15,6 +15,9 @@ const isCodexSeatbeltSandbox = process.env.CODEX_SANDBOX === 'seatbelt';
 const localBindingConfig = {
   main: 'vinext/server/fetch-handler',
   compatibility_flags: ['nodejs_compat'],
+  // Keep Worker preview URLs available for the private Cloudflare staging
+  // environment. Production continues to use the custom morimizu.dev domain.
+  preview_urls: true,
   d1_databases: d1
     ? [
         {

@@ -24,6 +24,19 @@ npm run build          # 記事同期と本番ビルド
 npm run deploy         # Cloudflareへデプロイ
 ```
 
+## Cloudflare開発用プレビュー
+
+`staging` ブランチへpushすると、Cloudflare Workersのバージョンプレビューへ自動アップロードされます。
+プレビューURLはCloudflare Accessでアカウントメンバーのみに制限しています。
+
+```text
+https://staging-morimizu-site.little-cell-dd48.workers.dev
+```
+
+本番へ反映する場合は、確認済みの変更を `main` へmerge/pushします。`main` のWorkflowだけが `morimizu.dev` へデプロイし、`staging` のWorkflowは本番を変更しません。
+
+詳しい運用と確認手順は [`docs/cloudflare-preview.md`](docs/cloudflare-preview.md) を参照してください。
+
 ## 記事の同期
 
 記事の正本は [`Morishita-mm/QiitaArticle`](https://github.com/Morishita-mm/QiitaArticle) です。`id` が付与され、`private: false` かつ `ignorePublish: false` の記事だけをビルドへ含めます。

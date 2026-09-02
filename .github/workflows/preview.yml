@@ -1,0 +1,76 @@
+name: Preview morimizu.dev on Cloudflare
+
+on:
+  push:
+    branches:
+      - staging
+  workflow_dispatch:
+    inputs:
+      articles_ref:
+        description: Published QiitaArticle commit SHA or ref
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: morimizu-preview
+  cancel-in-progress: true
+
+env:
+  PREVIEW_ALIAS: staging
+  PREVIEW_URL: https://staging-morimizu-site.little-cell-dd48.workers.dev
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out site
+        uses: actions/checkout@v7
+
+      - name: Check out published articles
+        uses: actions/checkout@v7
+        with:
+          repository: Morishita-mm/QiitaArticle
+          ref: ${{ inputs.articles_ref || vars.QIITA_ARTICLES_REF || 'main' }}
+          path: _qiita
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Sync public Qiita articles
+        env:
+          QIITA_ARTICLES_DIR: ${{ github.workspace }}/_qiita
+        run: npm run sync:articles
+
+      - name: Lint site source
+        run: npm run lint
+
+      - name: Build site with public Qiita articles
+        env:
+          QIITA_ARTICLES_DIR: ${{ github.workspace }}/_qiita
+        run: npm run build
+
+      - name: Upload private preview version
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: npx wrangler versions upload --config dist/server/wrangler.json --preview-alias "$PREVIEW_ALIAS"
+
+      - name: Publish preview URL
+        run: |
+          {
+            echo "## Cloudflare development preview"
+            echo
+            echo "$PREVIEW_URL"
+            echo
+            echo "Access is restricted to Cloudflare account members."
+          } >> "$GITHUB_STEP_SUMMARY"
