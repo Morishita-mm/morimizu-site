@@ -8,6 +8,7 @@ import {
   formatArticleDate,
   getRecentQiitaArticles,
 } from '@/lib/qiita-articles';
+import { TECH_INTERVIEWER_URL } from '@/lib/project-links';
 import { LINKEDIN_URL } from '@/lib/social-links';
 
 export default function EnglishHome() {
@@ -158,6 +159,20 @@ export default function EnglishHome() {
                     minutes without hints, then review the decisions and
                     trade-offs with AI.
                   </p>
+                  <div className="journal-project-links">
+                    <a
+                      href={TECH_INTERVIEWER_URL}
+                      rel="noreferrer"
+                      target="_blank"
+                    >
+                      Open the live app
+                      <ArrowUpRight
+                        aria-hidden="true"
+                        size={15}
+                        strokeWidth={1.6}
+                      />
+                    </a>
+                  </div>
                   <div className="journal-project-foot">
                     <span>Preparing for a public release</span>
                     <span>React Router / Firestore</span>

@@ -8,6 +8,7 @@ import {
   formatArticleDate,
   getRecentQiitaArticles,
 } from '@/lib/qiita-articles';
+import { TECH_INTERVIEWER_URL } from '@/lib/project-links';
 import { LINKEDIN_URL } from '@/lib/social-links';
 
 export default function Home() {
@@ -158,6 +159,20 @@ export default function Home() {
                     初めて見る設計課題に25分、ヒントなしで取り組みます。答えたあとに、
                     自分の判断やトレードオフをAIと振り返るためのアプリです。
                   </p>
+                  <div className="journal-project-links">
+                    <a
+                      href={TECH_INTERVIEWER_URL}
+                      rel="noreferrer"
+                      target="_blank"
+                    >
+                      実際のアプリを開く
+                      <ArrowUpRight
+                        aria-hidden="true"
+                        size={15}
+                        strokeWidth={1.6}
+                      />
+                    </a>
+                  </div>
                   <div className="journal-project-foot">
                     <span>いまは公開に向けて調整中です</span>
                     <span>React Router / Firestore</span>
