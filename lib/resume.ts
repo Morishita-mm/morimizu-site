@@ -213,7 +213,7 @@ export const RESUME_EN: PosterResumeData = {
     {
       period: '2025.08 - 2025.12',
       company:
-        'Airline Infrastructure: Modernization & Java Upgrade (UBEC Inc.)',
+        'Airline Infrastructure: Modernization & Java Upgrade (U-VEC Inc.)',
       role: 'Quality Assurance & Test Engineer',
       description: [
         'Executed 500+ integration test cases across local environments and AWS deployments following major Java runtime upgrade.',
@@ -223,7 +223,7 @@ export const RESUME_EN: PosterResumeData = {
     {
       period: '2025.04 - 2025.07',
       company:
-        'Full-Stack Web Engineering Intensive: Java & Spring Boot (UBEC Inc.)',
+        'Full-Stack Web Engineering Intensive: Java & Spring Boot (U-VEC Inc.)',
       role: 'Team Lead & Full Stack Developer',
       description: [
         'Engineered an e-commerce platform using Java and Spring Boot deployed to AWS, driving ~250 commits in 3 weeks as team lead and earning top evaluation.',
