@@ -76,7 +76,7 @@ export const RESUME_JA: PosterResumeData = {
   experiences: [
     {
       period: '2026.07 - Present',
-      company: '銀行預り物件管理システム開発',
+      company: '銀行預り物件管理システム開発（ディレクテック株式会社）',
       role: '業務アプリケーション開発',
       description: [
         '地方銀行の預り物件管理業務を支援する業務アプリケーションを開発。',
@@ -87,8 +87,8 @@ export const RESUME_JA: PosterResumeData = {
     {
       period: '2026.01 - Present',
       company:
-        '鉄道会社基盤システム リプレイス・新機能追加（株式会社ユーベック）',
-      role: 'Software Test & Verification Engineer',
+        '鉄道会社基盤システム リプレイス・新機能追加（ディレクテック株式会社）',
+      role: 'ソフトウェアテスト・検証エンジニア',
       description: [
         '開発フェーズ後半からテストフェーズにアサイン。仕様書レビュー、試験観点およびチェックリストの作成、Linux Server / Windows Server 上での機能試験・総合試験を担当。',
         '開発ツールが限られた環境下で、Python in Excelやマクロを活用してテストデータ作成プロセスを自動化・大幅に効率化。',
@@ -99,7 +99,7 @@ export const RESUME_JA: PosterResumeData = {
       period: '2025.08 - 2025.12',
       company:
         '航空会社基盤機能 老朽化対応・Javaバージョンアップ（株式会社ユーベック）',
-      role: 'Quality Assurance & Test Engineer',
+      role: '品質保証・テストエンジニア',
       description: [
         'Javaバージョンアップに伴う基盤機能・諸機能の更新検証。ローカル開発環境およびAWSテスト環境にて計500件以上のテストケースを実施。',
         '自動化が困難なエンドユーザー向け画面テストにおいて、テストエビデンスのフォーマット作成を簡略化・標準化して消化速度を他メンバー比1.5倍に向上。プロジェクト離任時点で最多テスト実施数を記録。',
@@ -109,7 +109,7 @@ export const RESUME_JA: PosterResumeData = {
       period: '2025.04 - 2025.07',
       company:
         '新人技術研修 / Java・Spring Webシステム開発（株式会社ユーベック）',
-      role: 'Team Lead & Full Stack Developer',
+      role: 'チームリーダー・フルスタック開発者',
       description: [
         'Java / Spring Boot を用いたECショッピングサイトの設計・実装およびAWSデプロイ。チームリーダーとして3週間で約250コミットを記録し最高水準の評価を獲得。',
         'GitHub Issues / Pull Request による課題・コードレビュー管理、コンフリクト解消を一手に担当。Git未経験メンバーへの技術指導および他チームの技術的課題解決にも貢献。',
@@ -191,7 +191,7 @@ export const RESUME_EN: PosterResumeData = {
   experiences: [
     {
       period: '2026.07 - Present',
-      company: 'Bank Custodied-Asset Management System Development',
+      company: 'Bank Custodied-Asset Management System Development (Directech Inc.)',
       role: 'Business Application Developer',
       description: [
         'Developing a business application for safekeeping-asset operations at a regional bank.',
@@ -202,7 +202,7 @@ export const RESUME_EN: PosterResumeData = {
     {
       period: '2026.01 - Present',
       company:
-        'Enterprise Railway Core System: Migration & Enhancement (UBEC Inc.)',
+        'Enterprise Railway Core System: Migration & Enhancement (Directech Inc.)',
       role: 'Software Test & Verification Engineer',
       description: [
         'Executed integration and functional testing across Linux and Windows Server platforms for railway core replacement.',
