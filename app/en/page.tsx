@@ -159,6 +159,10 @@ export default function EnglishHome() {
                     minutes without hints, then review the decisions and
                     trade-offs with AI.
                   </p>
+                  <div className="journal-project-foot">
+                    <span>Preparing for a public release</span>
+                    <span>React Router / Firestore</span>
+                  </div>
                   <div className="journal-project-links">
                     <a
                       href={TECH_INTERVIEWER_URL}
@@ -172,10 +176,6 @@ export default function EnglishHome() {
                         strokeWidth={1.6}
                       />
                     </a>
-                  </div>
-                  <div className="journal-project-foot">
-                    <span>Preparing for a public release</span>
-                    <span>React Router / Firestore</span>
                   </div>
                 </div>
               </article>

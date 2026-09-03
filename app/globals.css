@@ -2255,6 +2255,16 @@ nav a:hover::after,
   translate: 2px -2px;
 }
 
+.journal-project-card-featured .journal-project-foot {
+  padding-top: 0;
+  margin-top: 18px;
+  border-top: 0;
+}
+
+.journal-project-card-featured .journal-project-links {
+  margin-top: auto;
+}
+
 .journal-section-description {
   grid-column: 10 / -1;
   margin: 8px 0 0;
