@@ -8,6 +8,11 @@
   "scripts": {
     "predev": "npm run sync:articles",
     "dev": "vinext dev",
+    "dev:workshop": "vite --config dev-pages/workshop/vite.config.ts --host 127.0.0.1 --port 3002 --strictPort",
+    "predev:workshop": "node dev-pages/workshop/sync-qiita-likes.mjs",
+    "prebuild:workshop": "node dev-pages/workshop/sync-qiita-likes.mjs",
+    "sync:workshop-likes": "node dev-pages/workshop/sync-qiita-likes.mjs --force",
+    "build:workshop": "vite build --config dev-pages/workshop/vite.config.ts",
     "prebuild": "npm run sync:articles",
     "build": "vinext build",
     "start": "wrangler dev --config dist/server/wrangler.json",

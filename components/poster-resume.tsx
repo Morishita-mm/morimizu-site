@@ -1,4 +1,5 @@
 import { ChevronDown, Mail, MapPin } from 'lucide-react';
+import type { ReactNode } from 'react';
 import type { PosterResumeData } from '@/lib/resume';
 import { MizuGlyph } from '@/components/mizu-glyph';
 import { PrintButton } from '@/components/print-button';
@@ -27,9 +28,11 @@ function getContactIcon(label: string) {
 export function PosterResumeView({
   data,
   locale = 'ja',
+  siteIcon,
 }: {
   data: PosterResumeData;
   locale?: 'ja' | 'en';
+  siteIcon?: ReactNode;
 }) {
   const isEn = locale === 'en';
 
@@ -46,7 +49,7 @@ export function PosterResumeView({
         {/* Left Column: Site Glyph + 01 CONTACTS */}
         <aside className="poster-sidebar">
           <div aria-hidden="true" className="poster-graphic-container">
-            <MizuGlyph className="poster-brand-glyph" />
+            {siteIcon ?? <MizuGlyph className="poster-brand-glyph" />}
           </div>
 
           <section className="poster-section">
@@ -59,7 +62,9 @@ export function PosterResumeView({
                 <li className="poster-contact-item" key={contact.label}>
                   <span className="poster-contact-label">
                     <span aria-hidden="true" className="poster-contact-icon">
-                      {getContactIcon(contact.label)}
+                      {contact.label.toUpperCase() === 'WEBSITE' && siteIcon
+                        ? siteIcon
+                        : getContactIcon(contact.label)}
                     </span>
                     <span>{contact.label}</span>
                   </span>
