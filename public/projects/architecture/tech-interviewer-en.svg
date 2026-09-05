@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Architecture Diagnostic system architecture</title>
+  <desc id="desc">Candidate workspace, deterministic progression with AI boundary, and objective diagnostic report with automatic retention.</desc>
+  <defs>
+    <marker id="arrow-jade" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M1 1L9 5L1 9" fill="none" stroke="#327871" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <style>
+      .sans{font-family:-apple-system,BlinkMacSystemFont,"Noto Sans JP","Hiragino Sans",sans-serif}.serif{font-family:Georgia,"Times New Roman",serif}.mono{font-family:"SFMono-Regular",Consolas,"Liberation Mono",monospace}.ink{fill:#17241e}.soft{fill:#536159}.jade{fill:#327871}.rule{stroke:#17241e;stroke-opacity:.18;stroke-width:1}.surface{fill:#fbfaf5;stroke:#17241e;stroke-opacity:.22;stroke-width:1.5}.accent{fill:#eaf1ec;stroke:#327871;stroke-width:2}.nodeTitle{font-size:23px;font-weight:600}.nodeSub{font-size:14.5px;line-height:1.6}.micro{font-size:13px;letter-spacing:.12em}.flow{fill:none;stroke:#327871;stroke-width:2.5;stroke-linecap:round;marker-end:url(#arrow-jade)}
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1600" height="900" fill="#f4f1e8"/>
+  <circle cx="1480" cy="100" r="90" fill="none" stroke="#327871" stroke-opacity=".08" stroke-width="2"/>
+  <circle cx="1480" cy="100" r="40" fill="none" stroke="#327871" stroke-opacity=".12" stroke-width="2"/>
+
+  <!-- Header -->
+  <g class="mono micro soft">
+    <text x="80" y="52">01 / SYSTEM ARCHITECTURE</text>
+    <text x="1520" y="52" text-anchor="end">ARCHITECTURE DIAGNOSTIC / SYSTEM OVERVIEW</text>
+  </g>
+  <line x1="80" y1="74" x2="1520" y2="74" class="rule"/>
+
+  <text x="80" y="165" class="serif ink" font-size="88" font-weight="500">Architecture Diagnostic</text>
+  <text x="82" y="212" class="sans jade" font-size="22" font-weight="500">Diagnosing architectural reasoning and trade-off rationale beyond textbook answers.</text>
+
+  <!-- COLUMN 1: Candidate Workspace -->
+  <g transform="translate(80 270)">
+    <text x="0" y="0" class="mono micro jade">01 / CANDIDATE WORKSPACE</text>
+    <rect x="0" y="24" width="420" height="500" rx="14" class="surface"/>
+
+    <!-- Step 1: Hearing & Canvas -->
+    <rect x="28" y="56" width="364" height="180" rx="10" fill="#ffffff" stroke="#17241e" stroke-opacity=".12" stroke-width="1.2"/>
+    <text x="50" y="100" class="sans ink nodeTitle">Requirements &amp; Canvas</text>
+    <text x="50" y="136" class="sans soft nodeSub">Probe the AI interviewer for latent assumptions,</text>
+    <text x="50" y="164" class="sans soft nodeSub">then assemble initial system architecture.</text>
+    <text x="50" y="200" class="mono jade" font-size="13">25-min Focused Session</text>
+
+    <!-- Step 2: Evidence Lock -->
+    <rect x="28" y="270" width="364" height="210" rx="10" class="accent"/>
+    <text x="50" y="320" class="sans jade nodeTitle">Evidence Lock</text>
+    <text x="50" y="360" class="sans ink nodeSub">Immutably commit candidate answers.</text>
+    <text x="50" y="392" class="sans soft nodeSub">Freezes initial rationale before injecting</text>
+    <text x="50" y="420" class="sans soft nodeSub">sudden 10x traffic surge constraints.</text>
+    <text x="50" y="456" class="mono jade" font-size="13">Gate for Objective Evaluation</text>
+  </g>
+
+  <!-- Arrow 1 -> 2 -->
+  <path d="M500 520 L585 520" class="flow"/>
+
+  <!-- COLUMN 2: Progression & Safety Boundary -->
+  <g transform="translate(590 270)">
+    <text x="0" y="0" class="mono micro jade">02 / STATE &amp; SAFETY BOUNDARY</text>
+    <rect x="0" y="24" width="420" height="500" rx="14" class="surface"/>
+
+    <!-- Deterministic Engine -->
+    <rect x="28" y="56" width="364" height="180" rx="10" fill="#ffffff" stroke="#17241e" stroke-opacity=".12" stroke-width="1.2"/>
+    <text x="50" y="100" class="sans ink nodeTitle">Deterministic State Machine</text>
+    <text x="50" y="136" class="sans soft nodeSub">Progression and state gates are strictly</text>
+    <text x="50" y="164" class="sans soft nodeSub">governed by programmatic rules.</text>
+    <text x="50" y="200" class="mono jade" font-size="13">Prevents AI Divergence &amp; Hallucinations</text>
+
+    <!-- Budget & AI Authority -->
+    <rect x="28" y="270" width="364" height="210" rx="10" class="accent"/>
+    <text x="50" y="320" class="sans jade nodeTitle">Budget &amp; AI Execution Boundary</text>
+    <text x="50" y="360" class="sans ink nodeSub">Hard per-session cost ceiling enforced.</text>
+    <text x="50" y="392" class="sans soft nodeSub">Decoupled from specific model providers,</text>
+    <text x="50" y="420" class="sans soft nodeSub">physically preventing runaway billing spikes.</text>
+    <text x="50" y="456" class="mono jade" font-size="13">Fail-Closed Safety Guarantee</text>
+  </g>
+
+  <!-- Arrow 2 -> 3 -->
+  <path d="M1010 520 L1095 520" class="flow"/>
+
+  <!-- COLUMN 3: Objective Report & Retention -->
+  <g transform="translate(1100 270)">
+    <text x="0" y="0" class="mono micro jade">03 / OBJECTIVE DIAGNOSIS</text>
+    <rect x="0" y="24" width="420" height="500" rx="14" class="surface"/>
+
+    <!-- Core Report -->
+    <rect x="28" y="56" width="364" height="210" rx="10" class="accent"/>
+    <text x="50" y="104" class="sans jade nodeTitle">6-Axis Baseline Report</text>
+    <text x="50" y="144" class="sans ink nodeSub">Eliminates sycophancy and false praise.</text>
+    <text x="50" y="176" class="sans soft nodeSub">Displays grounded positive &amp; counter evidence</text>
+    <text x="50" y="204" class="sans soft nodeSub">for requirements, trade-offs, and resilience.</text>
+    <text x="50" y="240" class="mono jade" font-size="13">Calibrated against Fixed Benchmarks</text>
+
+    <!-- 30-Day Auto Retention -->
+    <rect x="28" y="296" width="364" height="184" rx="10" fill="#ffffff" stroke="#17241e" stroke-opacity=".12" stroke-width="1.2"/>
+    <text x="50" y="340" class="sans ink nodeTitle">30-Day Auto Retention (TTL)</text>
+    <text x="50" y="376" class="sans soft nodeSub">All diagnostic data automatically deleted</text>
+    <text x="50" y="404" class="sans soft nodeSub">after 30 days. No permanent candidate data</text>
+    <text x="50" y="432" class="sans soft nodeSub">stored, safeguarding privacy.</text>
+    <text x="50" y="462" class="mono jade" font-size="13">Privacy-First Architecture</text>
+  </g>
+</svg>

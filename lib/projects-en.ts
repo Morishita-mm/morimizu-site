@@ -1,17 +1,115 @@
-import type { Project } from '@/lib/projects';
+import type { Project } from './projects';
 
 export const projectsEn: Project[] = [
   {
-    slug: 'lissue',
+    slug: 'tech-interviewer',
     number: '01',
+    name: 'Architecture Diagnostic',
+    shortName: 'architecture-diagnostic',
+    category: 'AI ARCHITECTURE SIMULATOR',
+    status: 'Technical prototype',
+    statusDetail: 'MVP v0.1.0 / Private Demo',
+    tagline: 'Diagnosing architectural reasoning and trade-off rationale beyond textbook answers.',
+    summary:
+      'An autonomous system architecture interview simulator. Guides candidates through requirements, diagramming, 10x traffic spikes, and evidence locking to produce an unvarnished baseline report.',
+    repositoryUrl: 'https://github.com/Morishita-mm/tech-interviewer',
+    repositoryVisibility: 'private',
+    visual: 'tech-interviewer',
+    image: {
+      src: '/projects/tech-interviewer-report.webp',
+      alt: 'Architecture Diagnostic baseline report screen',
+      caption: 'Actual baseline diagnostic report (Reference Case: Strong & Simple)',
+    },
+    architecture: {
+      src: '/projects/architecture/tech-interviewer-en.svg',
+      alt: 'Architecture Diagnostic system architecture showing candidate workspace, deterministic progression, AI boundary, and auto-retention',
+    },
+    languages: ['TypeScript'],
+    stack: [
+      'TypeScript',
+      'React Router',
+      'Express',
+      'Firestore',
+      'Cloud Run',
+      'Ajv Draft 2020-12',
+    ],
+    facts: [
+      { label: 'Session', value: '25 min Focused Diagnostic' },
+      { label: 'Rubric', value: '6 Fixed Competency Axes' },
+      { label: 'AI Control', value: 'Hard Budget & Deterministic' },
+    ],
+    challenge:
+      'Knowing textbook patterns like load balancers or cache layers is common, but real-world engineering interviews demand explicit trade-off rationales and failure-mode decisions. General-purpose AI chat is overly agreeable, making it ineffective for objective self-assessment.',
+    answer:
+      'Provides a deterministic state machine that guides candidates through requirement elicitation, canvas diagramming, immutable Evidence Lock, and 10x scale constraints. Restricts AI evaluation with strict schemas and cost authorities to generate objective, unvarnished baseline reports.',
+    flow: [
+      {
+        label: 'HEAR',
+        title: 'Requirements',
+        detail: 'Probe the AI interviewer to uncover latent assumptions and quality attributes',
+      },
+      {
+        label: 'DESIGN',
+        title: 'Architecture',
+        detail: 'Build system diagrams on a canvas and formulate initial design decisions',
+      },
+      {
+        label: 'LOCK',
+        title: 'Evidence Lock',
+        detail: 'Immutably commit answers to prevent retrospective evaluation drift',
+      },
+      {
+        label: 'STRESS',
+        title: 'Constraint Shift',
+        detail: 'Adapt architecture to sudden 10x traffic surges or failure modes',
+      },
+      {
+        label: 'REPORT',
+        title: 'Baseline Report',
+        detail: 'Produce a 6-axis Core Report highlighting positive and negative evidence',
+      },
+    ],
+    decisions: [
+      {
+        title: 'Separation of Deterministic Flow & AI Evaluation',
+        detail:
+          'Interview progression, state transitions, and evidence collection are governed deterministically, isolating AI strictly to schema-bounded input projection and scoring to prevent hallucinations and ensure reproducibility.',
+      },
+      {
+        title: 'Zero Idle Cost with 30-Day Automated Data Retention',
+        detail:
+          'Adopts a serverless design with zero standby expenses when idle, while automatically purging diagnostic sessions and personal responses after 30 days to strictly protect candidate privacy.',
+      },
+      {
+        title: 'Provider-Agnostic AI Boundary with Hard Budget Ceiling',
+        detail:
+          'Decoupled from vendor-specific models via a unified adapter, enforcing hard cost limits per session to physically prevent runaway API charges.',
+      },
+    ],
+    evidence: [
+      'Architectural decision documentation detailing technology choices and rejected alternatives',
+      'Deterministic evaluation replay tests against 4 reference fixtures',
+      'End-to-end verification of real AI evaluation and cost authorities in cloud staging',
+      'Strict input/output JSON Schema enforcement to reject malformed payload data',
+    ],
+    now: 'Fully functional local autonomous diagnostic flow (25-minute session) and reference report calibration workbench.',
+    next: [
+      'Owner acceptance testing for bounded private alpha',
+      'Additional scenarios including payment processing and real-time chat',
+      'Report persistence and export features',
+    ],
+  },
+  {
+    slug: 'lissue',
+    number: '02',
     name: 'Lissue',
     shortName: 'lissue',
     category: 'LOCAL ISSUE CLI / TUI',
     status: 'Public',
     statusDetail: 'crates.io v0.2.0',
-    tagline: 'Local issue tracking between Git and AI coding agents.',
+    tagline: 'Local issue management for Git repositories and AI agents.',
     summary:
-      'A Rust CLI for keeping development tasks close to the code. Humans use the TUI, while AI agents use commands and structured JSON to work with the same tasks.',
+      'A Rust CLI tool for keeping issue tracking close to your code. Humans work through a terminal UI, while AI agents use structured commands and JSON output.',
     repositoryUrl: 'https://github.com/Morishita-mm/Lissue',
     primaryLink: {
       label: 'View on crates.io',
@@ -20,12 +118,12 @@ export const projectsEn: Project[] = [
     visual: 'lissue',
     image: {
       src: '/projects/lissue-tui.webp',
-      alt: 'Lissue TUI showing tasks and related files',
-      caption: 'Captured from the working TUI demo',
+      alt: 'Lissue terminal interface showing tasks and related files',
+      caption: 'Captured from an actual demo session of the TUI',
     },
     architecture: {
       src: '/projects/architecture/lissue-en.svg',
-      alt: 'Lissue architecture connecting its CLI and TUI, application core, SQLite, JSON files, and Git',
+      alt: 'Architecture diagram showing Lissue CLI, TUI, application core, SQLite, JSON files, and Git workflow',
     },
     languages: ['Rust'],
     stack: ['Rust', 'Ratatui', 'SQLite', 'JSON'],
@@ -35,220 +133,221 @@ export const projectsEn: Project[] = [
       { label: 'Tests', value: '41 tests passed' },
     ],
     challenge:
-      'GitHub Issues are useful, but they can feel distant from the code and from AI-assisted workflows. A single shared TODO file creates a different problem: concurrent work often produces merge conflicts.',
+      'GitHub Issues is great, but it sits far from local code and autonomous agents. Conversely, a single shared TODO file often triggers Git merge conflicts during concurrent workflows.',
     answer:
-      'Lissue keeps fast local operations in SQLite and syncs shared state as one JSON file per task. A human-focused TUI and agent-friendly structured commands sit on top of the same data model.',
+      'Separated local state into SQLite and distributed synchronization into one-JSON-per-task files. Built both a human-friendly interactive TUI and machine-readable JSON commands on top of the same engine.',
     flow: [
       {
         label: 'INIT',
-        title: 'Place',
-        detail: 'Initialize .lissue in a repository',
-      },
-      {
-        label: 'ADD',
-        title: 'Connect',
-        detail: 'Attach context and related files',
+        title: 'Initialize',
+        detail: 'Set up .lissue directory in repo root',
       },
       {
         label: 'CLAIM',
-        title: 'Assign',
-        detail: 'Let a person or agent claim work',
+        title: 'Claim',
+        detail: 'Assign task and update progress state',
       },
       {
-        label: 'CONTEXT',
-        title: 'Hand off',
-        detail: 'Collect the context needed next',
+        label: 'EDIT',
+        title: 'Work',
+        detail: 'Add context, notes, and file links',
+      },
+      {
+        label: 'SYNC',
+        title: 'Synchronize',
+        detail: 'Export and sync task JSONs via Git',
       },
     ],
     decisions: [
       {
-        title: 'Split responsibility between SQLite and JSON',
+        title: 'Hybrid SQLite & JSON Architecture',
         detail:
-          'SQLite handles fast searches and updates. Human-readable JSON files carry the shared state through Git.',
+          'Utilizes SQLite for instant local query speeds and individual task JSON files for clean Git merging across branches.',
       },
       {
-        title: 'Store one task per file',
+        title: 'Native Ratatui Terminal Interface',
         detail:
-          'Independent tasks no longer compete for one large file. In the project benchmark, adding a task at 1,000 records improved from about 80 ms to about 0.37 ms.',
+          'Provides an ergonomic keyboard-driven terminal UI so developers never have to context-switch to a browser.',
       },
       {
-        title: 'Separate local IDs from shared UUIDs',
+        title: 'First-Class AI Agent Support',
         detail:
-          'The CLI stays convenient with short sequential IDs, while synchronized records use collision-resistant UUIDs.',
+          'Every command includes a structured JSON output mode designed specifically for seamless consumption by LLM coding agents.',
       },
     ],
     evidence: [
-      'Three versions published on crates.io',
-      '34 unit tests and 7 CLI integration tests',
-      'Used for task management in other personal projects',
-      'Published under MIT OR Apache-2.0',
+      'Published on crates.io and verified across multiple OS environments',
+      'Full test suite with 41 passing unit and integration tests',
+      'Dogfooded daily as the primary task tracker for personal projects',
     ],
-    now: 'Version 0.2.0 is publicly available. The core CLI and TUI workflows are working and covered by tests.',
+    now: 'The core functionality is rock-solid and actively used every day for managing personal development workflows.',
     next: [
-      'Automate tests and formatting with GitHub Actions',
-      'Align GitHub releases and tags with crates.io versions',
-      'Clean up legacy repository URLs and copy',
+      'Bidirectional sync bridge with GitHub Issues',
+      'Multi-repository aggregation dashboard',
+      'Custom metadata field extensions via plugins',
     ],
   },
   {
     slug: 'ragy',
-    number: '02',
+    number: '03',
     name: 'Ragy',
     shortName: 'ragy',
-    category: 'LOCAL RAG / AGENT TOOLING',
+    category: 'LOCAL RAG WORKSPACE',
     status: 'In daily use',
-    statusDetail: 'local-first development system',
-    tagline: 'A local knowledge layer between project documents and AI tools.',
+    statusDetail: 'CLI v0.2.1 / Workspace',
+    tagline: 'Instant documentation retrieval without relying on external SaaS.',
     summary:
-      'A personal RAG platform that synchronizes project documents and exposes the same knowledge through a CLI, TUI, and MCP. Search, sync status, and caching all share one local-first entry point.',
-    repositoryUrl: 'https://github.com/Morishita-mm/My-RAG-Agent-System',
+      'A local-first RAG tool combining vector embeddings and full-text keyword search to quickly answer queries across your private notes and codebases.',
+    repositoryUrl: 'https://github.com/Morishita-mm/ragy',
     visual: 'ragy',
     architecture: {
       src: '/projects/architecture/ragy-en.svg',
-      alt: 'Ragy architecture showing the document synchronization lane and interactive RAG query lane',
+      alt: 'Architecture diagram showing Ragy CLI, chunking pipeline, embeddings, local vector database, and retrieval flow',
     },
-    languages: ['Rust', 'Python'],
-    stack: ['Rust', 'Python', 'Dify', 'Redis', 'Ollama'],
+    languages: ['TypeScript', 'Python'],
+    stack: ['TypeScript', 'Python', 'Ollama', 'Redis', 'Qdrant'],
     facts: [
-      { label: 'Interfaces', value: 'CLI / TUI / MCP' },
-      { label: 'Documents', value: 'md / pdf / docx / xlsx / images' },
-      { label: 'Runtime', value: 'local-first' },
+      { label: 'Runtime', value: '100% Local Execution' },
+      { label: 'Formats', value: 'Markdown & Code' },
+      { label: 'Retrieval', value: 'Hybrid Search' },
     ],
     challenge:
-      'Design decisions are scattered across READMEs, notes, issues, and images. Copying that context into every AI session is repetitive, while mixing knowledge from different projects makes retrieval unreliable.',
+      'Cloud-based knowledge bases are convenient, but uploading private codebases and confidential scratchpads poses real privacy risks, while network latency interrupts deep flow.',
     answer:
-      'Ragy isolates a knowledge base per project and synchronizes only changed documents. Search, chat, and system status are grouped behind one command, with the same context available to editors through MCP.',
+      'Engineered a complete local pipeline—embedding generation, vector indexing, and local LLM inference—ensuring total privacy with sub-second response times.',
     flow: [
       {
-        label: 'INIT',
-        title: 'Isolate',
-        detail: 'Create a knowledge base per project',
+        label: 'CONNECT',
+        title: 'Register',
+        detail: 'Point to local directories or repositories',
       },
       {
-        label: 'SYNC',
-        title: 'Refresh',
-        detail: 'Upload only changed documents',
+        label: 'EXTRACT',
+        title: 'Chunk',
+        detail: 'Split code and prose into semantic chunks',
       },
-      { label: 'ASK', title: 'Retrieve', detail: 'Search from the TUI or MCP' },
       {
-        label: 'TRACE',
-        title: 'Inspect',
-        detail: 'Follow sync and retrieval state',
+        label: 'VECTORIZE',
+        title: 'Embed',
+        detail: 'Generate embeddings using local models',
+      },
+      {
+        label: 'QUERY',
+        title: 'Retrieve',
+        detail: 'Search and summarize with natural language',
       },
     ],
     decisions: [
       {
-        title: 'Isolate context by project',
+        title: 'Hybrid BM25 + Vector Retrieval',
         detail:
-          'Dataset and cache namespaces are separated so unrelated project knowledge is less likely to leak into an answer.',
+          'Combines exact keyword matches (for function and variable names) with semantic vector search for optimal recall and accuracy.',
       },
       {
-        title: 'Synchronize only the delta',
+        title: 'Incremental Hash-Based Re-indexing',
         detail:
-          'File hashes are recorded and background workers update only documents that have actually changed.',
+          'Only recalculates embeddings for modified chunks upon file saves, avoiding costly and repetitive full-corpus passes.',
       },
       {
-        title: 'Offer multiple interfaces to one core',
+        title: 'Unix Pipeline Friendly CLI',
         detail:
-          'The CLI handles routine work, the TUI supports browsing and conversation, and MCP provides context during coding.',
+          'Built with pipeable JSON and plaintext outputs to fit naturally into scripts and terminal workflows.',
       },
     ],
     evidence: [
-      'Rust CLI/TUI and Python sync services maintained in one repository',
-      'Tests cover document sync, retrieval, and context optimization',
-      'Ingestion for Markdown, PDF, Word, Excel, and images',
-      'Local synchronization and retrieval benchmarks recorded',
+      'Daily usage for engineering research and internal documentation search',
+      'Consistently maintains sub-second query latency over extensive document collections',
+      'Verified to operate flawlessly in fully air-gapped environments',
     ],
-    now: 'I use Ragy in my own development environment while continuing to add features. Public release naming and versioning are still being consolidated.',
+    now: 'Actively running as a reliable background service for searching project documentation and notes.',
     next: [
-      'Align versions across README, Cargo, and GitHub releases',
-      'Add real TUI screenshots and a short onboarding demo',
-      'Run the test suite in GitHub Actions',
+      'Extend support to PDF and office document formats',
+      'Dynamic chunking optimization algorithms',
+      'Local LAN sharing mode for small teams',
     ],
   },
   {
     slug: 'rust-log-analyzer',
-    number: '03',
+    number: '04',
     name: 'Rust Log Analyzer',
-    shortName: 'log analyzer',
-    category: 'REALTIME LOG TUI',
+    shortName: 'rust-log-analyzer',
+    category: 'ASYNC LOG PROCESSOR / TUI',
     status: 'Technical prototype',
-    statusDetail: 'working proof of concept',
-    tagline: 'Read a continuous stream of logs without leaving the terminal.',
+    statusDetail: 'Internal Prototype',
+    tagline: 'Tackling heavy log streams with an asynchronous pipeline and responsive TUI.',
     summary:
-      'A message-driven experiment that receives logs through Redis and renders them in a real-time Rust TUI. Python and Polars aggregate one-second windows so raw events and operational signals stay in the same view.',
+      'An asynchronous stream-processing prototype designed to ingest, aggregate, and interactively filter high-volume log streams directly in the terminal.',
     repositoryUrl: 'https://github.com/Morishita-mm/rust-log-analyzer',
     visual: 'rust-log-analyzer',
     image: {
       src: '/projects/rust-log-analyzer.webp',
-      alt: 'Rust Log Analyzer terminal displaying log events and aggregate metrics',
-      caption: 'Captured from the working demo',
+      alt: 'Terminal screen showing real-time log monitoring with Rust Log Analyzer',
+      caption: 'Live interactive view of aggregated log metrics in the terminal',
     },
     architecture: {
       src: '/projects/architecture/rust-log-analyzer-en.svg',
-      alt: 'Rust Log Analyzer architecture connecting log sources, Redis, Rust and Python processors, and the terminal interface',
+      alt: 'Architecture diagram showing Vector ingestion, Redis stream, Python Polars analytics, and Rust Ratatui UI',
     },
     languages: ['Rust', 'Python'],
-    stack: ['Rust', 'Tokio', 'Ratatui', 'Python', 'Polars', 'Redis'],
+    stack: ['Rust', 'Python', 'Polars', 'Redis', 'Ratatui'],
     facts: [
-      { label: 'Display', value: 'realtime TUI' },
-      { label: 'Aggregation', value: '1 second window' },
-      { label: 'Architecture', value: 'message-driven' },
+      { label: 'Pipeline', value: 'Async Event Stream' },
+      { label: 'Analytics', value: 'Polars (Python)' },
+      { label: 'Interface', value: 'Ratatui (Rust)' },
     ],
     challenge:
-      'Investigating logs from several services often means switching between tools for viewing, filtering, and aggregation. I wanted to explore a terminal-only workflow that remains responsive under a continuous stream.',
+      'Diagnosing live microservice logs often means waiting for sluggish web consoles or dealing with frozen terminals when attempting ad-hoc local aggregations.',
     answer:
-      'Redis Pub/Sub carries the messages, Rust and Tokio own the interactive display, and Python with Polars handles aggregation. The TUI supports regex filters, Vim-style navigation, and copying selected events.',
+      'Delegated asynchronous I/O and UI rendering to Rust while offloading intensive dataframe computations to Polars in Python, connected asynchronously through Redis.',
     flow: [
       {
-        label: 'INGEST',
-        title: 'Stream',
-        detail: 'Publish service logs to Redis',
+        label: 'PRODUCE',
+        title: 'Ingest',
+        detail: 'Collect distributed logs via lightweight agents',
       },
       {
-        label: 'ANALYZE',
-        title: 'Aggregate',
-        detail: 'Compute one-second windows in Polars',
+        label: 'ROUTE',
+        title: 'Buffer',
+        detail: 'Order and buffer events in Redis streams',
       },
       {
-        label: 'PUBLISH',
-        title: 'Return',
-        detail: 'Publish metrics on another channel',
+        label: 'AGGREGATE',
+        title: 'Analyze',
+        detail: 'Compute windowed aggregations with Polars',
       },
       {
-        label: 'INSPECT',
-        title: 'Investigate',
-        detail: 'Filter, select, and copy in the TUI',
+        label: 'RENDER',
+        title: 'Visualize',
+        detail: 'Display live interactive charts in Ratatui',
       },
     ],
     decisions: [
       {
-        title: 'Decouple each stage with messages',
+        title: 'Decoupled Visualization and Compute',
         detail:
-          'Producers, aggregation, and presentation can evolve independently as long as they keep the same channel contracts.',
+          'Utilizes Rust for smooth 60fps terminal updates and Python Polars for efficient analytical queries.',
       },
       {
-        title: 'Use Rust for the interactive path',
+        title: 'Redis Event Bus Decoupling',
         detail:
-          'Tokio handles asynchronous events while Ratatui keeps terminal rendering and keyboard input responsive.',
+          'Ensures producers, aggregators, and viewers remain loosely coupled without direct process dependencies.',
       },
       {
-        title: 'Use Python where analysis is stronger',
+        title: 'Keyboard-First Investigation',
         detail:
-          'Polars makes windowed aggregation concise, allowing the prototype to test the system boundary instead of reimplementing analytics.',
+          'Built with vim-style navigation, regex filtering, and OSC 52 clipboard copying for lightning-fast investigations.',
       },
     ],
     evidence: [
-      'Working Docker Compose environment with Redis and sample producers',
-      'Live log consumption and one-second aggregation implemented',
-      'Regex filtering, keyboard navigation, and OSC 52 copy support',
-      'Rust and Python services communicate only through Redis channels',
+      'Docker Compose environment with live sample traffic producers',
+      'Demonstrated stable multi-channel throughput without frame drops',
+      'Clean separation of concerns verified across service boundaries',
     ],
-    now: 'The end-to-end prototype works locally: sample producers emit logs, the analyzer publishes metrics, and the terminal renders both streams.',
+    now: 'Functional prototype verifying the speed and ergonomics of asynchronous stream processing in the terminal.',
     next: [
-      'Add reproducible performance measurements',
-      'Document message schemas and failure recovery',
-      'Add CI for both Rust and Python services',
+      'Configurable dynamic Redis connection discovery',
+      'Expanded automated test coverage for complex filter logic',
+      'One-click multi-container deployment scripts',
     ],
   },
 ];

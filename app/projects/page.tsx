@@ -144,20 +144,27 @@ export default function ProjectsPage() {
                     </div>
                   </div>
 
-                  <a
-                    className="product-card-repository"
-                    href={project.repositoryUrl}
-                    rel="noreferrer"
-                    target="_blank"
-                  >
-                    <GitFork aria-hidden="true" size={14} strokeWidth={1.6} />
-                    GitHub
-                    <ArrowUpRight
-                      aria-hidden="true"
-                      size={14}
-                      strokeWidth={1.6}
-                    />
-                  </a>
+                  {project.repositoryVisibility === 'private' ? (
+                    <span className="product-card-repository is-private">
+                      <GitFork aria-hidden="true" size={14} strokeWidth={1.6} />
+                      リポジトリ非公開
+                    </span>
+                  ) : (
+                    <a
+                      className="product-card-repository"
+                      href={project.repositoryUrl}
+                      rel="noreferrer"
+                      target="_blank"
+                    >
+                      <GitFork aria-hidden="true" size={14} strokeWidth={1.6} />
+                      GitHub
+                      <ArrowUpRight
+                        aria-hidden="true"
+                        size={14}
+                        strokeWidth={1.6}
+                      />
+                    </a>
+                  )}
                 </article>
               ))}
             </div>

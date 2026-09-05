@@ -121,19 +121,26 @@ export default async function EnglishProjectPage({ params }: ProjectPageProps) {
                     />
                   </a>
                 ) : null}
-                <a
-                  href={project.repositoryUrl}
-                  rel="noreferrer"
-                  target="_blank"
-                >
-                  <GitFork aria-hidden="true" size={14} strokeWidth={1.6} />
-                  View on GitHub
-                  <ArrowUpRight
-                    aria-hidden="true"
-                    size={14}
-                    strokeWidth={1.7}
-                  />
-                </a>
+                {project.repositoryVisibility === 'private' ? (
+                  <span className="product-detail-private-badge">
+                    <GitFork aria-hidden="true" size={14} strokeWidth={1.6} />
+                    Private Repository (Preview)
+                  </span>
+                ) : (
+                  <a
+                    href={project.repositoryUrl}
+                    rel="noreferrer"
+                    target="_blank"
+                  >
+                    <GitFork aria-hidden="true" size={14} strokeWidth={1.6} />
+                    View on GitHub
+                    <ArrowUpRight
+                      aria-hidden="true"
+                      size={14}
+                      strokeWidth={1.7}
+                    />
+                  </a>
+                )}
               </div>
             </div>
 
@@ -218,7 +225,11 @@ export default async function EnglishProjectPage({ params }: ProjectPageProps) {
                 <p>THE WORKFLOW</p>
                 <h2 id="flow-title">From input to the next decision.</h2>
               </header>
-              <ol className="product-flow-list" data-reveal="up">
+              <ol
+                className="product-flow-list"
+                data-reveal="up"
+                style={{ '--flow-columns': project.flow.length } as React.CSSProperties}
+              >
                 {project.flow.map((step, index) => (
                   <li key={step.label}>
                     <span>{String(index + 1).padStart(2, '0')}</span>
@@ -291,18 +302,25 @@ export default async function EnglishProjectPage({ params }: ProjectPageProps) {
                 </ul>
               </div>
               <div className="product-detail-bottom-links">
-                <a
-                  href={project.repositoryUrl}
-                  rel="noreferrer"
-                  target="_blank"
-                >
-                  View the code on GitHub
-                  <ArrowUpRight
-                    aria-hidden="true"
-                    size={15}
-                    strokeWidth={1.7}
-                  />
-                </a>
+                {project.repositoryVisibility === 'private' ? (
+                  <span className="product-detail-private-badge">
+                    <GitFork aria-hidden="true" size={14} strokeWidth={1.6} />
+                    Private Repository (Preview)
+                  </span>
+                ) : (
+                  <a
+                    href={project.repositoryUrl}
+                    rel="noreferrer"
+                    target="_blank"
+                  >
+                    View the code on GitHub
+                    <ArrowUpRight
+                      aria-hidden="true"
+                      size={15}
+                      strokeWidth={1.7}
+                    />
+                  </a>
+                )}
                 <FullPageLink href={`/en/projects/${nextProject.slug}`}>
                   Next product: {nextProject.name}
                   <ArrowUpRight

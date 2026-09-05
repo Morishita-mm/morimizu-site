@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Architecture Diagnostic system architecture</title>
+  <desc id="desc">Candidate workspace, deterministic progression with AI boundary, and objective diagnostic report with automatic retention.</desc>
+  <defs>
+    <marker id="arrow-jade" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M1 1L9 5L1 9" fill="none" stroke="#327871" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <style>
+      .sans{font-family:-apple-system,BlinkMacSystemFont,"Noto Sans JP","Hiragino Sans",sans-serif}.serif{font-family:Georgia,"Times New Roman",serif}.mono{font-family:"SFMono-Regular",Consolas,"Liberation Mono",monospace}.ink{fill:#17241e}.soft{fill:#536159}.jade{fill:#327871}.rule{stroke:#17241e;stroke-opacity:.18;stroke-width:1}.surface{fill:#fbfaf5;stroke:#17241e;stroke-opacity:.22;stroke-width:1.5}.accent{fill:#eaf1ec;stroke:#327871;stroke-width:2}.nodeTitle{font-size:24px;font-weight:600}.nodeSub{font-size:15px;line-height:1.6}.micro{font-size:13px;letter-spacing:.12em}.flow{fill:none;stroke:#327871;stroke-width:2.5;stroke-linecap:round;marker-end:url(#arrow-jade)}
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1600" height="900" fill="#f4f1e8"/>
+  <circle cx="1480" cy="100" r="90" fill="none" stroke="#327871" stroke-opacity=".08" stroke-width="2"/>
+  <circle cx="1480" cy="100" r="40" fill="none" stroke="#327871" stroke-opacity=".12" stroke-width="2"/>
+
+  <!-- Header -->
+  <g class="mono micro soft">
+    <text x="80" y="52">01 / SYSTEM ARCHITECTURE</text>
+    <text x="1520" y="52" text-anchor="end">ARCHITECTURE DIAGNOSTIC / SYSTEM OVERVIEW</text>
+  </g>
+  <line x1="80" y1="74" x2="1520" y2="74" class="rule"/>
+
+  <text x="80" y="165" class="serif ink" font-size="88" font-weight="500">Architecture Diagnostic</text>
+  <text x="82" y="212" class="sans jade" font-size="22" font-weight="500">正解ではなく、トレードオフと根拠を語る力を診断する。</text>
+
+  <!-- COLUMN 1: Candidate Workspace -->
+  <g transform="translate(80 270)">
+    <text x="0" y="0" class="mono micro jade">01 / CANDIDATE WORKSPACE</text>
+    <rect x="0" y="24" width="420" height="500" rx="14" class="surface"/>
+
+    <!-- Step 1: Hearing & Canvas -->
+    <rect x="28" y="56" width="364" height="180" rx="10" fill="#ffffff" stroke="#17241e" stroke-opacity=".12" stroke-width="1.2"/>
+    <text x="52" y="100" class="sans ink nodeTitle">要件確認と構成図作成</text>
+    <text x="52" y="136" class="sans soft nodeSub">面接官AIへの質問で前提を引き出し、</text>
+    <text x="52" y="164" class="sans soft nodeSub">パレットを使って初期構成を組み立てる</text>
+    <text x="52" y="200" class="mono jade" font-size="13">25分 集中セッション</text>
+
+    <!-- Step 2: Evidence Lock -->
+    <rect x="28" y="270" width="364" height="210" rx="10" class="accent"/>
+    <text x="52" y="320" class="sans jade nodeTitle">回答の固定 (Evidence Lock)</text>
+    <text x="52" y="360" class="sans ink nodeSub">設計回答を改ざん不能な形で確定</text>
+    <text x="52" y="392" class="sans soft nodeSub">突発的な制約変化（10倍急増）の前に、</text>
+    <text x="52" y="420" class="sans soft nodeSub">初期判断の根拠を安全にコミットする</text>
+    <text x="52" y="456" class="mono jade" font-size="13">評価の客観性を保証するゲート</text>
+  </g>
+
+  <!-- Arrow 1 -> 2 -->
+  <path d="M500 520 L585 520" class="flow"/>
+
+  <!-- COLUMN 2: Progression & Safety Boundary -->
+  <g transform="translate(590 270)">
+    <text x="0" y="0" class="mono micro jade">02 / STATE &amp; SAFETY BOUNDARY</text>
+    <rect x="0" y="24" width="420" height="500" rx="14" class="surface"/>
+
+    <!-- Deterministic Engine -->
+    <rect x="28" y="56" width="364" height="180" rx="10" fill="#ffffff" stroke="#17241e" stroke-opacity=".12" stroke-width="1.2"/>
+    <text x="52" y="100" class="sans ink nodeTitle">決定論的な進行管理</text>
+    <text x="52" y="136" class="sans soft nodeSub">面接の進行とフェーズ遷移は</text>
+    <text x="52" y="164" class="sans soft nodeSub">プログラムがルール通り厳格に統制</text>
+    <text x="52" y="200" class="mono jade" font-size="13">AIの暴走や勝手な分岐を防止</text>
+
+    <!-- Budget & AI Authority -->
+    <rect x="28" y="270" width="364" height="210" rx="10" class="accent"/>
+    <text x="52" y="320" class="sans jade nodeTitle">利用料上限とAI実行境界</text>
+    <text x="52" y="360" class="sans ink nodeSub">1セッションあたりの費用上限を設定</text>
+    <text x="52" y="392" class="sans soft nodeSub">特定のAIモデルに依存しない構造で、</text>
+    <text x="52" y="420" class="sans soft nodeSub">想定外のコスト高騰を物理的に遮断</text>
+    <text x="52" y="456" class="mono jade" font-size="13">安全な運用予算を保証</text>
+  </g>
+
+  <!-- Arrow 2 -> 3 -->
+  <path d="M1010 520 L1095 520" class="flow"/>
+
+  <!-- COLUMN 3: Objective Report & Retention -->
+  <g transform="translate(1100 270)">
+    <text x="0" y="0" class="mono micro jade">03 / OBJECTIVE DIAGNOSIS</text>
+    <rect x="0" y="24" width="420" height="500" rx="14" class="surface"/>
+
+    <!-- Core Report -->
+    <rect x="28" y="56" width="364" height="210" rx="10" class="accent"/>
+    <text x="52" y="104" class="sans jade nodeTitle">6軸の客観診断レポート</text>
+    <text x="52" y="144" class="sans ink nodeSub">お世辞や曖昧な褒め言葉を排除</text>
+    <text x="52" y="176" class="sans soft nodeSub">「要件の明確化」「トレードオフ判断」</text>
+    <text x="52" y="204" class="sans soft nodeSub">などの観点で肯定・反対の根拠を提示</text>
+    <text x="52" y="240" class="mono jade" font-size="13">現在地がわかる明確な評価基準</text>
+
+    <!-- 30-Day Auto Retention -->
+    <rect x="28" y="296" width="364" height="184" rx="10" fill="#ffffff" stroke="#17241e" stroke-opacity=".12" stroke-width="1.2"/>
+    <text x="52" y="340" class="sans ink nodeTitle">30日で自動消去 (TTL)</text>
+    <text x="52" y="376" class="sans soft nodeSub">診断データは一定期間後に自動削除</text>
+    <text x="52" y="404" class="sans soft nodeSub">利用者の個人データや回答を残さず、</text>
+    <text x="52" y="432" class="sans soft nodeSub">安心して試せる環境を整える</text>
+    <text x="52" y="462" class="mono jade" font-size="13">プライバシー保護の徹底</text>
+  </g>
+</svg>

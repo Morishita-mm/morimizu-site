@@ -164,6 +164,14 @@ export default function EnglishHome() {
                     <span>React Router / Firestore</span>
                   </div>
                   <div className="journal-project-links">
+                    <FullPageLink href="/en/projects/tech-interviewer">
+                      View Architecture
+                      <ArrowUpRight
+                        aria-hidden="true"
+                        size={15}
+                        strokeWidth={1.6}
+                      />
+                    </FullPageLink>
                     <a
                       href={TECH_INTERVIEWER_URL}
                       rel="noreferrer"

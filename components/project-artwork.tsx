@@ -38,6 +38,15 @@ function ProjectGlyph({ visual }: Pick<Project, 'visual'>) {
     );
   }
 
+  if (visual === 'tech-interviewer') {
+    return (
+      <svg aria-hidden="true" className="product-glyph" viewBox="0 0 48 48" fill="none">
+        <path d="M18 15L31 6L42 13V35L31 42L18 33" stroke="currentColor" strokeWidth="4.5" strokeLinecap="round" strokeLinejoin="round" />
+        <path className="product-glyph-accent" d="M18 15L6 24L18 33L29 24L18 15Z" stroke="#0d9488" strokeWidth="4.5" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    );
+  }
+
   return (
     <svg aria-hidden="true" className="product-glyph" viewBox="0 0 120 120">
       <path className="product-glyph-light" d="M14 37h21c13 0 13 23 25 23M14 60h46M14 83h21c13 0 13-23 25-23" />
@@ -46,7 +55,6 @@ function ProjectGlyph({ visual }: Pick<Project, 'visual'>) {
     </svg>
   );
 }
-
 function RagyPreview({ locale }: { locale: 'ja' | 'en' }) {
   return (
     <>
@@ -82,6 +90,48 @@ function RagyPreview({ locale }: { locale: 'ja' | 'en' }) {
       </div>
       <span className="product-artwork-caption">
         {locale === 'en' ? 'Example CLI output' : '実装しているCLIの出力例'}
+      </span>
+    </>
+  );
+}
+
+function ArchitectureDiagnosticPreview({ locale }: { locale: 'ja' | 'en' }) {
+  const isEn = locale === 'en';
+  return (
+    <>
+      <div className="product-terminal-bar">
+        <span>architecture-diagnostic / core-report</span>
+        <span aria-hidden="true">● ● ●</span>
+      </div>
+      <div className="product-terminal-body" style={{ textAlign: 'left' }}>
+        <p style={{ display: 'flex', justifyContent: 'space-between', color: '#64748b', fontSize: '11px', marginBottom: '8px' }}>
+          <span>SCENARIO: IMAGE SNS</span>
+          <span style={{ color: '#0d9488', fontWeight: 600 }}>EVIDENCE LOCKED</span>
+        </p>
+        <dl>
+          <div>
+            <dt>Functional Coverage</dt>
+            <dd style={{ color: '#2dd4bf' }}>ADVANCED</dd>
+          </div>
+          <div>
+            <dt>Trade-off Rationale</dt>
+            <dd style={{ color: '#2dd4bf' }}>ADVANCED</dd>
+          </div>
+          <div>
+            <dt>10x Scale Resilience</dt>
+            <dd style={{ color: '#38bdf8' }}>COMPETENT</dd>
+          </div>
+          <div>
+            <dt>Failure Partitioning</dt>
+            <dd style={{ color: '#38bdf8' }}>COMPETENT</dd>
+          </div>
+        </dl>
+        <p className="product-terminal-sync">
+          <span>✓</span> Core Report vNext <em>EVALUATION GENERATED</em>
+        </p>
+      </div>
+      <span className="product-artwork-caption">
+        {isEn ? 'Core Report Diagnostic Preview' : 'Core Report 診断結果プレビュー'}
       </span>
     </>
   );
@@ -129,6 +179,8 @@ export function ProjectArtwork({
                 {project.image.caption}
               </span>
             </>
+          ) : project.visual === 'tech-interviewer' ? (
+            <ArchitectureDiagnosticPreview locale={locale} />
           ) : null}
         </div>
         <button
@@ -157,6 +209,26 @@ export function ProjectArtwork({
     );
   }
 
+  if (project.image) {
+    return (
+      <figure
+        className={`product-artwork product-artwork-image product-artwork-${project.visual}${compact ? ' is-compact' : ''}`}
+      >
+        <Image
+          alt={project.image.alt}
+          fill
+          sizes="100vw"
+          src={project.image.src}
+          style={{ objectFit: 'contain' }}
+          unoptimized
+        />
+        <figcaption className="product-artwork-caption">
+          {project.image.caption}
+        </figcaption>
+      </figure>
+    );
+  }
+
   if (project.visual === 'ragy') {
     return (
       <figure
@@ -167,23 +239,15 @@ export function ProjectArtwork({
     );
   }
 
-  if (!project.image) return null;
+  if (project.visual === 'tech-interviewer') {
+    return (
+      <figure
+        className={`product-artwork product-artwork-terminal product-artwork-${project.visual}`}
+      >
+        <ArchitectureDiagnosticPreview locale={locale} />
+      </figure>
+    );
+  }
 
-  return (
-    <figure
-      className={`product-artwork product-artwork-image product-artwork-${project.visual}${compact ? ' is-compact' : ''}`}
-    >
-      <Image
-        alt={project.image.alt}
-        fill
-        sizes="100vw"
-        src={project.image.src}
-        style={{ objectFit: 'contain' }}
-        unoptimized
-      />
-      <figcaption className="product-artwork-caption">
-        {project.image.caption}
-      </figcaption>
-    </figure>
-  );
+  return null;
 }
