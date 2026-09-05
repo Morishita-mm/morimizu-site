@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 6 96 96">
+  <style>.base{fill:#151519}.accent{fill:#2449ff}@media(prefers-color-scheme:dark){.base{fill:#fff}.accent{fill:#91a2ff}}</style>
+  <path class="base" d="M10 16 34 34 34 92 10 74Z"/>
+  <path class="base" d="M62 34 86 16 86 74 62 92Z"/>
+  <path class="accent" d="M42 38 54 47 54 77 42 68Z"/>
+</svg>

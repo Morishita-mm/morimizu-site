@@ -54,9 +54,13 @@ jobs:
         run: npm run lint
 
       - name: Build site with public Qiita articles
+        # Shared editorial UI is exercised in both languages before release.
         env:
           QIITA_ARTICLES_DIR: ${{ github.workspace }}/_qiita
         run: npm run build
+
+      - name: Verify bilingual editorial routes
+        run: node dev-pages/workshop/verify-locale.mjs
 
       - name: Deploy to Cloudflare
         if: github.event_name != 'pull_request'

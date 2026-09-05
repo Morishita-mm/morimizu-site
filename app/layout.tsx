@@ -1,8 +1,6 @@
 import type { Metadata } from 'next';
 import { IBM_Plex_Mono, Instrument_Sans, Noto_Sans_JP } from 'next/font/google';
 import { AgentationClient } from '@/components/agentation-client';
-import { SiteMotion } from '@/components/site-motion';
-import './globals.css';
 
 const instrument = Instrument_Sans({
   variable: '--font-instrument',
@@ -22,7 +20,7 @@ const plexMono = IBM_Plex_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://morimizu.dev'),
-  title: 'morimizu — Mizuki',
+  title: 'morimizu works — Mizuki',
   description: 'Mizukiが個人で作っているアプリと、作りながら書いた技術ノート。',
   alternates: {
     canonical: '/',
@@ -37,7 +35,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'ja_JP',
-    siteName: 'morimizu.dev',
+    siteName: 'morimizu works',
     title: 'morimizu — Mizuki',
     description:
       'Mizukiが個人で作っているアプリと、作りながら書いた技術ノート。',
@@ -62,7 +60,6 @@ export default function RootLayout({
       <body
         className={`${instrument.variable} ${notoSansJp.variable} ${plexMono.variable}`}
       >
-        <SiteMotion />
         {children}
         <AgentationClient />
       </body>
