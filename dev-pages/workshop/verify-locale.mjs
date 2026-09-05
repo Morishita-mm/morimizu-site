@@ -9,6 +9,13 @@ const server = await createServer({
 });
 try {
   const { Preview } = await server.ssrLoadModule('/editorial.tsx');
+  const { chooseLocale } = await server.ssrLoadModule('/locale-choice.ts');
+  assert.equal(chooseLocale('ja', 'en', 'en-US'), 'ja');
+  assert.equal(chooseLocale(null, 'en', 'ja-JP'), 'en');
+  assert.equal(chooseLocale(null, null, 'ja-JP'), 'ja');
+  assert.equal(chooseLocale(null, null, 'fr-FR'), 'en');
+  assert.equal(chooseLocale(null, 'invalid', 'en-US'), 'en');
+  assert.equal(chooseLocale(null, null, 'ja-JP', true), 'en');
   for (const path of [
     '/',
     '/projects',

@@ -5,6 +5,7 @@ import {
   useSyncExternalStore,
   type ReactNode,
 } from 'react';
+import { chooseLocale } from './locale-choice';
 
 export type Locale = 'ja' | 'en';
 let memoryLocale: Locale | undefined;
@@ -27,17 +28,47 @@ export function LocaleProvider({
   const locale = useSyncExternalStore(
     subscribe,
     () => {
+      let saved: string | null = memoryLocale ?? null;
       try {
-        const saved = localStorage.getItem('morimizu-locale');
-        return saved === 'ja' || saved === 'en' ? saved : initialLocale;
+        saved = localStorage.getItem('morimizu-locale') ?? saved;
       } catch {
-        return memoryLocale ?? initialLocale;
+        /* Optional storage. */
       }
+      return chooseLocale(
+        saved,
+        new URL(window.location.href).searchParams.get('lang'),
+        navigator.languages?.[0] ?? navigator.language,
+        initialLocale === 'en',
+      );
     },
     () => initialLocale,
   );
   useEffect(() => {
     document.documentElement.lang = locale;
+    const url = new URL(window.location.href);
+    const hint = url.searchParams.get('lang');
+    if (hint === 'ja' || hint === 'en') {
+      let saved: string | null = memoryLocale ?? null;
+      try {
+        saved = localStorage.getItem('morimizu-locale') ?? saved;
+      } catch {
+        /* Optional storage. */
+      }
+      const resolved = chooseLocale(saved, hint, undefined);
+      memoryLocale = resolved;
+      try {
+        localStorage.setItem('morimizu-locale', resolved);
+      } catch {
+        /* Optional storage. */
+      }
+      url.searchParams.delete('lang');
+      window.history.replaceState(
+        window.history.state,
+        '',
+        url.pathname + url.search + url.hash,
+      );
+      window.dispatchEvent(new Event('morimizu-language'));
+    }
   }, [locale]);
   function toggle() {
     const next = locale === 'ja' ? 'en' : 'ja';
