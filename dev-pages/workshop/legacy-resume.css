@@ -1,5 +1,4 @@
 /* Existing poster-resume styles, isolated to the local resume preview. */
-@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 .e-legacy-resume {
   --paper: #f3f3f6;
   --paper-light: #fff;
@@ -9,9 +8,7 @@
   --jade: #2449ff;
   --jade-deep: #2449ff;
   --rule: #e0e0e5;
-  --font-instrument: 'Instrument Sans';
-  --font-plex-mono: 'IBM Plex Mono';
-  font-family: 'Noto Sans JP', sans-serif;
+  font-family: var(--font-noto-jp, 'Noto Sans JP'), sans-serif;
   background: var(--paper);
   color: var(--ink);
 }

@@ -3,6 +3,9 @@
 /* oxlint-disable next/no-html-link-for-pages -- These are standalone Vite routes, not Next.js pages. */
 import { lazy, Suspense } from 'react';
 import panorama from './assets/editorial-cover.webp?url';
+import panorama480 from './assets/editorial-cover-480.webp?url';
+import panorama768 from './assets/editorial-cover-768.webp?url';
+import panorama1080 from './assets/editorial-cover-1080.webp?url';
 
 import { projects, type Project } from '@/lib/projects';
 import { projectsEn } from '@/lib/projects-en';
@@ -325,12 +328,14 @@ function Home({ preview }: { preview: boolean }) {
         <figure className="e-panorama">
           <img
             src={panorama}
+            srcSet={`${panorama480} 480w, ${panorama768} 768w, ${panorama1080} 1080w, ${panorama} 1536w`}
+            sizes="(max-width: 760px) calc(100vw - 40px), (max-width: 1100px) calc(100vw - 64px), (max-width: 1456px) calc(100vw - 96px), 1360px"
             alt={t(
               '黒い細線の構造を鮮やかなブルーの面が横切る、AI生成の抽象作品',
               'AI-generated abstract artwork with vivid blue planes crossing fine black structures',
             )}
             width="1536"
-            height="1024"
+            height="928"
             fetchPriority="high"
           />
           <figcaption>

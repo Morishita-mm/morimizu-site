@@ -1,0 +1,8 @@
+/* Standalone workshop only. Production self-hosts these via next/font. */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;550;600;650;700;750;800;900&family=Noto+Sans+JP:wght@400;500;600;700&family=Instrument+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+body {
+  --font-inter: Inter;
+  --font-noto-jp: 'Noto Sans JP';
+  --font-instrument: 'Instrument Sans';
+  --font-plex-mono: 'IBM Plex Mono';
+}

@@ -1,8 +1,20 @@
 import type { Metadata } from 'next';
-import { IBM_Plex_Mono, Instrument_Sans, Noto_Sans_JP } from 'next/font/google';
+import {
+  Inter,
+  IBM_Plex_Mono,
+  Instrument_Sans,
+  Noto_Sans_JP,
+} from 'next/font/google';
 import { AgentationClient } from '@/components/agentation-client';
 
+const inter = Inter({
+  variable: '--font-inter',
+  subsets: ['latin'],
+  display: 'swap',
+});
+
 const instrument = Instrument_Sans({
+  preload: false,
   variable: '--font-instrument',
   subsets: ['latin'],
 });
@@ -13,6 +25,7 @@ const notoSansJp = Noto_Sans_JP({
 });
 
 const plexMono = IBM_Plex_Mono({
+  preload: false,
   variable: '--font-plex-mono',
   subsets: ['latin'],
   weight: ['400', '500'],
@@ -58,7 +71,7 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <body
-        className={`${instrument.variable} ${notoSansJp.variable} ${plexMono.variable}`}
+        className={`${inter.variable} ${instrument.variable} ${notoSansJp.variable} ${plexMono.variable}`}
       >
         {children}
         <AgentationClient />
