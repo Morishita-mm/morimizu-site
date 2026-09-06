@@ -1,11 +1,8 @@
 import type { Metadata } from 'next';
-import {
-  Inter,
-  IBM_Plex_Mono,
-  Instrument_Sans,
-  Noto_Sans_JP,
-} from 'next/font/google';
+import { Inter, IBM_Plex_Mono, Instrument_Sans } from 'next/font/google';
 import { AgentationClient } from '@/components/agentation-client';
+import editorialCss from '@/dev-pages/workshop/editorial.css?inline';
+import notoCss from '@/lib/generated/fonts/noto.css?inline';
 
 const inter = Inter({
   variable: '--font-inter',
@@ -16,11 +13,6 @@ const inter = Inter({
 const instrument = Instrument_Sans({
   preload: false,
   variable: '--font-instrument',
-  subsets: ['latin'],
-});
-
-const notoSansJp = Noto_Sans_JP({
-  variable: '--font-noto-jp',
   subsets: ['latin'],
 });
 
@@ -70,8 +62,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
+      <head>
+        {/* Deliver the shared styles with HTML, avoiding a blocking round trip. */}
+        <style dangerouslySetInnerHTML={{ __html: editorialCss }} />
+        <style dangerouslySetInnerHTML={{ __html: notoCss }} />
+      </head>
       <body
-        className={`${inter.variable} ${instrument.variable} ${notoSansJp.variable} ${plexMono.variable}`}
+        className={`${inter.variable} ${instrument.variable} ${plexMono.variable}`}
       >
         {children}
         <AgentationClient />

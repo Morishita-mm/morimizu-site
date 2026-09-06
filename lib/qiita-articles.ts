@@ -117,16 +117,4 @@ export function getRecentQiitaArticles(limit = 3) {
   return articles.slice(0, limit);
 }
 
-export function formatArticleDate(value: string) {
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) {
-    return value;
-  }
-
-  return new Intl.DateTimeFormat('ja-JP', {
-    timeZone: 'Asia/Tokyo',
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-  }).format(date);
-}
+export { formatArticleDate } from './article-date';
