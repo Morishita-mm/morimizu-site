@@ -1,4 +1,11 @@
-import { Preview } from '@/dev-pages/workshop/editorial';
+import { SiteShell } from '@/dev-pages/workshop/site/shell';
+import { NotesPage } from '@/dev-pages/workshop/site/notes';
+import { articleSummary } from '@/dev-pages/workshop/site/data';
+import { getAllQiitaArticles } from '@/lib/qiita-articles';
 export default function Page() {
-  return <Preview path="/notes" initialLocale="en" preview={false} />;
+  return (
+    <SiteShell path="/notes" initialLocale="en">
+      <NotesPage articles={getAllQiitaArticles().map(articleSummary)} />
+    </SiteShell>
+  );
 }

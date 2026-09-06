@@ -1,4 +1,6 @@
-import { Preview } from '@/dev-pages/workshop/editorial';
+import { SiteShell } from '@/dev-pages/workshop/site/shell';
+import { ProjectsPage } from '@/dev-pages/workshop/site/projects';
+import { getProjectCards } from '@/dev-pages/workshop/site/data';
 export const metadata = {
   title: 'Projects — morimizu works',
   description: 'つくったもの。アプリの構成図と設計判断。',
@@ -8,5 +10,9 @@ export const metadata = {
   },
 };
 export default function Page() {
-  return <Preview path="/projects" preview={false} />;
+  return (
+    <SiteShell path="/projects">
+      <ProjectsPage projects={getProjectCards()} />
+    </SiteShell>
+  );
 }

@@ -62,6 +62,9 @@ jobs:
       - name: Verify bilingual editorial routes
         run: node dev-pages/workshop/verify-locale.mjs
 
+      - name: Verify Japanese font shapes and metrics
+        run: node scripts/verify-fonts.mjs
+
       - name: Deploy to Cloudflare
         if: github.event_name != 'pull_request'
         env:

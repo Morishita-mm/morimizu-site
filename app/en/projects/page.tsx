@@ -1,4 +1,10 @@
-import { Preview } from '@/dev-pages/workshop/editorial';
+import { SiteShell } from '@/dev-pages/workshop/site/shell';
+import { ProjectsPage } from '@/dev-pages/workshop/site/projects';
+import { getProjectCards } from '@/dev-pages/workshop/site/data';
 export default function Page() {
-  return <Preview path="/projects" initialLocale="en" preview={false} />;
+  return (
+    <SiteShell path="/projects" initialLocale="en">
+      <ProjectsPage projects={getProjectCards()} />
+    </SiteShell>
+  );
 }
