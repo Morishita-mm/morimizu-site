@@ -10,6 +10,25 @@ const server = await createServer({
 try {
   const { Preview } = await server.ssrLoadModule('/editorial.tsx');
   const { chooseLocale } = await server.ssrLoadModule('/locale-choice.ts');
+  const { formatArticleDate } = await server.ssrLoadModule(
+    '../../lib/qiita-articles.ts',
+  );
+  // SSR runs in UTC on Workers; readers can be anywhere. Article dates stay JST.
+  for (const tz of ['UTC', 'Asia/Tokyo', 'America/Los_Angeles']) {
+    const previousTZ = process.env.TZ;
+    try {
+      process.env.TZ = tz;
+      assert.equal(
+        formatArticleDate('2026-09-03T02:26:58+09:00'),
+        '2026/09/03',
+      );
+      assert.equal(formatArticleDate('2026-09-02T17:26:58Z'), '2026/09/03');
+      assert.equal(formatArticleDate('invalid'), 'invalid');
+    } finally {
+      if (previousTZ === undefined) delete process.env.TZ;
+      else process.env.TZ = previousTZ;
+    }
+  }
   assert.equal(chooseLocale('ja', 'en', 'en-US'), 'ja');
   assert.equal(chooseLocale(null, 'en', 'ja-JP'), 'en');
   assert.equal(chooseLocale(null, null, 'ja-JP'), 'ja');
