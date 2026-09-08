@@ -35,7 +35,11 @@ function Header({ path, preview }: { path: string; preview: boolean }) {
           </a>
           <a
             href="/notes"
-            aria-current={path.startsWith('/notes') ? 'page' : undefined}
+            aria-current={
+              path.startsWith('/notes') || path.startsWith('/journal')
+                ? 'page'
+                : undefined
+            }
           >
             <span>02</span>Notes
           </a>
@@ -88,6 +92,9 @@ function Footer() {
           <a href="/projects">Projects</a>
           <a href="/notes">Notes</a>
           <a href="/about">About</a>
+          <a href="/journal/admin/upload">
+            {t('Journal管理', 'Journal admin')}
+          </a>
           <a href="https://github.com/Morishita-mm">GitHub ↗</a>
         </nav>
         <small>© 2026 Mizuki</small>

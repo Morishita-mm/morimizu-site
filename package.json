@@ -6,21 +6,30 @@
     "node": ">=22.13.0"
   },
   "scripts": {
-    "predev": "npm run sync:articles && npm run prepare:fonts",
+    "predev": "npm run sync:articles && npm run prepare:journal && npm run prepare:fonts",
     "dev": "vinext dev",
     "dev:workshop": "vite --config dev-pages/workshop/vite.config.ts --host 127.0.0.1 --port 3002 --strictPort",
     "predev:workshop": "node dev-pages/workshop/sync-qiita-likes.mjs",
     "prebuild:workshop": "node dev-pages/workshop/sync-qiita-likes.mjs",
     "sync:workshop-likes": "node dev-pages/workshop/sync-qiita-likes.mjs --force",
     "build:workshop": "vite build --config dev-pages/workshop/vite.config.ts",
-    "prebuild": "npm run sync:articles && npm run prepare:fonts",
+    "prebuild": "npm run sync:articles && npm run prepare:journal && npm run prepare:fonts",
+    "prepare:journal": "node scripts/prepare-journal.mjs",
+    "test:journal": "node --test scripts/journal/*.test.mjs journal/*.test.mjs",
+    "predeploy": "node scripts/check-journal-deploy.mjs && node scripts/verify-journal-build.mjs",
+    "postbuild": "node scripts/verify-journal-build.mjs",
     "prepare:fonts": "node scripts/prepare-fonts.mjs",
     "build": "vinext build",
     "start": "wrangler dev --config dist/server/wrangler.json",
     "deploy": "wrangler deploy --config dist/server/wrangler.json --domain morimizu.dev",
     "sync:articles": "node --env-file-if-exists=.env.local scripts/sync-qiita-articles.mjs",
     "lint": "oxlint",
-    "format": "oxfmt"
+    "format": "oxfmt",
+    "journal:send": "node scripts/journal-send.mjs",
+    "journal:db:local": "wrangler d1 migrations apply morimizu-journal --local --config journal/wrangler.local.jsonc --persist-to .wrangler/state",
+    "test:journal:browser": "node scripts/verify-journal-runtime.mjs",
+    "prejournal:preview": "npm run build",
+    "journal:preview": "node scripts/journal-preview.mjs"
   },
   "dependencies": {
     "clsx": "2.1.1",
@@ -40,7 +49,9 @@
     "shadcn": "4.18.0",
     "tailwind-merge": "3.6.0",
     "tw-animate-css": "1.4.0",
-    "vinext": "1.0.0-beta.5"
+    "vinext": "1.0.0-beta.5",
+    "jose": "6.2.10",
+    "js-yaml": "4.3.2"
   },
   "devDependencies": {
     "@cloudflare/vite-plugin": "1.37.1",
