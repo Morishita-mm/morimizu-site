@@ -804,13 +804,15 @@ a:hover > .e-arrow.diagonal {
   gap: 28px;
   padding: clamp(24px, 4vw, 55px) 16px 24px;
   background: white;
+  color: #151519;
+  --identity-accent: #2449ff;
 }
 .m-plane-comparison .site-icon {
   width: clamp(110px, 14vw, 190px);
 }
 .m-plane-comparison figcaption {
   font-size: 12px;
-  color: var(--gray);
+  color: #67676f;
   text-align: center;
 }
 .m-monochrome {
