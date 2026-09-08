@@ -1,0 +1,161 @@
+:root {
+  color-scheme: light;
+  --tint: #f1f3ff;
+  --brand-fill: #2449ff;
+  --inverse-surface: #151519;
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --black: #ededf2;
+  --white: #151519;
+  --blue: #9aaeff;
+  --gray: #aaaab5;
+  --line: #36363f;
+  --light: #222229;
+  --tint: #23283d;
+  --inverse-surface: #202027;
+}
+
+body {
+  background: var(--white);
+  color: var(--black);
+}
+
+.e-header-tools {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.theme-toggle {
+  position: relative;
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--black);
+}
+.theme-toggle:hover {
+  background: var(--light);
+  border-color: var(--gray);
+}
+.theme-toggle svg {
+  position: absolute;
+  transition:
+    transform 280ms ease,
+    opacity 180ms ease;
+}
+.theme-sun {
+  opacity: 0;
+  transform: rotate(-90deg) scale(0.5);
+}
+.theme-moon {
+  opacity: 1;
+  transform: rotate(0) scale(1);
+}
+[data-theme='dark'] .theme-sun {
+  opacity: 1;
+  transform: rotate(0) scale(1);
+}
+[data-theme='dark'] .theme-moon {
+  opacity: 0;
+  transform: rotate(90deg) scale(0.5);
+}
+
+/* Preserve the ink-and-white artwork while adapting the surrounding surfaces. */
+.e-home-about,
+.brand-stage-b,
+.brand-mini.inverse,
+.m-study-cutout .m-study-lockup,
+.brand-icon-samples .inverse {
+  background: var(--inverse-surface);
+}
+.tech-interviewer .project-poster,
+.e-solid-link,
+.brand-stage-c,
+.e-skip,
+.e-panorama figcaption,
+.project-now,
+.carousel-controls button:enabled:hover,
+.m-study-flow .m-study-lockup {
+  background: var(--brand-fill);
+}
+.brand-stage-a,
+.m-study-lockup,
+.markdown-body blockquote,
+.brand-identity-lockup,
+.ragy .project-poster,
+.abstract-m-overview a:hover {
+  background: var(--tint);
+}
+[data-theme='dark'] .journal-findings,
+[data-theme='dark'] .journal-controls,
+[data-theme='dark'] .journal-upload-policy,
+[data-theme='dark'] .journal-dropzone.is-dragging {
+  background: var(--tint);
+}
+[data-theme='dark'] .markdown-body :not(pre) > code {
+  background: var(--light);
+}
+[data-theme='dark'] .e-project a:hover .poster-cta {
+  color: var(--white);
+}
+[data-theme='dark'] .mermaid-diagram {
+  background: #f3f3f6;
+  padding: 16px;
+}
+[data-theme='dark'] .experience-item li {
+  color: var(--gray);
+}
+[data-theme='dark'] .rust-log-analyzer .project-poster {
+  background: var(--tint);
+}
+
+.theme-transition::view-transition-old(root),
+.theme-transition::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+.theme-transition::view-transition-old(root) {
+  z-index: 1;
+}
+.theme-transition::view-transition-new(root) {
+  z-index: 2;
+}
+.theme-transition::view-transition-group(root) {
+  animation: none;
+}
+
+@media (max-width: 480px) {
+  .e-header .e-header-tools {
+    grid-column: 2;
+    grid-row: 1;
+    gap: 8px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .theme-toggle svg {
+    transition: none;
+  }
+}
+@media print {
+  :root[data-theme] {
+    color-scheme: light;
+    --black: #151519;
+    --white: #fff;
+    --blue: #2449ff;
+    --gray: #67676f;
+    --line: #e0e0e5;
+    --light: #f3f3f6;
+    --tint: #f1f3ff;
+    --inverse-surface: #151519;
+  }
+  .theme-toggle {
+    display: none;
+  }
+}

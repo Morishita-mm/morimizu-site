@@ -1,13 +1,13 @@
 /* Existing poster-resume styles, isolated to the local resume preview. */
 .e-legacy-resume {
-  --paper: #f3f3f6;
-  --paper-light: #fff;
-  --paper-deep: #e0e0e5;
-  --ink: #151519;
-  --ink-soft: #67676f;
-  --jade: #2449ff;
-  --jade-deep: #2449ff;
-  --rule: #e0e0e5;
+  --paper: var(--light);
+  --paper-light: var(--white);
+  --paper-deep: var(--line);
+  --ink: var(--black);
+  --ink-soft: var(--gray);
+  --jade: var(--blue);
+  --jade-deep: var(--blue);
+  --rule: var(--line);
   font-family: var(--font-noto-jp, 'Noto Sans JP'), sans-serif;
   background: var(--paper);
   color: var(--ink);
