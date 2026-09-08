@@ -789,6 +789,7 @@ a:hover > .e-arrow.diagonal {
   stroke: var(--identity-accent, var(--blue));
 }
 .m-plane-comparison {
+  --identity-accent: #2449ff;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1px;
@@ -805,7 +806,6 @@ a:hover > .e-arrow.diagonal {
   padding: clamp(24px, 4vw, 55px) 16px 24px;
   background: white;
   color: #151519;
-  --identity-accent: #2449ff;
 }
 .m-plane-comparison .site-icon {
   width: clamp(110px, 14vw, 190px);
