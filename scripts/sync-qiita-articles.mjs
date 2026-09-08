@@ -2,7 +2,7 @@ import { execFileSync } from 'node:child_process';
 import { mkdtempSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { basename, join, resolve } from 'node:path';
-import matter from 'gray-matter';
+import { readFrontMatter } from '../lib/content/frontmatter.mjs';
 
 const projectRoot = process.cwd();
 const generatedDirectory = join(projectRoot, 'lib', 'generated');
@@ -112,7 +112,7 @@ try {
 
   for (const fileName of markdownFiles) {
     const source = readFileSync(join(articlesDirectory, fileName), 'utf8');
-    const { data, content } = matter(source);
+    const { data, content } = readFrontMatter(source);
 
     if (data.private === true) {
       excluded.private += 1;

@@ -1,4 +1,4 @@
-import { load, JSON_SCHEMA } from 'js-yaml';
+import { readFrontMatter } from '../../lib/content/frontmatter.mjs';
 
 export const KINDS = {
   log: 'Log',
@@ -48,17 +48,13 @@ export function parseEntry(source, file, { managed = false } = {}) {
   };
   if (Buffer.byteLength(source) > 256 * 1024)
     fail('entry size (maximum 256 KiB)');
-  // gray-matter supports executable JS front matter. Only plain YAML is allowed.
+  // Only data-only YAML is accepted; publication fields are validated below.
   if (!/^---\r?\n[\s\S]*?\r?\n---(?:\r?\n|$)/.test(source))
     fail('YAML front matter');
   assertNoCredentials(source, file);
   let parsed;
   try {
-    const header = source.match(/^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)/);
-    parsed = {
-      data: load(header[1], { schema: JSON_SCHEMA }),
-      content: source.slice(header[0].length),
-    };
+    parsed = readFrontMatter(source);
   } catch {
     fail('YAML front matter');
   }

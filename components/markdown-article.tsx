@@ -1,41 +1,14 @@
 import {
   Children,
+  Fragment,
   type ComponentPropsWithoutRef,
   isValidElement,
   type ReactNode,
 } from 'react';
-import ReactMarkdown from 'react-markdown';
-import rehypeKatex from 'rehype-katex';
-import rehypeRaw from 'rehype-raw';
-import rehypeSanitize, { defaultSchema } from 'rehype-sanitize';
-import remarkGfm from 'remark-gfm';
-import remarkMath from 'remark-math';
+import { jsx, jsxs } from 'react/jsx-runtime';
+import { toJsxRuntime } from 'hast-util-to-jsx-runtime';
+import { compileMarkdown } from '@/lib/content/markdown.mjs';
 import { MermaidDiagram } from '@/components/mermaid-diagram';
-
-const markdownSanitizeSchema = {
-  ...defaultSchema,
-  tagNames: [
-    ...(defaultSchema.tagNames ?? []),
-    'details',
-    'summary',
-    'dl',
-    'dt',
-    'dd',
-  ],
-  attributes: {
-    ...defaultSchema.attributes,
-    a: [...(defaultSchema.attributes?.a ?? []), 'target', 'rel'],
-    code: [...(defaultSchema.attributes?.code ?? []), 'className'],
-    details: ['open'],
-    img: [
-      ...(defaultSchema.attributes?.img ?? []),
-      'width',
-      'height',
-      'loading',
-      'decoding',
-    ],
-  },
-};
 
 type CodeChildProps = {
   className?: string;
@@ -55,9 +28,11 @@ function MarkdownPre({ children }: ComponentPropsWithoutRef<'pre'>) {
     )
     .join('')
     .replace(/\n$/, '');
-  const languageInfo = child.props.className?.match(/language-([^\s]+)/)?.[1] ?? '';
+  const languageInfo =
+    child.props.className?.match(/language-([^\s]+)/)?.[1] ?? '';
   const colonIndex = languageInfo.indexOf(':');
-  const language = colonIndex >= 0 ? languageInfo.slice(0, colonIndex) : languageInfo;
+  const language =
+    colonIndex >= 0 ? languageInfo.slice(0, colonIndex) : languageInfo;
   const fileName = colonIndex >= 0 ? languageInfo.slice(colonIndex + 1) : '';
 
   if (language.toLowerCase() === 'mermaid') {
@@ -76,7 +51,11 @@ function MarkdownPre({ children }: ComponentPropsWithoutRef<'pre'>) {
   );
 }
 
-function MarkdownLink({ href, children, ...props }: ComponentPropsWithoutRef<'a'>) {
+function MarkdownLink({
+  href,
+  children,
+  ...props
+}: ComponentPropsWithoutRef<'a'>) {
   const external = href?.startsWith('http://') || href?.startsWith('https://');
 
   return (
@@ -100,21 +79,16 @@ function MarkdownImage({ alt, ...props }: ComponentPropsWithoutRef<'img'>) {
 export function MarkdownArticle({ content }: { content: string }) {
   return (
     <div className="markdown-body">
-      <ReactMarkdown
-        components={{
+      {toJsxRuntime(compileMarkdown(content), {
+        Fragment,
+        jsx,
+        jsxs,
+        components: {
           a: MarkdownLink,
           img: MarkdownImage,
           pre: MarkdownPre,
-        }}
-        rehypePlugins={[
-          rehypeRaw,
-          [rehypeSanitize, markdownSanitizeSchema],
-          rehypeKatex,
-        ]}
-        remarkPlugins={[remarkGfm, remarkMath]}
-      >
-        {content}
-      </ReactMarkdown>
+        },
+      })}
     </div>
   );
 }

@@ -36,6 +36,20 @@ const result = true;
 
 $x^2$
 
+$$
+\\frac{1}{2}
+$$
+
+| 検証項目 | 結果 |
+| :--- | ---: |
+| ~~旧パーサ~~ | 新パーサ |
+
+注釈の確認[^check]。
+
+[^check]: 日本語の注釈本文。
+
+<details open><summary>補足情報</summary><p>HTMLの本文</p></details>
+
 \`\`\`mermaid
 graph LR
  A[原稿] --> B[確認]
@@ -151,6 +165,13 @@ graph LR
   await page.locator('.mermaid-diagram svg').waitFor({ timeout: 20000 });
   assert.equal(await page.evaluate(() => Boolean(window.JOURNAL_XSS)), false);
   assert.ok(await page.locator('.katex').count());
+  assert.equal(await page.locator('.katex-display').count(), 1);
+  assert.equal(await page.locator('.markdown-body table').count(), 1);
+  assert.equal(await page.locator('.markdown-body del').textContent(), '旧パーサ');
+  assert.equal(await page.locator('.markdown-body details[open]').count(), 1);
+  const footnote = page.locator('.markdown-body a[href="#user-content-fn-check"]');
+  await footnote.click();
+  assert.equal(await page.locator('#user-content-fn-check').count(), 1);
   const original = await fetch(
     base + '/api/journal/admin/entries/browser-check?source=1',
     { headers: auth },
