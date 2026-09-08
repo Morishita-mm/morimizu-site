@@ -32,6 +32,9 @@ yarn-error.log*
 
 # generated Qiita article bundle
 /lib/generated/qiita-articles.ts
+/lib/generated/journal-entries.ts
+# Emergency local-only storage; raw conversations should live outside this repo.
+/.journal-private/
 /lib/generated/fonts/
 
 # deployment and generated files
@@ -42,3 +45,9 @@ next-env.d.ts
 /outputs/
 /work/
 .lissue/data.db
+
+# Private Journal originals and local credentials are never site inputs.
+/content/journal/private/
+/.dev.vars*
+/journal/.wrangler/
+*.tsbuildinfo

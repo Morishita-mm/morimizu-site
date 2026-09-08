@@ -57,7 +57,11 @@ jobs:
         # Shared editorial UI is exercised in both languages before release.
         env:
           QIITA_ARTICLES_DIR: ${{ github.workspace }}/_qiita
+          JOURNAL_DATABASE_ID: ${{ vars.JOURNAL_DATABASE_ID }}
         run: npm run build
+
+      - name: Verify Journal validation and privacy boundary
+        run: npm run test:journal
 
       - name: Verify bilingual editorial routes
         run: node dev-pages/workshop/verify-locale.mjs
