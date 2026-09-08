@@ -3,6 +3,7 @@ import { Inter, IBM_Plex_Mono, Instrument_Sans } from 'next/font/google';
 import { AgentationClient } from '@/components/agentation-client';
 import editorialCss from '@/dev-pages/workshop/editorial.css?inline';
 import notoCss from '@/lib/generated/fonts/noto.css?inline';
+import themeCss from './theme.css?inline';
 
 const inter = Inter({
   variable: '--font-inter',
@@ -61,11 +62,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ja">
+    <html lang="ja" suppressHydrationWarning>
       <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(()=>{let t;try{t=localStorage.getItem('morimizu-theme')}catch{}document.documentElement.dataset.theme=t==='dark'||(t!=='light'&&matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light'})()`,
+          }}
+        />
         {/* Deliver the shared styles with HTML, avoiding a blocking round trip. */}
         <style dangerouslySetInnerHTML={{ __html: editorialCss }} />
         <style dangerouslySetInnerHTML={{ __html: notoCss }} />
+        <style dangerouslySetInnerHTML={{ __html: themeCss }} />
       </head>
       <body
         className={`${inter.variable} ${instrument.variable} ${plexMono.variable}`}

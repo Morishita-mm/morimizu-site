@@ -11,8 +11,9 @@ import { LINKEDIN_URL } from '@/lib/social-links';
 import { SiteIcon } from '../site-identity';
 import { BrandWordmark } from '../brand-concepts';
 import { Arrow } from './components';
+import { ThemeToggle } from '@/components/theme-toggle';
 function Header({ path, preview }: { path: string; preview: boolean }) {
-  const { t } = useLocale();
+  const { t, locale } = useLocale();
   return (
     <>
       <a href="#content" className="e-skip">
@@ -53,7 +54,10 @@ function Header({ path, preview }: { path: string; preview: boolean }) {
         <a className="header-contact" href={LINKEDIN_URL}>
           LinkedIn <Arrow diagonal />
         </a>
-        <LanguageToggle />
+        <div className="e-header-tools">
+          <ThemeToggle locale={locale} />
+          <LanguageToggle />
+        </div>
         {preview && <span className="e-local">LOCAL PREVIEW</span>}
       </header>
     </>

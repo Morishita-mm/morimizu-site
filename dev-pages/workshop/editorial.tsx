@@ -2,6 +2,7 @@
 /* oxlint-disable next/no-html-link-for-pages -- Standalone Vite preview routes. */
 import { lazy, Suspense } from 'react';
 import './editorial.css';
+import '@/app/theme.css';
 import { getAllQiitaArticles, getQiitaArticle } from '@/lib/qiita-articles';
 import { RESUME_JA, RESUME_EN } from '@/lib/resume';
 import { useLocale, type Locale } from './locale';
