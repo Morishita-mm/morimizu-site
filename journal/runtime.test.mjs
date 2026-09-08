@@ -121,6 +121,11 @@ await test('D1 lifecycle, HTTP authorization, concurrency, persistence and porta
       for (const path of [
         '/journal/admin',
         '/journal/admin/upload',
+        '/journal//admin/upload',
+        '//journal/admin/upload',
+        '/journal/admin%2fupload',
+        '/journal//admin/sample',
+        '/api//journal/admin/entries/sample?source=1',
         '/journal/%61dmin/sample',
         '/journal/admin/sample',
         '/api/journal/admin/entries',

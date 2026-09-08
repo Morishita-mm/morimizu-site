@@ -48,6 +48,10 @@ graph LR
   for (const path of [
     '/journal/admin',
     '/journal/admin/upload',
+    '/journal//admin/upload',
+    '/journal//admin/browser-check',
+    '/journal/admin%2fupload',
+    '/api//journal/admin/entries/browser-check?source=1',
     '/journal/admin/browser-check',
     '/api/journal/admin/entries',
     '/api/journal/admin/template',

@@ -62,10 +62,10 @@ export async function boundedText(request, max) {
 export async function handleJournal(request, env, next) {
   let path;
   try {
-    path = decodeURIComponent(new URL(request.url).pathname).replace(
-      /\/+$/,
-      '',
-    );
+    // Match the router's slash normalization before deciding authorization.
+    path = decodeURIComponent(new URL(request.url).pathname)
+      .replace(/\/+/g, '/')
+      .replace(/\/+$/, '');
   } catch {
     return protect(new Response('Not found', { status: 404 }), true);
   }
