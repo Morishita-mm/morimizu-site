@@ -30,6 +30,9 @@ export async function createLocalJournalRuntime({ persist = false } = {}) {
       ...moduleFiles
         .filter((p) => p !== 'index.js' && /\.m?js$/.test(p))
         .map((p) => ({ type: 'ESModule', path: resolve('dist/server', p) })),
+      ...moduleFiles
+        .filter((p) => p.endsWith('.wasm'))
+        .map((p) => ({ type: 'CompiledWasm', path: resolve('dist/server', p) })),
     ],
     modulesRoot: resolve('dist/server'),
     bindings,

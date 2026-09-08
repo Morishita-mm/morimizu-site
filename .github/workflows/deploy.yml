@@ -63,6 +63,9 @@ jobs:
       - name: Verify Journal validation and privacy boundary
         run: npm run test:journal
 
+      - name: Verify Markdown rendering and front matter
+        run: npm run test:content
+
       - name: Verify bilingual editorial routes
         run: node dev-pages/workshop/verify-locale.mjs
 
