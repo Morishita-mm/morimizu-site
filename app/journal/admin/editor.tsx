@@ -55,6 +55,11 @@ export function JournalEditor({ id }: { id: string }) {
   );
   const [restoreConfirm, setRestoreConfirm] = useState(false);
   const [imported, setImported] = useState<Preview | null>(null);
+  const importedRef = useRef<Preview | null>(null);
+  function updateImport(next: Preview | null) {
+    importedRef.current = next;
+    setImported(next);
+  }
   const dirty = Boolean(entry) && source !== entry?.source;
   const parsed = useMemo(() => {
     try {
@@ -304,7 +309,7 @@ export function JournalEditor({ id }: { id: string }) {
         { ...data.data, id, createdAt: fields.createdAt, updatedAt: today() },
         data.content,
       );
-      setImported(await request<Preview>('/preview', { source: normalized }));
+      updateImport(await request<Preview>('/preview', { source: normalized }));
     } catch (e) {
       setError((e as Error).message);
     }
@@ -802,7 +807,7 @@ export function JournalEditor({ id }: { id: string }) {
         </Modal>
       )}
       {imported && (
-        <Modal label="差し替え確認" onClose={() => setImported(null)}>
+        <Modal label="差し替え確認" onClose={() => updateImport(null)}>
           <section className="ja-history">
             {error && (
               <p className="ja-error" role="alert">
@@ -813,17 +818,23 @@ export function JournalEditor({ id }: { id: string }) {
             <p>公開中の記事は変わりません。現在の保存版は履歴に残ります。</p>
             <ManuscriptDiff before={source} after={imported.source} />
             <div className="ja-actions">
-              <button className="ja-button" onClick={() => setImported(null)}>
+              <button className="ja-button" onClick={() => updateImport(null)}>
                 キャンセル
               </button>
               <button
                 className="ja-button ja-primary"
                 disabled={busy || blocked}
                 onClick={async () => {
+                  const selected = imported;
                   const previous = await save();
-                  if (!previous || sourceRef.current !== saved.current) return;
-                  edit(imported.source);
-                  setImported(null);
+                  if (
+                    !previous ||
+                    importedRef.current !== selected ||
+                    sourceRef.current !== saved.current
+                  )
+                    return;
+                  edit(selected.source);
+                  updateImport(null);
                   setView('edit');
                 }}
               >

@@ -313,8 +313,75 @@ try {
   );
   assert.equal((await adminEntry(db, id)).version, conflicting.version + 1);
   await page.unroute(routePattern);
+  // Cancel and Escape both invalidate an import while its prerequisite save waits.
+  page.once('dialog', (dialog) => dialog.accept());
+  await page
+    .getByRole('button', { name: '保存版を読み直す', exact: true })
+    .click();
+  await page.locator('.ja-status').filter({ hasText: '保存済み' }).waitFor();
+  for (const cancel of ['button', 'escape']) {
+    await page.clock.pauseAt(await page.evaluate(() => Date.now() + 1000));
+    const originalBody = `Keep my draft after import ${cancel}`;
+    await page
+      .getByRole('textbox', { name: '本文', exact: true })
+      .fill(originalBody);
+    await page
+      .locator('input[type="file"]')
+      .setInputFiles({
+        name: 'cancel.md',
+        mimeType: 'text/markdown',
+        buffer: Buffer.from(
+          `---\nid: ${id}\ntitle: Canceled import\ncreatedAt: '2026-09-01'\nkind: log\nsummary: Canceled import fixture\n---\nIMPORT_SHOULD_NOT_APPLY\n`,
+        ),
+      });
+    const dialog = page.getByRole('dialog', { name: '差し替え確認' });
+    await dialog.waitFor();
+    let releaseSave;
+    let saveStarted;
+    const saveGate = new Promise((resolve) => {
+      releaseSave = resolve;
+    });
+    const saveReached = new Promise((resolve) => {
+      saveStarted = resolve;
+    });
+    await page.route(routePattern, async (route) => {
+      if (
+        route.request().method() === 'POST' &&
+        route.request().postDataJSON().action === 'save'
+      ) {
+        const response = await route.fetch();
+        saveStarted();
+        await saveGate;
+        await route.fulfill({ response });
+      } else await route.continue();
+    });
+    await dialog
+      .getByRole('button', { name: '下書きに取り込む', exact: true })
+      .click();
+    await saveReached;
+    if (cancel === 'button')
+      await dialog
+        .getByRole('button', { name: 'キャンセル', exact: true })
+        .click();
+    else await page.keyboard.press('Escape');
+    assert.equal(await dialog.isVisible(), false);
+    releaseSave();
+    await page.clock.resume();
+    await page.locator('.ja-status').filter({ hasText: '保存済み' }).waitFor();
+    assert.equal(
+      await page
+        .getByRole('textbox', { name: '本文', exact: true })
+        .inputValue(),
+      originalBody,
+    );
+    assert.equal(
+      readFrontMatter((await adminEntry(db, id)).source).content.trim(),
+      originalBody,
+    );
+    await page.unroute(routePattern);
+  }
   console.log(
-    'PASS: legacy tags; mutation snapshots; input retention during publication, share rotation, history loading, restoration and explicit reload.',
+    'PASS: legacy tags; mutation snapshots; input retention during publication, share rotation, history loading, restoration explicit reload and canceled import.',
   );
 } finally {
   await browser?.close();
