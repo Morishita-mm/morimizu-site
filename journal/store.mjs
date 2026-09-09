@@ -391,24 +391,31 @@ export async function change(db, id, input) {
     (input.visibility !== 'private'
       ? new Date().toISOString().slice(0, 10)
       : null);
+  const tags =
+    apply && current.draft_revision !== current.live_revision
+      ? JSON.stringify(JSON.parse(current.document).tags)
+      : current.tags_json;
   const result = await db
     .prepare(`UPDATE journal_entries SET live_revision=?, visibility=?, share_hash=?,
     published_at=?, tags_json=?, version=version+1 WHERE id=? AND version=?`)
-    .bind(
-      live,
-      input.visibility,
-      shareHash,
-      published,
-      apply && current.draft_revision !== current.live_revision
-        ? JSON.stringify(JSON.parse(current.document).tags)
-        : current.tags_json,
-      id,
-      input.version,
-    )
+    .bind(live, input.visibility, shareHash, published, tags, id, input.version)
     .run();
   if (result.meta.changes !== 1)
     throw new JournalError(409, 'State changed; reload and review again');
-  return { id, sharePath: token ? `/journal/share/${token}` : null };
+  // Return the snapshot committed by this CAS, without another fallible read.
+  return {
+    id,
+    sharePath: token ? `/journal/share/${token}` : null,
+    entry: {
+      ...current,
+      live_revision: live,
+      visibility: input.visibility,
+      share_hash: shareHash,
+      published_at: published,
+      tags_json: tags,
+      version: input.version + 1,
+    },
+  };
 }
 const liveSelect = `SELECT r.document,e.published_at,e.tags_json FROM journal_entries e
  JOIN journal_revisions r ON r.entry_id=e.id AND r.revision=e.live_revision`;

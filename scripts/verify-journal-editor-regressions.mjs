@@ -44,69 +44,122 @@ try {
     ['migrated'],
   );
 
-  // Hold each half of the publish round trip while the user continues typing.
-  for (const phase of ['POST', 'GET']) {
-    let release;
-    let started;
-    const gate = new Promise((resolve) => {
-      release = resolve;
-    });
-    const reached = new Promise((resolve) => {
-      started = resolve;
-    });
-    let posting = false;
-    let held = false;
-    const routePattern = `${base}/api/journal/admin/entries/${id}`;
-    await page.route(routePattern, async (route) => {
-      const req = route.request();
-      const apply =
-        req.method() === 'POST' && req.postDataJSON().action === 'apply';
-      if (apply) posting = true;
-      if (
-        !held &&
-        ((phase === 'POST' && apply) ||
-          (phase === 'GET' && posting && req.method() === 'GET'))
-      ) {
-        held = true;
-        started();
-        await gate;
+  // Fail any attempted refresh GET after a committed mutation.
+  const routePattern = `${base}/api/journal/admin/entries/${id}`;
+  let refreshes = 0;
+  let hold = null;
+  await page.route(routePattern, async (route) => {
+    const req = route.request();
+    if (req.method() === 'GET') {
+      refreshes++;
+      await route.fulfill({
+        status: 503,
+        contentType: 'application/json',
+        body: '{"error":"refresh unavailable"}',
+      });
+      return;
+    }
+    const pending = hold;
+    if (pending && req.postDataJSON().action === pending.action) {
+      hold = null;
+      const response =
+        pending.phase === 'response' ? await route.fetch() : null;
+      pending.started();
+      await pending.gate;
+      if (response) {
+        await route.fulfill({ response });
+        return;
       }
-      await route.continue();
-    });
-    try {
-      await page
-        .getByRole('button', { name: '公開設定へ', exact: true })
-        .click();
-      await page
-        .getByRole('button', { name: '変更を反映する', exact: true })
-        .click();
-      await reached;
-      await page.getByRole('button', { name: '編集', exact: true }).click();
-      const next = `Typing during ${phase}`;
-      await page.getByRole('textbox', { name: '本文', exact: true }).fill(next);
-      release();
-      await page
-        .locator('.ja-status')
-        .filter({ hasText: '保存済み' })
-        .waitFor();
-      assert.equal(
+    }
+    await route.continue();
+  });
+  // With no edits, publication still refreshes its status without a GET.
+  await page.getByRole('button', { name: '公開設定へ', exact: true }).click();
+  await page.getByLabel('公開範囲', { exact: true }).selectOption('unlisted');
+  await page
+    .getByRole('button', { name: '変更を反映する', exact: true })
+    .click();
+  await page
+    .locator('.ja-status')
+    .filter({ hasText: '公開設定を反映しました' })
+    .waitFor();
+  await page
+    .getByRole('button', { name: '旧リンクを停止して再発行', exact: true })
+    .waitFor();
+  assert.equal(refreshes, 0);
+
+  // Hold request dispatch and committed response delivery for both operations.
+  for (const action of ['apply', 'rotate']) {
+    for (const phase of ['request', 'response']) {
+      let release;
+      let started;
+      const gate = new Promise((resolve) => {
+        release = resolve;
+      });
+      const reached = new Promise((resolve) => {
+        started = resolve;
+      });
+      hold = { action, phase, gate, started };
+      try {
+        if (action === 'apply') {
+          await page
+            .getByRole('button', { name: '公開設定へ', exact: true })
+            .click();
+          await page
+            .getByRole('button', { name: '変更を反映する', exact: true })
+            .click();
+        } else {
+          await page
+            .getByRole('button', {
+              name: '旧リンクを停止して再発行',
+              exact: true,
+            })
+            .click();
+        }
+        await Promise.race([
+          reached,
+          new Promise((_, reject) => {
+            setTimeout(
+              () => reject(new Error('Mutation was not reached')),
+              10000,
+            ).unref();
+          }),
+        ]);
+        await page.getByRole('button', { name: '編集', exact: true }).click();
+        const next = `Typing during ${action} ${phase}`;
         await page
           .getByRole('textbox', { name: '本文', exact: true })
-          .inputValue(),
-        next,
-      );
-      assert.equal(
-        readFrontMatter((await adminEntry(db, id)).source).content.trim(),
-        next,
-      );
-      assert.notEqual((await publicEntry(db, id)).entry.content.trim(), next);
-    } finally {
-      release();
-      await page.unroute(routePattern);
+          .fill(next);
+        release();
+        await page
+          .locator('.ja-status')
+          .filter({ hasText: '保存済み' })
+          .waitFor();
+        assert.equal(
+          await page
+            .getByRole('textbox', { name: '本文', exact: true })
+            .inputValue(),
+          next,
+        );
+        const stored = await adminEntry(db, id);
+        assert.equal(readFrontMatter(stored.source).content.trim(), next);
+        const live = await db
+          .prepare(
+            'SELECT document FROM journal_revisions WHERE entry_id=? AND revision=?',
+          )
+          .bind(id, stored.live_revision)
+          .first();
+        assert.notEqual(JSON.parse(live.document).content.trim(), next);
+        assert.equal(refreshes, 0);
+      } finally {
+        release();
+        hold = null;
+      }
     }
   }
+  await page.unroute(routePattern);
   console.log(
-    'PASS: migrated tags survive first publish; edits during publish POST and refresh GET remain in the draft only.',
+    'PASS: legacy tags; committed mutation snapshots without refresh GET; inputs during publish/share rotation dispatch and response stay in draft only.',
   );
 } finally {
   await browser?.close();

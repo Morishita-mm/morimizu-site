@@ -89,6 +89,18 @@ export function JournalEditor({ id }: { id: string }) {
     setError('');
     setSaveState(nextSource === e.source ? '保存済み' : '未保存');
   }
+  function receiveMutation(updated: Entry, snapshot: string) {
+    const edited = sourceRef.current !== snapshot;
+    if (edited) {
+      entryRef.current = updated;
+      saved.current = updated.source;
+      setEntry(updated);
+      setSaveState('未保存');
+    } else {
+      receive(updated);
+    }
+    return edited;
+  }
   useEffect(() => {
     let active = true;
     request<Entry>(`/entries/${id}`)
@@ -236,7 +248,7 @@ export function JournalEditor({ id }: { id: string }) {
     setBusy(true);
     setError('');
     try {
-      const result = await request<{ sharePath: string | null }>(
+      const result = await request<{ sharePath: string | null; entry: Entry }>(
         `/entries/${id}`,
         {
           action: visibility === 'private' ? 'visibility' : 'apply',
@@ -245,16 +257,7 @@ export function JournalEditor({ id }: { id: string }) {
           visibility,
         },
       );
-      const updated = await request<Entry>(`/entries/${id}`);
-      const editedDuringPublish = sourceRef.current !== snapshot;
-      if (editedDuringPublish) {
-        // Refresh the server version without replacing newer local input.
-        entryRef.current = updated;
-        saved.current = updated.source;
-        setEntry(updated);
-      } else {
-        receive(updated);
-      }
+      const editedDuringPublish = receiveMutation(result.entry, snapshot);
       setShare(
         result.sharePath ? new URL(result.sharePath, location.origin).href : '',
       );
@@ -630,18 +633,19 @@ export function JournalEditor({ id }: { id: string }) {
                     className="ja-button"
                     disabled={busy || dirty}
                     onClick={async () => {
+                      const snapshot = sourceRef.current;
                       setBusy(true);
                       try {
-                        const r = await request<{ sharePath: string }>(
-                          `/entries/${id}`,
-                          {
-                            action: 'rotate',
-                            version: entry.version,
-                            visibility: 'unlisted',
-                          },
-                        );
+                        const r = await request<{
+                          sharePath: string;
+                          entry: Entry;
+                        }>(`/entries/${id}`, {
+                          action: 'rotate',
+                          version: entry.version,
+                          visibility: 'unlisted',
+                        });
                         setShare(new URL(r.sharePath, location.origin).href);
-                        receive(await request<Entry>(`/entries/${id}`));
+                        receiveMutation(r.entry, snapshot);
                       } catch (e) {
                         setError((e as Error).message);
                       } finally {
