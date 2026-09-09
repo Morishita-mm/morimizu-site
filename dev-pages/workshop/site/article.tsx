@@ -2,6 +2,7 @@
 /* oxlint-disable next/no-html-link-for-pages -- Existing route behavior. */
 import type { ReactNode } from 'react';
 import { useLocale } from '../locale';
+import { ControlLabel } from '@/components/control-label';
 import { formatArticleDate } from '@/lib/article-date';
 import { Arrow } from './components';
 import type { ArticleSummary } from './types';
@@ -12,7 +13,7 @@ export function ArticlePage({
   article: ArticleSummary;
   children: ReactNode;
 }) {
-  const { t } = useLocale();
+  const { t, locale } = useLocale();
   return (
     <article className="e-article shell">
       <a href="/notes" className="e-back">
@@ -33,12 +34,12 @@ export function ArticlePage({
           ))}
         </div>
         <a href={article.qiitaUrl} className="e-outline-link">
-          {t('Qiitaで読む', 'Read on Qiita')} <Arrow diagonal />
+          <ControlLabel locale={locale} ja="Qiitaで読む" en="Read on Qiita" /> <Arrow diagonal />
         </a>
       </header>
       {children}
       <a href="/notes" className="e-outline-link">
-        {t('記事一覧に戻る', 'Back to articles')} <Arrow />
+        <ControlLabel locale={locale} ja="記事一覧に戻る" en="Back to articles" /> <Arrow />
       </a>
     </article>
   );

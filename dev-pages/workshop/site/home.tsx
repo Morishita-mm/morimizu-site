@@ -1,6 +1,7 @@
 'use client';
 /* oxlint-disable next/no-img-element, next/no-html-link-for-pages -- Optimized native images and existing routes. */
 import { useLocale } from '../locale';
+import { ControlLabel } from '@/components/control-label';
 import { SiteIcon } from '../site-identity';
 import { BrandWordmark } from '../brand-concepts';
 import { ProjectCarousel } from '../project-carousel';
@@ -123,7 +124,7 @@ export function Home({
             </h2>
             <p>{about.summary[en ? 'en' : 'ja']}</p>
             <a href="/about" className="e-solid-link">
-              {t('職務経歴書', 'Résumé')} <Arrow />
+              <ControlLabel locale={en ? 'en' : 'ja'} ja="職務経歴書" en="Résumé" /> <Arrow />
             </a>
           </div>
           <div className="about-skills">

@@ -1,11 +1,40 @@
 'use client';
 
-import { Printer } from 'lucide-react';
+import { ChevronDown, Printer } from 'lucide-react';
+import { useEffect, useId, useRef, useState } from 'react';
+import { ControlLabel } from './control-label';
 
 export function PrintButton({ locale = 'ja' }: { locale?: 'ja' | 'en' }) {
   const isEn = locale === 'en';
+  const [open, setOpen] = useState(false);
+  const panelId = useId();
+  const mobileRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const dismissOutside = (event: PointerEvent) => {
+      if (!mobileRef.current?.contains(event.target as Node)) setOpen(false);
+    };
+    const dismissEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setOpen(false);
+        triggerRef.current?.focus();
+      }
+    };
+    document.addEventListener('pointerdown', dismissOutside);
+    document.addEventListener('keydown', dismissEscape);
+    return () => {
+      document.removeEventListener('pointerdown', dismissOutside);
+      document.removeEventListener('keydown', dismissEscape);
+    };
+  }, [open]);
 
   const handlePrint = (orientation: 'portrait' | 'landscape') => {
+    if (open) {
+      setOpen(false);
+      triggerRef.current?.focus();
+    }
     document.documentElement.setAttribute(
       'data-print-orientation',
       orientation,
@@ -24,8 +53,8 @@ export function PrintButton({ locale = 'ja' }: { locale?: 'ja' | 'en' }) {
     window.print();
   };
 
-  return (
-    <div className="resume-print-group">
+  const choices = (
+    <>
       <button
         aria-label={
           isEn
@@ -37,7 +66,7 @@ export function PrintButton({ locale = 'ja' }: { locale?: 'ja' | 'en' }) {
         type="button"
       >
         <Printer aria-hidden="true" size={14} />
-        <span>{isEn ? 'Print A4 (Portrait)' : 'A4縦で印刷'}</span>
+        <ControlLabel locale={locale} ja="A4縦で印刷" en="Print A4 (Portrait)" />
       </button>
 
       <button
@@ -51,8 +80,41 @@ export function PrintButton({ locale = 'ja' }: { locale?: 'ja' | 'en' }) {
         type="button"
       >
         <Printer aria-hidden="true" size={14} />
-        <span>{isEn ? 'Print A4 (Landscape)' : 'A4横で印刷'}</span>
+        <ControlLabel locale={locale} ja="A4横で印刷" en="Print A4 (Landscape)" />
       </button>
-    </div>
+    </>
+  );
+
+  return (
+    <>
+      <div className="resume-print-group resume-print-desktop">{choices}</div>
+      <div
+        className="resume-print-mobile"
+        ref={mobileRef}
+        onBlur={(event) => {
+          if (!event.currentTarget.contains(event.relatedTarget)) setOpen(false);
+        }}
+      >
+        <button
+          ref={triggerRef}
+          type="button"
+          className="resume-print-button resume-print-trigger"
+          aria-expanded={open}
+          aria-controls={panelId}
+          onClick={() => setOpen(!open)}
+        >
+          <Printer aria-hidden="true" size={14} />
+          <ControlLabel locale={locale} ja="印刷" en="Print" />
+          <ChevronDown aria-hidden="true" size={14} />
+        </button>
+        <div
+          id={panelId}
+          className="resume-print-options"
+          hidden={!open}
+        >
+          {choices}
+        </div>
+      </div>
+    </>
   );
 }

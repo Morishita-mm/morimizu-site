@@ -703,6 +703,16 @@ a:hover > .e-arrow.diagonal {
   max-width: 630px;
   margin-top: 24px;
 }
+.e-control-label {
+  display: inline-grid;
+  min-width: 0;
+}
+.e-control-label > span {
+  grid-area: 1 / 1;
+}
+.e-control-label > [aria-hidden='true'] {
+  visibility: hidden;
+}
 .e-solid-link,
 .e-outline-link {
   display: inline-flex;
@@ -2393,12 +2403,16 @@ a:hover > .e-arrow.diagonal {
   margin-top: 12px;
 }
 .e-language-toggle {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
   font: inherit;
   font-size: 12px;
   background: transparent;
   color: inherit;
   border: 1px solid currentColor;
-  padding: 8px 12px;
+  padding: 0;
   cursor: pointer;
   flex-shrink: 0;
 }
@@ -2522,10 +2536,6 @@ a:hover > .e-arrow.diagonal {
   .e-header .e-header-tools {
     margin-left: auto;
     gap: 8px;
-  }
-  .e-header .e-language-toggle {
-    min-width: 44px;
-    min-height: 44px;
   }
   .e-menu-toggle {
     display: grid;
