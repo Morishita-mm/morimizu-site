@@ -65,6 +65,8 @@ export function JournalEditor({ id }: { id: string }) {
   }, [source]);
   const fields = parsed.data as Partial<JournalEntry>;
   function receive(e: Entry) {
+    // Keep the persisted source as the save baseline when migrating legacy tags.
+    let nextSource = e.source;
     // Preserve tags edited with the earlier metadata-only controls.
     if (
       e.tags_json !== null &&
@@ -72,23 +74,20 @@ export function JournalEditor({ id }: { id: string }) {
     ) {
       const parsed = readFrontMatter(e.source);
       if (JSON.stringify(parsed.data.tags ?? []) !== e.tags_json) {
-        e = {
-          ...e,
-          source: serializeManuscript(
-            { ...parsed.data, tags: JSON.parse(e.tags_json) },
-            parsed.content,
-          ),
-        };
+        nextSource = serializeManuscript(
+          { ...parsed.data, tags: JSON.parse(e.tags_json) },
+          parsed.content,
+        );
       }
     }
     entryRef.current = e;
     saved.current = e.source;
-    sourceRef.current = e.source;
+    sourceRef.current = nextSource;
     setEntry(e);
-    setSource(e.source);
+    setSource(nextSource);
     setBlocked(false);
     setError('');
-    setSaveState('保存済み');
+    setSaveState(nextSource === e.source ? '保存済み' : '未保存');
   }
   useEffect(() => {
     let active = true;
@@ -233,6 +232,7 @@ export function JournalEditor({ id }: { id: string }) {
       preview.source !== sourceRef.current
     )
       return;
+    const snapshot = sourceRef.current;
     setBusy(true);
     setError('');
     try {
@@ -245,15 +245,26 @@ export function JournalEditor({ id }: { id: string }) {
           visibility,
         },
       );
-      receive(await request<Entry>(`/entries/${id}`));
+      const updated = await request<Entry>(`/entries/${id}`);
+      const editedDuringPublish = sourceRef.current !== snapshot;
+      if (editedDuringPublish) {
+        // Refresh the server version without replacing newer local input.
+        entryRef.current = updated;
+        saved.current = updated.source;
+        setEntry(updated);
+      } else {
+        receive(updated);
+      }
       setShare(
         result.sharePath ? new URL(result.sharePath, location.origin).href : '',
       );
       setPublish(false);
       setSaveState(
-        visibility === 'private'
-          ? '公開を停止しました'
-          : '公開設定を反映しました',
+        editedDuringPublish
+          ? '未保存'
+          : visibility === 'private'
+            ? '公開を停止しました'
+            : '公開設定を反映しました',
       );
     } catch (e) {
       setError((e as Error).message);

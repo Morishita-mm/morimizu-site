@@ -66,3 +66,5 @@ npm run journal:new -- --template /path/to/custom-template.md --dir /path/to/pri
 実端末のSafari・本番Access認証・本番DB migrationは未実施。PRレビューと本番確認はリリース時に記録する。
 
 2026-09-09 UI確認後の調整：削除だけ一覧に残し、他の操作を3点メニューに集約。Notes共通見出しを「書いたこと、／のこしたもの。」、Projectsを「つくったもの、／ほしかったもの。」へ変更。
+
+PRレビューで旧形式のタグ引き継ぎと公開処理中の入力保持を修正。`node scripts/verify-journal-editor-regressions.mjs` で、編集せず初回公開した場合のタグ保持、および公開POST/再読込GETをそれぞれ保留した間の入力が下書きだけに保存されることを確認。修正前のタグ消失を再現し、修正後の回帰と既存Journalブラウザー検証が成功。
