@@ -107,9 +107,9 @@ export function LanguageToggle() {
       type="button"
       onClick={toggle}
       lang={en ? 'ja' : 'en'}
-      aria-label={en ? '日本語に切り替え' : 'Switch to English'}
+      aria-label={en ? 'JP: 日本語に切り替え' : 'EN: Switch to English'}
     >
-      {en ? '日本語' : 'EN'}
+      {en ? 'JP' : 'EN'}
     </button>
   );
 }

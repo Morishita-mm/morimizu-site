@@ -1,6 +1,7 @@
 'use client';
 /* oxlint-disable next/no-img-element, next/no-html-link-for-pages -- Native diagrams and existing routes. */
 import { useLocale } from '../locale';
+import { ControlLabel } from '@/components/control-label';
 import { TECH_INTERVIEWER_URL } from '@/lib/project-links';
 import { Arrow, Mark, SectionHeading } from './components';
 import type { Project } from '@/lib/projects';
@@ -101,7 +102,11 @@ export function ProjectPage({
       <div className="project-detail-links">
         {primaryLink && (
           <a href={primaryLink.href} className="e-solid-link">
-            {primaryLink.label}
+            <ControlLabel
+              locale={en ? 'en' : 'ja'}
+              ja={localized.ja.primaryLink?.label ?? 'アプリを開く'}
+              en={localized.en.primaryLink?.label ?? 'Open app'}
+            />
             <Arrow diagonal />
           </a>
         )}
@@ -148,7 +153,7 @@ export function ProjectPage({
         <p>{project.now}</p>
       </section>
       <a href="/projects" className="e-outline-link">
-        {t('ほかのプロジェクトを見る', 'Explore other projects')} <Arrow />
+        <ControlLabel locale={en ? 'en' : 'ja'} ja="ほかのプロジェクトを見る" en="Explore other projects" /> <Arrow />
       </a>
     </article>
   );

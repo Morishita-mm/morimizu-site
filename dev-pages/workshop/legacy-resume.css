@@ -437,6 +437,53 @@
   background: var(--paper-deep);
 }
 
+.e-legacy-resume .resume-print-mobile {
+  display: none;
+}
+
+@media screen and (max-width: 760px) {
+  .e-legacy-resume .resume-print-desktop {
+    display: none;
+  }
+
+  .e-legacy-resume .resume-print-mobile {
+    display: inline-block;
+    position: relative;
+  }
+
+  .e-legacy-resume .resume-print-trigger {
+    min-height: 44px;
+  }
+
+  .e-legacy-resume .resume-print-options {
+    position: absolute;
+    inset-block-start: calc(100% + 8px);
+    inset-inline-end: 0;
+    z-index: 10;
+    width: max-content;
+    max-width: calc(100vw - 48px);
+    padding: 4px;
+    border: 1px solid var(--rule);
+    border-radius: 12px;
+    background: var(--paper-light);
+    box-shadow: 0 8px 24px #0002;
+  }
+
+  .e-legacy-resume .resume-print-options .resume-print-button {
+    display: flex;
+    width: 100%;
+    min-height: 44px;
+    border: 0;
+    border-radius: 8px;
+    background: transparent;
+    color: var(--ink);
+  }
+
+  .e-legacy-resume .resume-print-options .resume-print-button:hover {
+    background: var(--paper-deep);
+  }
+}
+
 /* Mobile Screen Only (段組みなし・1カラム縦積み): media screen を明示して印刷時の誤適用を防止 */
 @media screen and (max-width: 820px) {
   .e-legacy-resume .poster-resume {

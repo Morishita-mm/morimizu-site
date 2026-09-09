@@ -3,6 +3,7 @@ import { useEffect, useState, type MouseEvent } from 'react';
 import { NotesListHeader } from './notes-list-header';
 import { NotesHeading } from './notes-heading';
 import { useLocale } from '../locale';
+import { ControlLabel } from '@/components/control-label';
 import { LikesUpdated } from '../qiita-likes';
 import { Arrow, NoteRow } from './components';
 import type { ArticleSummary } from './types';
@@ -67,7 +68,7 @@ export function NotesPage({
       </ol>
       <LikesUpdated />
       <a className="e-outline-link" href="https://qiita.com/morimizu">
-        {t('Qiitaのプロフィールを見る', 'View Qiita profile')}{' '}
+        <ControlLabel locale={en ? 'en' : 'ja'} ja="Qiitaのプロフィールを見る" en="View Qiita profile" />{' '}
         <Arrow diagonal />
       </a>
     </div>
