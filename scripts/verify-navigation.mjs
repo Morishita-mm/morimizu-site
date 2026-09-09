@@ -46,10 +46,10 @@ try {
   await page.waitForFunction(
     () => document.documentElement.lang === 'en' && !location.search,
   );
-  await page.locator('.e-header nav a[href="/projects"]').click();
+  await page.locator('.e-header nav[data-desktop-nav] a[href="/projects"]').click();
   await page.waitForURL('**/projects');
   await page.waitForFunction(() => document.documentElement.lang === 'en');
-  await page.locator('.e-header nav a[href="/notes"]').click();
+  await page.locator('.e-header nav[data-desktop-nav] a[href="/notes"]').click();
   await page.waitForURL('**/notes');
   await page.goBack();
   await page.waitForURL('**/projects');
