@@ -215,15 +215,27 @@ export function JournalEditor({ id }: { id: string }) {
     }
   }
   async function restoreRevision() {
-    if (!old || !entry) return;
+    const current = entryRef.current;
+    if (!old || !current) return;
+    if (saving.current || sourceRef.current !== saved.current) {
+      setError(
+        '未保存の変更があります。保存が完了してから履歴を復元してください。',
+      );
+      setHistory(null);
+      setOld(null);
+      setRestoreConfirm(false);
+      return;
+    }
+    const snapshot = sourceRef.current;
     setBusy(true);
     try {
-      receive(
+      receiveMutation(
         await request<Entry>(`/entries/${id}`, {
           action: 'revert',
-          version: entry.version,
+          version: current.version,
           revision: old.revision,
         }),
+        snapshot,
       );
       setHistory(null);
       setOld(null);
@@ -370,7 +382,15 @@ export function JournalEditor({ id }: { id: string }) {
                     )
                   ) {
                     try {
-                      receive(await request<Entry>(`/entries/${id}`));
+                      const snapshot = sourceRef.current;
+                      const updated = await request<Entry>(`/entries/${id}`);
+                      if (sourceRef.current !== snapshot) {
+                        setError(
+                          '読み込み中に入力が変わったため、再読み込みを中止しました。編集中の内容は残っています。',
+                        );
+                        return;
+                      }
+                      receive(updated);
                     } catch (e) {
                       setError((e as Error).message);
                     }

@@ -158,8 +158,163 @@ try {
     }
   }
   await page.unroute(routePattern);
+  const chooseOldRevision = async () => {
+    const dialog = page.getByRole('dialog', { name: '変更履歴' });
+    await dialog
+      .locator('.ja-history-layout > div')
+      .first()
+      .getByRole('button')
+      .last()
+      .click();
+    await dialog
+      .getByRole('button', { name: 'この版を下書きに戻す', exact: true })
+      .click();
+    return dialog.getByRole('button', { name: '下書きに戻す', exact: true });
+  };
+  // Pause autosave so the restore is attempted while the newly typed text is dirty.
+  await page.clock.install();
+  await page.clock.pauseAt(new Date(Date.now() + 1000));
+  let releaseHistory;
+  let historyStarted;
+  const historyGate = new Promise((resolve) => {
+    releaseHistory = resolve;
+  });
+  const historyReached = new Promise((resolve) => {
+    historyStarted = resolve;
+  });
+  const historyPattern = `${routePattern}?history=*`;
+  await page.route(historyPattern, async (route) => {
+    const response = await route.fetch();
+    historyStarted();
+    await historyGate;
+    await route.fulfill({ response });
+  });
+  await page
+    .getByRole('button', { name: '変更履歴・差分', exact: true })
+    .click();
+  await historyReached;
+  const dirtyBody = 'Typed while history was loading';
+  await page
+    .getByRole('textbox', { name: '本文', exact: true })
+    .fill(dirtyBody);
+  releaseHistory();
+  await (await chooseOldRevision()).click();
+  await page
+    .getByText(
+      '未保存の変更があります。保存が完了してから履歴を復元してください。',
+      { exact: true },
+    )
+    .waitFor();
+  assert.equal(
+    await page.getByRole('textbox', { name: '本文', exact: true }).inputValue(),
+    dirtyBody,
+  );
+  await page.unroute(historyPattern);
+  await page.clock.resume();
+  await page.locator('.ja-status').filter({ hasText: '保存済み' }).waitFor();
+  assert.equal(
+    readFrontMatter((await adminEntry(db, id)).source).content.trim(),
+    dirtyBody,
+  );
+
+  // Closing the dialog during the committed revert response must also keep input.
+  let releaseRevert;
+  let revertStarted;
+  const revertGate = new Promise((resolve) => {
+    releaseRevert = resolve;
+  });
+  const revertReached = new Promise((resolve) => {
+    revertStarted = resolve;
+  });
+  await page.route(routePattern, async (route) => {
+    if (
+      route.request().method() === 'POST' &&
+      route.request().postDataJSON().action === 'revert'
+    ) {
+      const response = await route.fetch();
+      revertStarted();
+      await revertGate;
+      await route.fulfill({ response });
+    } else await route.continue();
+  });
+  await page
+    .getByRole('button', { name: '変更履歴・差分', exact: true })
+    .click();
+  await (await chooseOldRevision()).click();
+  await revertReached;
+  await page
+    .getByRole('dialog')
+    .getByRole('button', { name: '閉じる', exact: true })
+    .click();
+  const afterRestore = 'Typed while restoration was in flight';
+  await page
+    .getByRole('textbox', { name: '本文', exact: true })
+    .fill(afterRestore);
+  releaseRevert();
+  await page.locator('.ja-status').filter({ hasText: '保存済み' }).waitFor();
+  assert.equal(
+    await page.getByRole('textbox', { name: '本文', exact: true }).inputValue(),
+    afterRestore,
+  );
+  assert.equal(
+    readFrontMatter((await adminEntry(db, id)).source).content.trim(),
+    afterRestore,
+  );
+  await page.unroute(routePattern);
+  // Explicit reload may discard existing edits, but never input typed after confirmation.
+  const conflicting = await adminEntry(db, id);
+  await change(db, id, {
+    action: 'tags',
+    version: conflicting.version,
+    tags: ['other-tab'],
+  });
+  await page
+    .getByRole('textbox', { name: '本文', exact: true })
+    .fill('Unsaved conflict fixture');
+  await page
+    .locator('.ja-status')
+    .filter({ hasText: '保存できませんでした' })
+    .waitFor();
+  let releaseReload;
+  let reloadStarted;
+  const reloadGate = new Promise((resolve) => {
+    releaseReload = resolve;
+  });
+  const reloadReached = new Promise((resolve) => {
+    reloadStarted = resolve;
+  });
+  await page.route(routePattern, async (route) => {
+    if (route.request().method() === 'GET') {
+      const response = await route.fetch();
+      reloadStarted();
+      await reloadGate;
+      await route.fulfill({ response });
+    } else await route.continue();
+  });
+  page.once('dialog', (dialog) => dialog.accept());
+  await page
+    .getByRole('button', { name: '保存版を読み直す', exact: true })
+    .click();
+  await reloadReached;
+  const afterReload = 'Typed after confirming reload';
+  await page
+    .getByRole('textbox', { name: '本文', exact: true })
+    .fill(afterReload);
+  releaseReload();
+  await page
+    .getByText(
+      '読み込み中に入力が変わったため、再読み込みを中止しました。編集中の内容は残っています。',
+      { exact: true },
+    )
+    .waitFor();
+  assert.equal(
+    await page.getByRole('textbox', { name: '本文', exact: true }).inputValue(),
+    afterReload,
+  );
+  assert.equal((await adminEntry(db, id)).version, conflicting.version + 1);
+  await page.unroute(routePattern);
   console.log(
-    'PASS: legacy tags; committed mutation snapshots without refresh GET; inputs during publish/share rotation dispatch and response stay in draft only.',
+    'PASS: legacy tags; mutation snapshots; input retention during publication, share rotation, history loading, restoration and explicit reload.',
   );
 } finally {
   await browser?.close();
