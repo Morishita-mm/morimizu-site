@@ -31,8 +31,8 @@ function Page({ path, preview }: { path: string; preview: boolean }) {
     return <ProjectsPage projects={getProjectCards()} />;
   if (path === '/notes')
     return <NotesPage articles={getAllQiitaArticles().map(articleSummary)} />;
-  if (path === '/about' || path === '/en/about') return <AboutPage />;
-  if (path === '/resume' || path === '/en/resume')
+  if (path === '/about') return <AboutPage />;
+  if (path === '/resume')
     return <ResumePage resume={{ ja: RESUME_JA, en: RESUME_EN }} />;
   const project =
     path.startsWith('/projects/') || path.startsWith('/blueprint/')
@@ -74,13 +74,15 @@ export function Preview({
   initialLocale?: Locale;
   preview?: boolean;
 }) {
+  const englishPath = /^\/en(?:\/|$)/.test(path);
+  const pagePath = englishPath ? path.slice(3) || '/' : path;
   return (
     <SiteShell
-      path={path}
-      initialLocale={initialLocale ?? (path.startsWith('/en/') ? 'en' : 'ja')}
+      path={pagePath}
+      initialLocale={initialLocale ?? (englishPath ? 'en' : 'ja')}
       preview={preview}
     >
-      <Page path={path} preview={preview} />
+      <Page path={pagePath} preview={preview} />
     </SiteShell>
   );
 }

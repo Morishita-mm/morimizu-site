@@ -99,8 +99,24 @@ try {
         );
     }
   }
+  // English-prefixed links emitted by About must resolve in standalone preview.
+  for (const path of [
+    '/en',
+    '/en/about',
+    '/en/resume',
+    '/en/projects',
+    '/en/projects/lissue',
+    '/en/notes',
+  ]) {
+    const html = renderToString(createElement(Preview, { path }));
+    assert.ok(!html.includes('e-not-found'), `English preview route: ${path}`);
+    assert.ok(
+      html.includes('Things I build. Things I write.'),
+      `English locale: ${path}`,
+    );
+  }
   console.log(
-    'PASS: 9 routes × 2 languages; About/Résumé content and localized links',
+    'PASS: 9 routes × 2 languages; About/Résumé content and links; 6 English preview routes',
   );
 } finally {
   await server.close();
