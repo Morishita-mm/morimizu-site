@@ -279,7 +279,13 @@ try {
         `Original resume layout: ${path}`,
       );
       assert.ok(html.includes('poster-timeline-node'));
-      assert.equal((html.match(/class="resume-print-button/g) ?? []).length, 2);
+      const desktopPrint = html.match(/class="resume-print-group resume-print-desktop">([\s\S]*?)<\/div>/)?.[1];
+      assert.ok(desktopPrint, `Desktop print controls: ${path}`);
+      assert.equal((desktopPrint.match(/<button\b/g) ?? []).length, 2);
+      assert.match(html, /class="resume-print-button resume-print-trigger" aria-expanded="false" aria-controls="[^"]+"/);
+      const mobilePrint = html.match(/class="resume-print-options" hidden="">([\s\S]*?)<\/div>/)?.[1];
+      assert.ok(mobilePrint, `Initially hidden mobile print choices: ${path}`);
+      assert.equal((mobilePrint.match(/<button\b/g) ?? []).length, 2);
     }
     if (path.startsWith('/projects/')) {
       const diagramIndex = html.indexOf('class="architecture-feature"');
