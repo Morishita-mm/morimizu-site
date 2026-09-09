@@ -95,7 +95,7 @@ graph LR
   const page = await context.newPage();
   const errors = [];
   page.on('pageerror', (e) => errors.push(e.message));
-  // Follow the real navigation from home and other pages, including English pages.
+  await mkdir('outputs/journal', { recursive: true });
   for (const path of [
     '/',
     '/about',
@@ -107,58 +107,39 @@ graph LR
     '/en/notes',
   ]) {
     await page.goto(base + path);
-    const footer = page.locator('footer');
-    await footer.locator('a[href="/journal/admin/upload"]').click();
+    await page.locator('footer a[href="/journal/admin"]').click();
     await page
-      .getByRole('heading', { name: '原稿をアップロード', exact: true })
+      .getByRole('heading', { name: '記事を育てる。', exact: true })
       .waitFor();
   }
-  const picker = page.getByLabel('Markdownファイルを選択', { exact: true });
-  const confirm = page.getByRole('checkbox', {
-    name: '内容を確定し、アップロード後はローカルの原稿を編集しません',
-  });
-  const save = page.getByRole('button', {
-    name: '非公開で保存する',
-    exact: true,
-  });
-  assert.equal(await save.isDisabled(), true);
+  await page.getByRole('link', { name: 'インポート', exact: true }).click();
+  const picker = page.getByLabel('Markdownファイル', { exact: true });
   await picker.setInputFiles({
     name: 'not-markdown.txt',
     mimeType: 'text/plain',
     buffer: Buffer.from('invalid'),
   });
-  await page
-    .getByRole('alert')
-    .getByText('拡張子が .md のファイルを選んでください。')
-    .waitFor();
+  await page.getByRole('alert').waitFor();
   await picker.setInputFiles({
     name: 'large.md',
     mimeType: 'text/markdown',
     buffer: Buffer.alloc(256 * 1024 + 1),
   });
-  await page
-    .getByRole('alert')
-    .getByText('空でない256 KiB以下のMarkdownを選んでください。')
-    .waitFor();
+  await page.getByRole('alert').waitFor();
   await picker.setInputFiles(file);
+  await page.getByRole('button', { name: '非公開で保存して編集へ' }).waitFor();
   assert.equal(
     (await db.prepare('SELECT count(*) n FROM journal_entries').first()).n,
     0,
-    'choosing a file must not send it',
+    'preview does not save an article',
   );
-  assert.equal(await save.isDisabled(), true);
-  await confirm.check();
-  await mkdir('outputs/journal', { recursive: true });
   await page.screenshot({
     path: 'outputs/journal/upload-desktop.png',
     fullPage: true,
   });
-  await save.click();
-  await page
-    .getByRole('heading', { name: '原稿を非公開で保存しました' })
-    .waitFor();
-  assert.equal((await fetch(base + '/journal/browser-check')).status, 404);
-  await page.getByRole('link', { name: '保存した原稿を確認 →' }).click();
+  await page.getByRole('button', { name: '非公開で保存して編集へ' }).click();
+  await page.waitForURL('**/journal/admin/browser-check');
+  await page.getByRole('button', { name: 'プレビュー', exact: true }).click();
   await page
     .getByText('JOURNAL_PRIVATE_E2E_CANARY_785a', { exact: true })
     .waitFor();
@@ -167,42 +148,40 @@ graph LR
   assert.ok(await page.locator('.katex').count());
   assert.equal(await page.locator('.katex-display').count(), 1);
   assert.equal(await page.locator('.markdown-body table').count(), 1);
-  assert.equal(await page.locator('.markdown-body del').textContent(), '旧パーサ');
+  assert.equal(
+    await page.locator('.markdown-body del').textContent(),
+    '旧パーサ',
+  );
   assert.equal(await page.locator('.markdown-body details[open]').count(), 1);
-  const footnote = page.locator('.markdown-body a[href="#user-content-fn-check"]');
-  await footnote.click();
   assert.equal(await page.locator('#user-content-fn-check').count(), 1);
-  const original = await fetch(
-    base + '/api/journal/admin/entries/browser-check?source=1',
-    { headers: auth },
+  assert.equal((await fetch(base + '/journal/browser-check')).status, 404);
+  assert.equal(
+    await (
+      await fetch(base + '/api/journal/admin/entries/browser-check?source=1', {
+        headers: auth,
+      })
+    ).text(),
+    source,
   );
-  assert.equal(await original.text(), source);
-  await page.screenshot({
-    path: 'outputs/journal/admin-desktop.png',
-    fullPage: true,
-  });
-  await page.getByLabel('公開範囲', { exact: true }).selectOption('public');
-  await page
-    .getByRole('checkbox', { name: '下の原稿と公開範囲を確認しました' })
-    .check();
-  await page
-    .getByRole('button', { name: '公開範囲を保存', exact: true })
-    .click();
-  await page.getByText('保存しました。', { exact: true }).waitFor();
-  const publicResponse = await fetch(base + '/journal/browser-check');
-  assert.equal(publicResponse.status, 200);
-  assert.match(publicResponse.headers.get('cache-control'), /no-store/);
+  const publish = async (scope, label) => {
+    await page.getByRole('button', { name: '公開設定へ', exact: true }).click();
+    await page.getByLabel('公開範囲', { exact: true }).selectOption(scope);
+    await page.getByRole('button', { name: label, exact: true }).click();
+    await page
+      .locator('.ja-status')
+      .filter({
+        hasText:
+          scope === 'private' ? '公開を停止しました' : '公開設定を反映しました',
+      })
+      .waitFor();
+  };
+  await publish('public', '公開する');
+  const response = await fetch(base + '/journal/browser-check');
+  assert.equal(response.status, 200);
+  assert.match(response.headers.get('cache-control'), /no-store/);
   assert.ok(
-    (await publicResponse.text()).includes('JOURNAL_PRIVATE_E2E_CANARY_785a'),
+    (await response.text()).includes('JOURNAL_PRIVATE_E2E_CANARY_785a'),
   );
-  // Duplicate via browser and legacy CLI is harmless, with no publication reset.
-  await page.goto(base + '/journal/admin/upload');
-  await picker.setInputFiles(file);
-  await confirm.check();
-  await save.click();
-  await page
-    .getByRole('heading', { name: 'この原稿はすでに保存されています' })
-    .waitFor();
   await promisify(execFile)(
     process.execPath,
     [resolve('scripts/journal-send.mjs'), file],
@@ -215,128 +194,188 @@ graph LR
       },
     },
   );
+  await page.getByRole('button', { name: '編集', exact: true }).click();
+  await page
+    .getByRole('textbox', { name: 'タイトル', exact: true })
+    .fill('ブラウザーで編集した記事');
+  await page
+    .getByRole('textbox', { name: '要約', exact: true })
+    .fill('ブラウザーから保存した下書き');
+  await page
+    .getByRole('textbox', { name: '本文', exact: true })
+    .fill('PRIVATE_EDITED_DRAFT');
+  await page
+    .getByRole('textbox', { name: 'タグ', exact: true })
+    .fill('編集, 新しいタグ');
+  await page.getByRole('textbox', { name: '本文', exact: true }).click();
+  await page.locator('.ja-status').filter({ hasText: '保存済み' }).waitFor();
   assert.equal(
-    (
-      await db
-        .prepare(
-          "SELECT count(*) n FROM journal_revisions WHERE entry_id='browser-check'",
-        )
-        .first()
-    ).n,
-    1,
+    (await (await fetch(base + '/journal/browser-check')).text()).includes(
+      'PRIVATE_EDITED_DRAFT',
+    ),
+    false,
   );
-  assert.equal((await fetch(base + '/journal/browser-check')).status, 200);
-  // A changed copy is deliberately rejected, not saved as another version.
+  // A stale editor keeps its content and cannot overwrite a newer server version.
+  const second = await context.newPage();
+  await second.goto(base + '/journal/admin/browser-check');
+  await second.getByRole('textbox', { name: '本文', exact: true }).waitFor();
+  await page
+    .getByRole('textbox', { name: '本文', exact: true })
+    .fill('PRIVATE_LATEST_DRAFT');
+  await page.locator('.ja-status').filter({ hasText: '保存済み' }).waitFor();
+  await second
+    .getByRole('textbox', { name: '本文', exact: true })
+    .fill('STALE_EDITOR_CONTENT');
+  await second.getByRole('alert').waitFor();
+  assert.equal(
+    await second
+      .getByRole('textbox', { name: '本文', exact: true })
+      .inputValue(),
+    'STALE_EDITOR_CONTENT',
+  );
+  await second.close({ runBeforeUnload: false });
+  await page.getByRole('button', { name: '変更履歴・差分' }).click();
+  await page.getByRole('dialog', { name: '変更履歴' }).waitFor();
+  await page
+    .getByRole('dialog')
+    .getByRole('button')
+    .filter({ hasText: '表示と公開管理の確認' })
+    .click();
+  await page
+    .getByRole('button', { name: 'この版を下書きに戻す', exact: true })
+    .click();
+  await page.getByRole('button', { name: '下書きに戻す', exact: true }).click();
+  await page.getByRole('textbox', { name: '本文', exact: true }).waitFor();
+  await page.waitForFunction(() =>
+    document
+      .querySelector('#article-body')
+      ?.value.includes('JOURNAL_PRIVATE_E2E_CANARY_785a'),
+  );
+  await page.goto(base + '/journal/admin/upload');
   await picker.setInputFiles({
-    name: 'changed-copy.md',
+    name: 'changed.md',
     mimeType: 'text/markdown',
     buffer: Buffer.from(
       source.replace(
         'JOURNAL_PRIVATE_E2E_CANARY_785a',
-        'UNWANTED_CHANGED_COPY',
+        'IMPORTED_UPDATED_DRAFT',
       ),
     ),
   });
-  await confirm.check();
-  await save.click();
-  await page
-    .getByRole('alert')
-    .filter({ hasText: '保存版は上書きされません' })
-    .waitFor();
+  await page.getByRole('button', { name: '下書きを更新して編集へ' }).click();
+  await page.waitForURL('**/journal/admin/browser-check');
+  await page.getByRole('textbox', { name: '本文', exact: true }).waitFor();
   assert.equal(
     (await (await fetch(base + '/journal/browser-check')).text()).includes(
-      'UNWANTED_CHANGED_COPY',
+      'IMPORTED_UPDATED_DRAFT',
     ),
     false,
   );
+  await publish('unlisted', '変更を反映する');
+  const shareUrl = await page
+    .getByLabel('共有リンク', { exact: true })
+    .inputValue();
+  const anonymous = await browser.newContext();
+  const reader = await anonymous.newPage();
+  await reader.goto(shareUrl);
+  await reader.getByText('IMPORTED_UPDATED_DRAFT', { exact: true }).waitFor();
+  await publish('private', '公開を停止する');
+  assert.equal((await reader.reload()).status(), 404);
+  assert.equal((await fetch(shareUrl, { headers: { RSC: '1' } })).status, 404);
+  await page.goto(base + '/journal/admin');
+  await page.getByRole('button', { name: '記事を書く', exact: true }).click();
+  await page.waitForURL(/\/journal\/admin\/j-[0-9a-f-]+$/);
+  const automaticId = page.url().split('/').at(-1);
+  await page
+    .getByRole('textbox', { name: 'タイトル', exact: true })
+    .fill('自動IDの記事');
+  await page.getByRole('textbox', { name: '本文', exact: true }).fill('');
+  await page.locator('.ja-status').filter({ hasText: '保存済み' }).waitFor();
+  await page.reload();
+  assert.equal(
+    await page
+      .getByRole('textbox', { name: 'タイトル', exact: true })
+      .inputValue(),
+    '自動IDの記事',
+  );
+  assert.equal((await fetch(base + '/journal/' + automaticId)).status, 404);
+  // Responsive layouts, keyboard focus and both themes.
+  for (const path of [
+    '/journal/admin',
+    `/journal/admin/${automaticId}`,
+    '/journal/admin/upload',
+  ]) {
+    await page.goto(base + path);
+    for (const width of [1440, 390, 320]) {
+      await page.setViewportSize({ width, height: 900 });
+      assert.equal(
+        await page.evaluate(
+          () => document.documentElement.scrollWidth > innerWidth,
+        ),
+        false,
+        path + width,
+      );
+      await page.screenshot({
+        path: `outputs/journal/studio-${path.split('/').at(-1)}-${width}.png`,
+        fullPage: true,
+      });
+    }
+  }
+  await page.goto(base + '/journal/admin');
+  await page.getByRole('textbox', { name: 'タイトルを検索' }).fill('自動ID');
+  await page.getByRole('button', { name: '検索', exact: true }).click();
+  await page.getByRole('link', { name: '自動IDの記事', exact: true }).waitFor();
+  const row = page.locator('.ja-row').filter({ hasText: '自動IDの記事' });
+  await row.getByRole('button', { name: 'ゴミ箱に移動', exact: true }).click();
+  await page
+    .getByRole('dialog')
+    .getByRole('button', { name: '実行する', exact: true })
+    .click();
+  await page
+    .locator('.ja-tabs')
+    .getByRole('button', { name: /^ゴミ箱/ })
+    .click();
+  await page.getByRole('link', { name: '自動IDの記事', exact: true }).waitFor();
+  await row.locator('summary').click();
+  await row.getByRole('button', { name: '非公開で復元', exact: true }).click();
+  await page
+    .getByRole('dialog')
+    .getByRole('button', { name: '実行する', exact: true })
+    .click();
+  await page
+    .locator('.ja-tabs')
+    .getByRole('button', { name: /^未公開/ })
+    .click();
+  await page.getByRole('link', { name: '自動IDの記事', exact: true }).waitFor();
+  await row.getByRole('button', { name: 'ゴミ箱に移動', exact: true }).click();
+  await page
+    .getByRole('dialog')
+    .getByRole('button', { name: '実行する', exact: true })
+    .click();
+  await page
+    .locator('.ja-tabs')
+    .getByRole('button', { name: /^ゴミ箱/ })
+    .click();
+  await row.getByRole('button', { name: '完全に削除', exact: true }).click();
+  await page
+    .getByRole('dialog')
+    .getByRole('button', { name: '実行する', exact: true })
+    .click();
+  await page
+    .getByRole('heading', { name: 'ゴミ箱は空です', exact: true })
+    .waitFor();
   assert.equal(
     (
       await db
-        .prepare(
-          "SELECT count(*) n FROM journal_revisions WHERE entry_id='browser-check'",
-        )
+        .prepare('SELECT count(*) n FROM journal_entries WHERE id=?')
+        .bind(automaticId)
         .first()
     ).n,
-    1,
+    0,
   );
-  // Drop a distinct completed record; both paths use the same confirmed upload.
-  const dropped = await page.evaluateHandle(
-    (text) => {
-      const data = new DataTransfer();
-      data.items.add(new File([text], 'dropped.md', { type: 'text/markdown' }));
-      return data;
-    },
-    source.replace('id: browser-check', 'id: browser-drop'),
-  );
-  await page
-    .locator('.journal-dropzone')
-    .dispatchEvent('drop', { dataTransfer: dropped });
-  await confirm.check();
-  await save.click();
-  await page
-    .getByRole('heading', { name: '原稿を非公開で保存しました' })
-    .waitFor();
-  await page.setViewportSize({ width: 390, height: 844 });
-  await page.screenshot({
-    path: 'outputs/journal/upload-mobile.png',
-    fullPage: true,
-  });
-  assert.equal(
-    await page.evaluate(
-      () => document.documentElement.scrollWidth > innerWidth,
-    ),
-    false,
-  );
-  // Public-list navigation is present as well as the footer.
-  await page.goto(base + '/journal');
-  await page
-    .getByRole('link', { name: '原稿をアップロード（管理者） →' })
-    .click();
-  await page
-    .getByRole('heading', { name: '原稿をアップロード', exact: true })
-    .waitFor();
-  await page.goto(base + '/journal/admin/browser-check');
-  await page.getByLabel('公開範囲', { exact: true }).selectOption('unlisted');
-  await page
-    .getByRole('checkbox', { name: '下の原稿と公開範囲を確認しました' })
-    .check();
-  await page.getByRole('button', { name: '公開範囲を保存' }).click();
-  const share = page.locator('a[href*="/journal/share/"]');
-  await share.waitFor();
-  const shareUrl = await share.getAttribute('href');
-  const anonymous = await browser.newContext({
-    viewport: { width: 390, height: 844 },
-  });
-  const reader = await anonymous.newPage();
-  await reader.goto(shareUrl);
-  await reader
-    .getByText('JOURNAL_PRIVATE_E2E_CANARY_785a', { exact: true })
-    .waitFor();
-  await reader.screenshot({
-    path: 'outputs/journal/shared-mobile.png',
-    fullPage: true,
-  });
-  await page.screenshot({
-    path: 'outputs/journal/admin-mobile.png',
-    fullPage: true,
-  });
-  assert.equal(
-    await page.evaluate(
-      () => document.documentElement.scrollWidth > innerWidth,
-    ),
-    false,
-  );
-  await page.getByLabel('公開範囲', { exact: true }).selectOption('private');
-  await page
-    .getByRole('checkbox', { name: '下の原稿と公開範囲を確認しました' })
-    .check();
-  await page.getByRole('button', { name: '公開範囲を保存' }).click();
-  await page.getByText('保存しました。', { exact: true }).waitFor();
-  assert.equal((await reader.reload()).status(), 404);
-  assert.equal((await fetch(shareUrl, { headers: { RSC: '1' } })).status, 404);
   assert.deepEqual(errors, []);
   console.log(
-    'PASS: browser file selection/drop, confirmation, private save, duplicate and changed-ID conflict, source download, public/share/revoke, home + 7 routes navigation, mobile, Markdown/math/Mermaid/XSS.',
+    'PASS: authenticated authoring/import/preview, autosave and stale editor preservation, public/draft separation, history restore, sharing/revoke, automatic IDs, search/trash/restore/purge, responsive layouts and Markdown/math/Mermaid/XSS.',
   );
 } finally {
   await browser?.close();

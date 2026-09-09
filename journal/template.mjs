@@ -1,8 +1,9 @@
+import { newArticleId, today } from './manuscript.mjs';
 // Downloaded on demand; no private manuscript or upload state is bundled.
-export function manuscriptTemplate() {
-  const date = new Date().toISOString().slice(0, 10);
+export function manuscriptTemplate({ id = newArticleId() } = {}) {
+  const date = today();
   return `---
-id: journal-${date}-${crypto.randomUUID().slice(0, 8)}
+id: ${id}
 title: 記録のタイトル
 createdAt: '${date}'
 updatedAt: '${date}'

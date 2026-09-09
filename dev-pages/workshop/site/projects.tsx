@@ -13,9 +13,9 @@ export function ProjectsPage({
       <header className="e-page-heading">
         <p className="e-kicker">01 / PROJECTS</p>
         <h1>
-          {t('ほしかったもの', 'Things I wanted.')}
+          {t('つくったもの、', 'Things I built,')}
           <br />
-          {t('つくってみたもの', 'Things I built.')}
+          {t('ほしかったもの。', 'things I wanted.')}
         </h1>
         <p>
           {t(

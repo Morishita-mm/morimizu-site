@@ -32,13 +32,23 @@ await test('D1 lifecycle, HTTP authorization, concurrency, persistence and porta
     await rm(directory, { recursive: true, force: true });
   });
   let db = await mf.getD1Database('JOURNAL_DB');
-  const sql =
+  let sql =
     (await readFile(
       new URL('./migrations/0001_journal.sql', import.meta.url),
       'utf8',
     )) +
     (await readFile(
       new URL('./migrations/0002_journal_tags.sql', import.meta.url),
+      'utf8',
+    ));
+  const editingSql = await readFile(
+    new URL('./migrations/0003_journal_editing.sql', import.meta.url),
+    'utf8',
+  );
+  sql +=
+    editingSql +
+    (await readFile(
+      new URL('./migrations/0004_journal_saved_at.sql', import.meta.url),
       'utf8',
     ));
   for (const statement of sql.split(';').filter((s) => s.trim()))
@@ -425,6 +435,7 @@ await test('D1 lifecycle, HTTP authorization, concurrency, persistence and porta
         await call('/api/journal/admin/entries/sample', {
           auth: true,
           method: 'DELETE',
+          headers: { origin },
         })
       ).status,
       405,
@@ -587,6 +598,112 @@ await test('D1 lifecycle, HTTP authorization, concurrency, persistence and porta
     },
   );
   await t.test(
+    'editor endpoints require owner auth, origin and reviewed versions',
+    async () => {
+      const json = { origin, 'content-type': 'application/json' };
+      for (const path of [
+        '/api/journal/admin/entries',
+        '/api/journal/admin/preview',
+        '/api/journal/admin/import',
+      ]) {
+        assert.equal(
+          (await call(path, { method: 'POST', body: '{}', headers: json }))
+            .status,
+          401,
+        );
+        assert.equal(
+          (
+            await call(path, {
+              auth: true,
+              method: 'POST',
+              body: '{}',
+              headers: { ...json, origin: 'https://evil.test' },
+            })
+          ).status,
+          403,
+        );
+      }
+      const response = await call('/api/journal/admin/entries', {
+        auth: true,
+        method: 'POST',
+        body: '{}',
+        headers: json,
+      });
+      assert.equal(response.status, 200);
+      const e = await response.json();
+      assert.match(e.id, /^j-[0-9a-f-]+$/);
+      const edit = (body, authenticated = true) =>
+        call(`/api/journal/admin/entries/${e.id}`, {
+          auth: authenticated,
+          method: 'POST',
+          body: JSON.stringify(body),
+          headers: json,
+        });
+      assert.equal(
+        (
+          await edit(
+            { action: 'save', source: e.source, version: e.version },
+            false,
+          )
+        ).status,
+        401,
+      );
+      assert.equal(
+        (
+          await edit({
+            action: 'save',
+            source: e.source,
+            version: e.version + 1,
+          })
+        ).status,
+        409,
+      );
+      assert.equal(
+        (await edit({ action: 'save', source: e.source, version: e.version }))
+          .status,
+        200,
+      );
+      assert.equal(
+        (
+          await call('/api/journal/admin/preview', {
+            auth: true,
+            method: 'POST',
+            body: JSON.stringify({ source: 'invalid YAML' }),
+            headers: json,
+          })
+        ).status,
+        400,
+      );
+      const html = source(
+        '<script>privateInjection()</script>safe',
+        'preview-only',
+      );
+      const preview = await call('/api/journal/admin/preview', {
+        auth: true,
+        method: 'POST',
+        body: JSON.stringify({ source: html }),
+        headers: json,
+      });
+      assert.equal(preview.status, 200);
+      assert.match(preview.headers.get('cache-control'), /no-store/);
+      const tree = (await preview.json()).tree;
+      assert.equal(JSON.stringify(tree).includes('privateInjection'), false);
+      assert.equal(await adminEntry(db, 'preview-only'), null);
+      const noId = source('imported', 'import-only').replace(
+        'id: import-only\n',
+        '',
+      );
+      const imported = await call('/api/journal/admin/import', {
+        auth: true,
+        method: 'POST',
+        body: JSON.stringify({ source: noId }),
+        headers: json,
+      });
+      assert.equal(imported.status, 200);
+      assert.match((await imported.json()).document.id, /^j-/);
+    },
+  );
+  await t.test(
     'Worker replacement retains all revisions and publication state',
     async () => {
       const before = await state();
@@ -643,7 +760,7 @@ await test('D1 lifecycle, HTTP authorization, concurrency, persistence and porta
           ...backupEntries.map((e) =>
             target
               .prepare(
-                'UPDATE journal_entries SET draft_revision=?,live_revision=?,visibility=?,share_hash=?,published_at=?,version=?,tags_json=? WHERE id=?',
+                'UPDATE journal_entries SET draft_revision=?,live_revision=?,visibility=?,share_hash=?,published_at=?,version=?,tags_json=?,deleted_at=?,saved_at=? WHERE id=?',
               )
               .bind(
                 e.draft_revision,
@@ -653,6 +770,8 @@ await test('D1 lifecycle, HTTP authorization, concurrency, persistence and porta
                 e.published_at,
                 e.version,
                 e.tags_json,
+                e.deleted_at,
+                e.saved_at,
                 e.id,
               ),
           ),

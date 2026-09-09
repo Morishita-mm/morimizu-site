@@ -110,11 +110,8 @@ export function NotesContent({
           <>
             <JournalList initialData={journal} initialSort={sort} />
             <p className="journal-admin-link">
-              <a href="/journal/admin/upload">
-                {t(
-                  '原稿をアップロード（管理者） →',
-                  'Upload a manuscript (admin) →',
-                )}
+              <a href="/journal/admin">
+                {t('記事を管理（管理者） →', 'Manage articles (admin) →')}
               </a>
             </p>
           </>

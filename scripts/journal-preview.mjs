@@ -2,7 +2,7 @@
 import { createServer } from 'node:http';
 import { Readable } from 'node:stream';
 import { pipeline } from 'node:stream/promises';
-import { readFile } from 'node:fs/promises';
+import { readFile, writeFile, mkdir, access } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { createLocalJournalRuntime } from './journal/local-runtime.mjs';
 import { ingest, adminEntry, change } from '../journal/store.mjs';
@@ -17,7 +17,12 @@ const runtime = await createLocalJournalRuntime({
 const { mf, db, adminHeaders } = runtime;
 // Seed only this harmless, requested sample into the local database. Never reset
 // existing entries or re-publish a sample the user has made private.
-if (!(await adminEntry(db, 'journal-preview-sample'))) {
+const sampleMarker = resolve('.wrangler/journal-preview/sample-initialized');
+const seeded = await access(sampleMarker).then(
+  () => true,
+  () => false,
+);
+if (!seeded && !(await adminEntry(db, 'journal-preview-sample'))) {
   const sample = await ingest(
     db,
     await readFile('scripts/journal/preview-sample.md', 'utf8'),
@@ -30,6 +35,11 @@ if (!(await adminEntry(db, 'journal-preview-sample'))) {
     revision: state.draft_revision,
   });
 }
+await mkdir(resolve('.wrangler/journal-preview'), { recursive: true });
+await writeFile(
+  sampleMarker,
+  'Sample initialized; do not recreate after deletion.\n',
+);
 const server = createServer(async (incoming, outgoing) => {
   try {
     // Host and browser-origin checks prevent DNS rebinding and cross-site writes.

@@ -101,22 +101,24 @@ try {
   );
   await page.unroute('**/api/journal/v1/entries*');
   await page.goto(base + '/journal/admin/newer');
-  await page.getByLabel('記事のタグ', { exact: true }).fill('AI, 設計, AI');
-  await Promise.all([
-    page.waitForEvent('load'),
-    page.getByRole('button', { name: 'タグを保存', exact: true }).click(),
-  ]);
-  await page.waitForFunction(
-    () => document.querySelector('#journal-tags')?.value === 'AI, 設計',
-  );
-  assert.deepEqual(await page.locator('.e-tags span').allTextContents(), [
-    'AI',
-    '設計',
-  ]);
+  await page.getByLabel('タグ', { exact: true }).fill('AI, 設計, AI');
+  await page.getByLabel('本文', { exact: true }).click();
+  await page.locator('.ja-status').filter({ hasText: '保存済み' }).waitFor();
+  const draft = await adminEntry(db, 'newer');
+  assert.deepEqual(JSON.parse(draft.document).tags, ['AI', '設計']);
+  const publicBefore = await fetch(base + '/api/journal/v1/entries/newer');
+  assert.deepEqual((await publicBefore.json()).entry.tags, ['original']);
+  await page.getByRole('button', { name: '公開設定へ', exact: true }).click();
+  await page
+    .getByRole('button', { name: '変更を反映する', exact: true })
+    .click();
+  await page
+    .locator('.ja-status')
+    .filter({ hasText: '公開設定を反映しました' })
+    .waitFor();
   const saved = await adminEntry(db, 'newer');
   assert.equal(saved.visibility, 'public');
   assert.equal(saved.published_at, '2026-09-01');
-  assert.deepEqual(JSON.parse(saved.document).tags, ['original']);
   await mkdir('outputs/journal', { recursive: true });
   await page.screenshot({
     path: 'outputs/journal/tags-desktop.png',
@@ -159,17 +161,25 @@ try {
     fullPage: true,
   });
   await page.goto(base + '/journal/admin/newer');
-  await page.getByLabel('記事のタグ', { exact: true }).fill('');
-  await Promise.all([
-    page.waitForEvent('load'),
-    page.getByRole('button', { name: 'タグを保存', exact: true }).click(),
-  ]);
-  assert.equal(await page.locator('.e-tags span').count(), 0);
-  await page.getByLabel('記事のタグ', { exact: true }).fill('a'.repeat(80));
-  await Promise.all([
-    page.waitForEvent('load'),
-    page.getByRole('button', { name: 'タグを保存', exact: true }).click(),
-  ]);
+  for (const value of ['', 'a'.repeat(80)]) {
+    await page.getByLabel('タグ', { exact: true }).fill(value);
+    await page.getByLabel('本文', { exact: true }).click();
+    await page.locator('.ja-status').filter({ hasText: '保存済み' }).waitFor();
+    await page.getByRole('button', { name: '公開設定へ', exact: true }).click();
+    await page
+      .getByRole('button', { name: '変更を反映する', exact: true })
+      .click();
+    await page
+      .locator('.ja-status')
+      .filter({ hasText: '公開設定を反映しました' })
+      .waitFor();
+    assert.deepEqual(
+      (await (await fetch(base + '/api/journal/v1/entries/newer')).json()).entry
+        .tags,
+      value ? [value] : [],
+    );
+    await page.getByRole('button', { name: '編集', exact: true }).click();
+  }
   await page.goto(base + '/journal/newer');
   assert.equal(
     await page.evaluate(
@@ -226,7 +236,7 @@ try {
   );
   assert.deepEqual(errors, []);
   console.log(
-    'PASS: ascending/descending UI, tag save/delete, unchanged manuscript/publication and mobile layouts.',
+    'PASS: ascending/descending UI, tag save/delete, draft/live metadata separation and unchanged publication date and mobile layouts.',
   );
 } finally {
   await browser?.close();

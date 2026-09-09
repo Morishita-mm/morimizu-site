@@ -1,195 +1,187 @@
 'use client';
 /* oxlint-disable next/no-html-link-for-pages */
-import { useRef, useState, type DragEvent } from 'react';
-import { SiteShell } from '@/dev-pages/workshop/site/shell';
-type Receipt = { id: string; revision: string; duplicate: boolean };
+import { useState } from 'react';
+import { Upload, FileText } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { ManuscriptDiff } from '../diff';
+import { AdminFrame } from '../frame';
+import { request, type Entry } from '../client';
+import { ArticlePreview, type Preview } from '../preview';
+
+type ImportPreview = Preview & {
+  existing: Entry | null;
+  document: Preview['document'] & { id: string };
+};
 export function JournalUpload() {
-  const input = useRef<HTMLInputElement>(null);
-  const [file, setFile] = useState<File | null>(null);
-  const [confirmed, setConfirmed] = useState(false);
-  const [dragging, setDragging] = useState(false);
-  const [busy, setBusy] = useState(false);
+  const router = useRouter();
+  const [preview, setPreview] = useState<ImportPreview | null>(null);
   const [error, setError] = useState('');
-  const [receipt, setReceipt] = useState<Receipt | null>(null);
-  function choose(files: FileList | null) {
-    setReceipt(null);
+  const [busy, setBusy] = useState(false);
+  const [name, setName] = useState('');
+  const [dragging, setDragging] = useState(false);
+  async function choose(files: FileList | null) {
     setError('');
-    setConfirmed(false);
-    setFile(null);
+    setPreview(null);
     if (!files?.length) return;
-    if (files.length !== 1) {
-      setError('Markdownファイルを1つずつ選んでください。');
-      return;
-    }
-    const chosen = files[0];
-    if (!chosen.name.toLowerCase().endsWith('.md')) {
-      setError('拡張子が .md のファイルを選んでください。');
-      return;
-    }
-    if (chosen.size === 0 || chosen.size > 256 * 1024) {
-      setError('空でない256 KiB以下のMarkdownを選んでください。');
-      return;
-    }
-    setFile(chosen);
-  }
-  function drop(event: DragEvent<HTMLDivElement>) {
-    event.preventDefault();
-    setDragging(false);
-    if (!busy) choose(event.dataTransfer.files);
-  }
-  async function upload() {
-    if (!file || !confirmed || busy) return;
-    setBusy(true);
-    setError('');
-    setReceipt(null);
-    try {
-      const response = await fetch('/api/journal/admin/drafts', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'text/markdown; charset=utf-8' },
-        body: file,
-        redirect: 'error',
-        signal: AbortSignal.timeout(30000),
-      });
-      if (response.status === 409)
-        throw new Error(
-          '同じ記事IDで異なる内容が保存されています。保存版は上書きされません。原稿一覧で確認してください。',
-        );
-      if (response.status === 401)
-        throw new Error(
-          'ログインの有効期限が切れています。再読み込みしてログインし直してください。',
-        );
-      if (response.status === 400)
-        throw new Error(
-          '原稿のヘッダーと本文を確認してください。id・title・createdAt・kind・summaryが必要です。status・visibility・publishedAtは含めないでください。',
-        );
-      if (response.status === 413)
-        throw new Error('ファイルは256 KiB以下にしてください。');
-      if (!response.ok)
-        throw new Error(
-          '保存できませんでした。接続を確認して再度お試しください。',
-        );
-      const saved = (await response.json()) as Receipt;
-      setReceipt(saved);
-      setFile(null);
-      setConfirmed(false);
-      if (input.current) input.current.value = '';
-    } catch (error) {
+    const file = files[0];
+    if (
+      files.length !== 1 ||
+      !file.name.toLowerCase().endsWith('.md') ||
+      !file.size ||
+      file.size > 256 * 1024
+    ) {
       setError(
-        error instanceof Error && error.name === 'Error'
-          ? error.message
-          : '送信結果を確認できませんでした。原稿一覧を確認するか、同じファイルを再送してください。',
+        'Markdownファイルを1つ選んでください（空でない256 KiB以下の .md）。',
       );
+      return;
+    }
+    setBusy(true);
+    setName(file.name);
+    try {
+      setPreview(
+        await request<ImportPreview>('/import', { source: await file.text() }),
+      );
+    } catch (e) {
+      setError((e as Error).message);
     } finally {
       setBusy(false);
     }
   }
+  async function save() {
+    if (!preview) return;
+    setBusy(true);
+    setError('');
+    try {
+      if (preview.existing) {
+        await request(`/entries/${preview.document.id}`, {
+          action: 'save',
+          source: preview.source,
+          version: preview.existing.version,
+        });
+      } else {
+        const response = await fetch('/api/journal/admin/drafts', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'text/markdown;charset=utf-8' },
+          body: preview.source,
+          redirect: 'error',
+        });
+        if (!response.ok)
+          throw new Error(
+            response.status === 409
+              ? 'このIDの記事が別の画面で保存されています。ファイルを選び直して内容を比較してください。'
+              : '保存できませんでした。接続とログイン状態を確認してください。',
+          );
+      }
+      router.push(`/journal/admin/${preview.document.id}`);
+    } catch (e) {
+      setError((e as Error).message);
+      setBusy(false);
+    }
+  }
   return (
-    <SiteShell path="/journal">
-      <div className="shell journal journal-upload">
-        <header className="e-page-heading">
-          <p className="e-kicker">JOURNAL / UPLOAD</p>
-          <h1>原稿をアップロード</h1>
-          <p>ローカルで書き終えたMarkdownを、非公開の原稿として保存します。</p>
-        </header>
-        <nav className="journal-actions" aria-label="原稿管理のナビゲーション">
-          <a href="/journal/admin">原稿一覧</a>
-          <a href="/journal">公開されたJournal</a>
-        </nav>
-        <section
-          className="journal-upload-policy"
-          aria-labelledby="upload-policy-heading"
-        >
-          <h2 id="upload-policy-heading">書き終えた原稿を、記録として残す</h2>
-          <p>
-            アップロード後は保存された原稿を正本とし、ローカルのファイルは編集しない運用です。本文は固定され、管理画面では表示確認と公開範囲・タグの変更ができます。
-          </p>
-          <p>
-            同じ原稿の再送は重複を作りません。同じ記事IDで内容が異なるファイルは、保存版を上書きしません。
-          </p>
-        </section>
-        <div
-          className={`journal-dropzone${dragging ? ' is-dragging' : ''}`}
-          onDragOver={(e) => {
-            e.preventDefault();
-            if (!busy) setDragging(true);
-          }}
-          onDragLeave={() => setDragging(false)}
-          onDrop={drop}
-        >
-          <label htmlFor="journal-file">Markdownファイルを選択</label>
-          <input
-            ref={input}
-            id="journal-file"
-            type="file"
-            accept=".md,text/markdown"
-            disabled={busy}
-            onChange={(e) => choose(e.target.files)}
-            aria-describedby="file-help"
-          />
-          <p id="file-help">
-            ここにドラッグ＆ドロップもできます。1ファイル・256
-            KiBまで。選ぶだけでは送信されません。
-          </p>
-          {file && (
-            <p className="journal-selected-file">
-              選択中：{file.name}（{Math.max(1, Math.ceil(file.size / 1024))}{' '}
-              KiB）
+    <AdminFrame>
+      <header className="ja-heading">
+        <div>
+          <p className="ja-eyebrow">BRING YOUR WORDS</p>
+          <h1>Markdownを取り込む</h1>
+          <p className="ja-muted">ローカルで書いた原稿を、続きから編集。</p>
+        </div>
+        <a className="ja-button" href="/journal/admin">
+          記事一覧へ
+        </a>
+      </header>
+      <div className="ja-import-layout">
+        <div>
+          <div
+            className={`ja-dropzone ${dragging ? 'is-dragging' : ''}`}
+            onDragOver={(e) => {
+              e.preventDefault();
+              setDragging(true);
+            }}
+            onDragLeave={() => setDragging(false)}
+            onDrop={(e) => {
+              e.preventDefault();
+              setDragging(false);
+              if (!busy) void choose(e.dataTransfer.files);
+            }}
+          >
+            <Upload size={28} />
+            <h2>ファイルをドロップ</h2>
+            <p className="ja-muted">またはファイルを選択 · .md / 256 KiBまで</p>
+            <input
+              aria-label="Markdownファイル"
+              type="file"
+              accept=".md,text/markdown"
+              disabled={busy}
+              onChange={(e) => void choose(e.target.files)}
+            />
+          </div>
+          <section className="ja-import-help">
+            <FileText size={20} />
+            <h2>新しい原稿をローカルで作る</h2>
+            <code>{'npm run journal:new -- --title "記事のタイトル"'}</code>
+            <p className="ja-muted">
+              IDと日付を自動で入力したMarkdownを作成します。IDのないファイルは取り込み時に自動生成します。
+            </p>
+            <a href="/api/journal/admin/template">
+              テンプレートをダウンロード ↓
+            </a>
+          </section>
+        </div>
+        <section className="ja-import-check">
+          <h2>取り込み内容の確認</h2>
+          {busy && <output>処理中…</output>}
+          {error && (
+            <p className="ja-error" role="alert">
+              {error}
             </p>
           )}
-        </div>
-        <div className="journal-upload-submit">
-          <label>
-            <input
-              type="checkbox"
-              disabled={!file || busy}
-              checked={confirmed}
-              onChange={(e) => setConfirmed(e.target.checked)}
-            />{' '}
-            内容を確定し、アップロード後はローカルの原稿を編集しません
-          </label>
-          <button
-            disabled={!file || !confirmed || busy}
-            onClick={() => void upload()}
-          >
-            {busy ? 'アップロード中…' : '非公開で保存する'}
-          </button>
-        </div>
-        {error && (
-          <p className="journal-upload-error" role="alert">
-            {error}
-          </p>
-        )}
-        {receipt && (
-          <section className="journal-upload-receipt" aria-label="保存結果">
-            <h2>
-              {receipt.duplicate
-                ? 'この原稿はすでに保存されています'
-                : '原稿を非公開で保存しました'}
-            </h2>
-            <p>
-              {receipt.duplicate
-                ? '原稿や公開範囲は変更していません。'
-                : 'まだ読者には公開されていません。表示を確認してから、公開範囲を選んでください。'}
-            </p>
-            <a className="e-outline-link" href={`/journal/admin/${receipt.id}`}>
-              保存した原稿を確認 →
-            </a>
-            <p className="journal-meta">記事ID：{receipt.id}</p>
-          </section>
-        )}
-        <details className="journal-upload-help">
-          <summary>Markdownの書式とテンプレート</summary>
-          <p>
-            ファイルの先頭にYAMLヘッダーを付け、id・title・createdAt・kind・summaryを記入してください。公開範囲は管理画面で選びます。
-          </p>
-          <a href="/api/journal/admin/template">
-            Markdownテンプレートをダウンロード
-          </a>
-          <p>
-            訂正や追記は別の記録として新しいIDで作成し、relatedEntriesに元の記事IDを指定できます。
-          </p>
-        </details>
+          {!preview && (
+            <div className="ja-empty">
+              <FileText size={30} />
+              <p>ファイルを選ぶと、ここで内容を確認できます。</p>
+            </div>
+          )}
+          {preview && (
+            <>
+              <p className="ja-muted">{name}</p>
+              <p className="ja-badge">
+                {preview.existing
+                  ? '同じIDの記事があります · 下書きを更新'
+                  : '新しい記事 · 非公開で保存'}
+              </p>
+              {preview.existing?.deleted_at ? (
+                <p className="ja-error">
+                  この記事はゴミ箱にあります。先に復元してください。
+                </p>
+              ) : (
+                <p>
+                  保存しても自動公開されません。保存後もブラウザーで編集できます。
+                </p>
+              )}
+              <ArticlePreview preview={preview} />
+              {preview.existing && (
+                <details className="ja-import-diff">
+                  <summary>保存済み原稿と比較する</summary>
+                  <ManuscriptDiff
+                    before={preview.existing.source}
+                    after={preview.source}
+                  />
+                </details>
+              )}
+              <button
+                className="ja-button ja-primary"
+                disabled={busy || Boolean(preview.existing?.deleted_at)}
+                onClick={() => void save()}
+              >
+                {preview.existing
+                  ? '下書きを更新して編集へ'
+                  : '非公開で保存して編集へ'}
+              </button>
+            </>
+          )}
+        </section>
       </div>
-    </SiteShell>
+    </AdminFrame>
   );
 }

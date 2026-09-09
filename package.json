@@ -32,7 +32,8 @@
     "journal:preview": "node scripts/journal-preview.mjs",
     "test:content": "node --test scripts/content/*.test.mjs",
     "benchmark:content": "node scripts/benchmark-content.mjs",
-    "test:content:browser": "node scripts/verify-content-runtime.mjs"
+    "test:content:browser": "node scripts/verify-content-runtime.mjs",
+    "journal:new": "node scripts/journal-new.mjs"
   },
   "dependencies": {
     "@ox-content/wasm": "3.1.1",

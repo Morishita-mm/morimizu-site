@@ -1,5 +1,8 @@
 # Engineering Journal: 原稿と公開管理の独立
 
+> 2026-09-09更新：編集可能なJournal Studioの現行ローカル仕様は [journal-studio.md](journal-studio.md) を参照。以下は本文固定方式の導入時記録です。
+
+
 2026-09-08。現行の設計。Phase 1の静的出版方式を置き換える。
 
 ## 調査と判断
