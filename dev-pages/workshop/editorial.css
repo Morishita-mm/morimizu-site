@@ -2595,3 +2595,31 @@ a:hover > .e-arrow.diagonal {
     transition: none;
   }
 }
+
+/* The Roots mountain keeps its wide silhouette in the existing site shell. */
+.e-header .e-brand:has(.site-icon--mountain) {
+  width: 84px;
+  min-width: 84px;
+}
+.adopted-lockup > .site-icon--mountain {
+  flex-basis: 18%;
+  width: 18%;
+}
+@media (max-width: 760px) {
+  .e-header .e-brand:has(.site-icon--mountain) {
+    width: 64px;
+    min-width: 64px;
+  }
+  .e-header .e-brand .site-icon--mountain {
+    width: 64px;
+    height: auto;
+  }
+}
+
+/* Match the site's ink/blue palette; lift the ridge against dark surfaces. */
+.site-icon--mountain {
+  --mountain-highlight: #647fff;
+}
+[data-theme='dark'] .site-icon--mountain {
+  --mountain-highlight: #7894ff;
+}
