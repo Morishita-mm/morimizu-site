@@ -26,8 +26,8 @@ const pictures = sample.filter((file) =>
 );
 assert.equal(
   pictures.length,
-  1,
-  'Only the hero artwork remains; Ragy uses its original icon',
+  4,
+  'Hero artwork includes the original and three responsive sizes; Ragy uses its original icon',
 );
 assert.ok(!sample.some((file) => /editorial-ragy-.*\.webp$/.test(file)));
 assert.ok(html.includes('morimizu works'));
@@ -49,42 +49,45 @@ for (const picture of pictures) {
     `Unreferenced image: ${picture}`,
   );
 }
-for (const route of ['/projects', '/notes', '/about', '/en/about']) {
+for (const route of [
+  '/projects',
+  '/notes',
+  '/about',
+  '/en/about',
+  '/resume',
+  '/en/resume',
+]) {
   assert.ok(sampleJs.includes(route), `Missing route: ${route}`);
 }
 for (const text of [
   '銀行預り物件管理システム開発（ディレクテック株式会社）',
   'Architecture Diagnostic',
-  'Qiitaに書いたものを、',
+  'Qiita記事',
 ]) {
   assert.ok(sampleJs.includes(text), `Missing existing content: ${text}`);
 }
 
 const production = await files(path.join(root, 'dist'));
-const sampleImageNames = new Set(pictures.map((file) => path.basename(file)));
 assert.ok(
-  !production.some(
-    (file) =>
-      sampleImageNames.has(path.basename(file)) ||
-      file.includes('workshop-sample'),
-  ),
-  'Sample files must not enter production',
+  !production.some((file) => file.includes('workshop-sample')),
+  'Standalone preview output must not enter production',
 );
 for (const file of production.filter((file) =>
   /\.(js|json|html)$/.test(file),
 )) {
   const content = await readFile(file, 'utf8');
-  assert.ok(
-    !content.includes('LOCAL PREVIEW'),
-    `Sample-only UI leaked into ${file}`,
-  );
-  for (const picture of pictures) {
+  // Shared client code contains conditional preview text; verify-render checks
+  // that production-mode HTML does not render it.
+  if (file.endsWith('.html'))
     assert.ok(
-      !content.includes(path.basename(picture)),
-      `Sample asset leaked into ${file}`,
+      !content.includes('LOCAL PREVIEW'),
+      `Preview UI rendered in ${file}`,
     );
-  }
+  assert.ok(
+    !content.includes('editorial-ragy-'),
+    `Retired sample asset leaked into ${file}`,
+  );
 }
 console.log(
-  'PASS: hero artwork, original project icons, site identity, noindex, core routes/content, no production leakage.',
+  'PASS: hero artwork, original project icons, site identity, noindex, core routes/content, no preview UI or retired asset leakage.',
 );

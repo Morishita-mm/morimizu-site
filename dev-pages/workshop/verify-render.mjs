@@ -125,6 +125,8 @@ try {
     '/notes',
     '/about',
     '/en/about',
+    '/resume',
+    '/en/resume',
     '/brand-lab',
     ...projects.map((p) => '/projects/' + p.slug),
     ...articles.map((a) => '/notes/' + a.id),
@@ -142,26 +144,28 @@ try {
           callback();
         },
       });
-      const stream = renderToPipeableStream(createElement(Preview, { path }), {
-        onAllReady() {
-          stream.pipe(sink);
+      const stream = renderToPipeableStream(
+        createElement(Preview, { path, preview: path === '/brand-lab' }),
+        {
+          onAllReady() {
+            stream.pipe(sink);
+          },
+          onError(error) {
+            reject(error);
+          },
         },
-        onError(error) {
-          reject(error);
-        },
-      });
+      );
     });
     assert.ok(html.includes('id="content"'), path);
+    if (path !== '/brand-lab') assert.ok(!html.includes('LOCAL PREVIEW'), path);
     assert.equal(
-      (html.match(/data-m-variant="shoulder-raised"/g) ?? []).length,
-      path === '/brand-lab'
-        ? 16
-        : path === '/'
+      (html.match(/class="site-icon site-icon--mountain"/g) ?? []).length,
+      path.endsWith('/resume')
+        ? 4
+        : path === '/' || path.endsWith('/about')
           ? 3
-          : path.endsWith('/about')
-            ? 4
-            : 2,
-      'Adopted mark on ' + path,
+          : 2,
+      'Adopted mountain mark on ' + path,
     );
     assert.ok(!html.includes('e-not-found'), path);
     assert.ok(!/src="(?:undefined|)"/.test(html), `Broken image in ${path}`);
@@ -195,7 +199,7 @@ try {
     if (path === '/brand-lab') {
       assert.equal(
         (html.match(/data-m-variant="shoulder-raised"/g) ?? []).length,
-        16,
+        14,
       );
       assert.ok(html.includes('id="m-08a"') && html.includes('href="#m-08a"'));
       for (const variant of newMarks) {
@@ -268,22 +272,38 @@ try {
         (html.match(/class="e-note-row"/g) ?? []).length,
         articles.length,
       );
-    if (path === '/about')
+    if (path === '/resume')
       assert.ok(
         html.includes('銀行預り物件管理システム開発（ディレクテック株式会社）'),
       );
-    if (path === '/en/about') assert.ok(html.includes('U-VEC'));
+    if (path === '/en/resume') assert.ok(html.includes('U-VEC'));
     if (path === '/about' || path === '/en/about') {
+      assert.ok(html.includes('class="about-personal shell"'));
+      assert.ok(!html.includes('class="poster-resume"'));
+      assert.ok(
+        html.includes(
+          path.startsWith('/en/') ? 'href="/en/resume"' : 'href="/resume"',
+        ),
+      );
+    }
+    if (path === '/resume' || path === '/en/resume') {
       assert.ok(
         html.includes('class="poster-resume"'),
         `Original resume layout: ${path}`,
       );
       assert.ok(html.includes('poster-timeline-node'));
-      const desktopPrint = html.match(/class="resume-print-group resume-print-desktop">([\s\S]*?)<\/div>/)?.[1];
+      const desktopPrint = html.match(
+        /class="resume-print-group resume-print-desktop">([\s\S]*?)<\/div>/,
+      )?.[1];
       assert.ok(desktopPrint, `Desktop print controls: ${path}`);
       assert.equal((desktopPrint.match(/<button\b/g) ?? []).length, 2);
-      assert.match(html, /class="resume-print-button resume-print-trigger" aria-expanded="false" aria-controls="[^"]+"/);
-      const mobilePrint = html.match(/class="resume-print-options" hidden="">([\s\S]*?)<\/div>/)?.[1];
+      assert.match(
+        html,
+        /class="resume-print-button resume-print-trigger" aria-expanded="false" aria-controls="[^"]+"/,
+      );
+      const mobilePrint = html.match(
+        /class="resume-print-options" hidden="">([\s\S]*?)<\/div>/,
+      )?.[1];
       assert.ok(mobilePrint, `Initially hidden mobile print choices: ${path}`);
       assert.equal((mobilePrint.match(/<button\b/g) ?? []).length, 2);
     }
