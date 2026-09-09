@@ -2479,6 +2479,9 @@ a:hover > .e-arrow.diagonal {
 
 /* Only the phone header sticks and follows the reading direction. */
 @media screen and (max-width: 760px) {
+  .e-skip {
+    z-index: 40;
+  }
   html {
     scroll-padding-top: 88px;
   }
