@@ -32,7 +32,10 @@ export async function createLocalJournalRuntime({ persist = false } = {}) {
         .map((p) => ({ type: 'ESModule', path: resolve('dist/server', p) })),
       ...moduleFiles
         .filter((p) => p.endsWith('.wasm'))
-        .map((p) => ({ type: 'CompiledWasm', path: resolve('dist/server', p) })),
+        .map((p) => ({
+          type: 'CompiledWasm',
+          path: resolve('dist/server', p),
+        })),
     ],
     modulesRoot: resolve('dist/server'),
     bindings,
@@ -74,6 +77,30 @@ export async function createLocalJournalRuntime({ persist = false } = {}) {
         'utf8',
       );
       await db.prepare(sql).run();
+    }
+    if (!columns.results.some((column) => column.name === 'deleted_at')) {
+      const sql = await readFile(
+        'journal/migrations/0003_journal_editing.sql',
+        'utf8',
+      );
+      await db.batch(
+        sql
+          .split(';')
+          .filter((s) => s.trim())
+          .map((s) => db.prepare(s)),
+      );
+    }
+    if (!columns.results.some((column) => column.name === 'saved_at')) {
+      const sql = await readFile(
+        'journal/migrations/0004_journal_saved_at.sql',
+        'utf8',
+      );
+      await db.batch(
+        sql
+          .split(';')
+          .filter((s) => s.trim())
+          .map((s) => db.prepare(s)),
+      );
     }
     async function adminHeaders() {
       const jwt = await new SignJWT({

@@ -1,10 +1,7 @@
-import { notFound } from 'next/navigation';
-import { getDraft } from '@/lib/journal/entries';
-import { JournalEntryView } from '@/components/journal-entry';
-import { JournalControls } from '../controls';
+import { JournalEditor } from '../editor';
 export const dynamic = 'force-dynamic';
 export const metadata = {
-  title: '原稿確認 | Journal',
+  title: '記事を編集 | Journal Studio',
   robots: { index: false, follow: false },
   alternates: { canonical: null },
 };
@@ -14,12 +11,5 @@ export default async function DraftPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const result = await getDraft(id);
-  if (!result) notFound();
-  return (
-    <JournalEntryView
-      entry={result.entry}
-      before={<JournalControls id={id} reviewedRevision={result.revision} />}
-    />
-  );
+  return <JournalEditor id={id} />;
 }

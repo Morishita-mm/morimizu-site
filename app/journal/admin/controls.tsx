@@ -1,278 +1,407 @@
 'use client';
 /* oxlint-disable next/no-html-link-for-pages */
 import { useEffect, useState } from 'react';
-import { SiteShell } from '@/dev-pages/workshop/site/shell';
-type Visibility = 'private' | 'unlisted' | 'public';
-type Entry = {
-  id: string;
-  title: string;
-  document: string;
-  tags_json: string | null;
-  visibility: Visibility;
-  version: number;
-  draft_revision: string;
-  live_revision: string | null;
+import { useRouter, useSearchParams } from 'next/navigation';
+import {
+  Plus,
+  Upload,
+  Search,
+  FileText,
+  Trash2,
+  MoreHorizontal,
+} from 'lucide-react';
+import { Modal } from './modal';
+import { AdminFrame } from './frame';
+import {
+  request,
+  statusName,
+  dateLabel,
+  kindNames,
+  type Entry,
+} from './client';
+
+const tabs = {
+  all: 'すべて',
+  private: '未公開',
+  public: '公開中',
+  unlisted: '限定公開',
+  stopped: '公開停止',
+  trash: 'ゴミ箱',
 };
-const labels = { private: '非公開', unlisted: '限定公開', public: '公開' };
-async function api<T>(path: string, body?: object) {
-  const response = await fetch(`/api/journal/admin/entries${path}`, {
-    cache: 'no-store',
-    ...(body
-      ? {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(body),
-        }
-      : {}),
-  });
-  if (!response.ok) {
-    if (response.status === 401)
-      throw new Error(
-        '認証が必要です。ページを再読み込みしてログインしてください。',
-      );
-    if (response.status === 409)
-      throw new Error(
-        '原稿または公開設定が変更されています。再読み込みして確認してください。',
-      );
-    if (response.status === 400)
-      throw new Error(
-        '入力内容を確認してください。タグは30個まで、各80文字以内で入力できます。',
-      );
-    throw new Error(
-      '処理できませんでした。原稿のsummaryと接続状態を確認してください。',
-    );
-  }
-  return response.json() as Promise<T>;
-}
+type Listing = {
+  entries: Entry[];
+  next: string | null;
+  counts: Record<string, number>;
+};
 export function JournalAdmin() {
-  const [entries, setEntries] = useState<Entry[]>([]);
-  const [next, setNext] = useState<string | null>(null);
+  const router = useRouter();
+  const search = useSearchParams();
+  const query = search.toString();
+  const [data, setData] = useState<Listing | null>(null);
   const [error, setError] = useState('');
-  const [busy, setBusy] = useState(true);
-  async function load(after = '') {
+  const [busy, setBusy] = useState(false);
+  const [pending, setPending] = useState<{
+    entry: Entry;
+    action: string;
+  } | null>(null);
+  const [reload, setReload] = useState(0);
+  const [message, setMessage] = useState('');
+  const status = search.get('status') ?? 'all';
+  useEffect(() => {
+    const controller = new AbortController();
+    request<Listing>(`/entries?${query}`, undefined, {
+      signal: controller.signal,
+    })
+      .then(setData)
+      .catch((e) => {
+        if (e.name !== 'AbortError') setError(e.message);
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setBusy(false);
+      });
+    return () => controller.abort();
+  }, [query, reload]);
+  function filter(values: Record<string, string>) {
+    setBusy(true);
+    setError('');
+    const params = new URLSearchParams(query);
+    params.delete('after');
+    for (const [key, value] of Object.entries(values)) {
+      if (value) params.set(key, value);
+      else params.delete(key);
+    }
+    router.replace(`/journal/admin?${params}`);
+  }
+  async function create() {
     setBusy(true);
     setError('');
     try {
-      const result = await api<{ entries: Entry[]; next: string | null }>(
-        after ? `?after=${encodeURIComponent(after)}` : '',
-      );
-      setEntries((old) =>
-        after ? [...old, ...result.entries] : result.entries,
-      );
-      setNext(result.next);
+      const e = await request<Entry>('/entries', {});
+      router.push(`/journal/admin/${e.id}`);
     } catch (e) {
       setError((e as Error).message);
-    } finally {
       setBusy(false);
     }
   }
-  useEffect(() => {
-    api<{ entries: Entry[]; next: string | null }>('')
-      .then((result) => {
-        setEntries(result.entries);
-        setNext(result.next);
-      })
-      .catch((e) => setError(e.message))
-      .finally(() => setBusy(false));
-  }, []);
-  return (
-    <SiteShell path="/journal">
-      <div className="shell journal">
-        <header className="e-page-heading">
-          <p className="e-kicker">JOURNAL / PRIVATE</p>
-          <h1>原稿管理</h1>
-          <p>
-            保存された原稿の表示を確認し、公開範囲とタグを管理します。本文はアップロード時の内容で固定されます。
-          </p>
-        </header>
-        <div className="journal-actions">
-          <a className="e-outline-link" href="/journal/admin/upload">
-            原稿をアップロード →
-          </a>
-          <a href="/journal">公開されたJournal</a>
-        </div>
-        {error && <p role="alert">{error}</p>}
-        {!busy && !error && entries.length === 0 && (
-          <p>
-            原稿はまだありません。「原稿をアップロード」から、書き終えたMarkdownを登録してください。
-          </p>
-        )}
-        <ol className="journal-list">
-          {entries.map((e) => (
-            <li key={e.id}>
-              <div className="journal-meta">
-                {labels[e.visibility]} · 保存済み
-              </div>
-              <h2>
-                <a href={`/journal/admin/${e.id}`}>{e.title}</a>
-              </h2>
-              <p>{e.id}</p>
-            </li>
-          ))}
-        </ol>
-        {busy && <output>読み込み中…</output>}
-        {next && (
-          <button disabled={busy} onClick={() => void load(next)}>
-            続きを表示
-          </button>
-        )}
-      </div>
-    </SiteShell>
-  );
-}
-export function JournalControls({
-  id,
-  reviewedRevision,
-}: {
-  id: string;
-  reviewedRevision: string;
-}) {
-  const [entry, setEntry] = useState<Entry | null>(null);
-  const [visibility, setVisibility] = useState<Visibility>('private');
-  const [tags, setTags] = useState('');
-  const [message, setMessage] = useState('');
-  const [share, setShare] = useState('');
-  const [busy, setBusy] = useState(false);
-  const [reviewed, setReviewed] = useState(false);
-  useEffect(() => {
-    api<Entry>(`/${id}`)
-      .then((e) => {
-        setEntry(e);
-        setVisibility(e.visibility);
-        setTags(
-          (e.tags_json !== null
-            ? JSON.parse(e.tags_json)
-            : JSON.parse(e.document).tags
-          ).join(', '),
-        );
-      })
-      .catch((e) => setMessage(e.message));
-  }, [id]);
-  async function act(action: 'apply' | 'visibility' | 'rotate' | 'tags') {
-    if (!entry) return;
+  async function act() {
+    if (!pending) return;
     setBusy(true);
-    setMessage('');
-    setShare('');
+    setError('');
     try {
-      const result = await api<{ sharePath: string | null }>(`/${id}`, {
-        action,
-        ...(action === 'tags'
-          ? {
-              tags: tags
-                .split(/[,、\n]/)
-                .map((tag) => tag.trim())
-                .filter(Boolean),
-            }
-          : {}),
-        visibility,
-        version: entry.version,
-        revision: reviewedRevision,
+      await request(`/entries/${pending.entry.id}`, {
+        action: pending.action,
+        version: pending.entry.version,
+        visibility: 'private',
       });
-      if (result.sharePath)
-        setShare(new URL(result.sharePath, location.origin).href);
-      setEntry(await api<Entry>(`/${id}`));
-      setMessage('保存しました。');
-      setReviewed(false);
-      if (action === 'tags') location.reload();
+      setMessage(
+        pending.action === 'purge'
+          ? '記事を完全に削除しました。'
+          : pending.action === 'restore'
+            ? '非公開で復元しました。'
+            : pending.action === 'trash'
+              ? 'ゴミ箱に移動しました。'
+              : '公開を停止しました。',
+      );
+      setPending(null);
+      setReload((v) => v + 1);
     } catch (e) {
-      setMessage((e as Error).message);
-    } finally {
+      setError((e as Error).message);
       setBusy(false);
     }
   }
-  const stale = entry?.draft_revision !== reviewedRevision;
   return (
-    <section className="shell journal journal-controls" aria-label="公開管理">
-      <a href="/journal/admin">← 原稿一覧</a>
-      <h1>原稿の表示確認</h1>
-      <p>
-        下の表示はサーバーに保存された原稿です。本文は固定されています。公開範囲とタグはここから変更できます。
-      </p>
-      {entry && <p>現在：{labels[entry.visibility]} ／ 本文固定</p>}
-      {stale && entry && (
-        <p role="alert">
-          新しい原稿が届いています。再読み込みして確認してください。
-        </p>
-      )}
-      <p>
-        <a href={`/api/journal/admin/entries/${id}?source=1`}>
-          保存した原稿をダウンロード
-        </a>
-      </p>
-      <div className="journal-tag-editor">
-        <label htmlFor="journal-tags">記事のタグ</label>
-        <input
-          id="journal-tags"
-          type="text"
-          value={tags}
-          disabled={!entry || busy}
-          aria-describedby="journal-tags-help"
-          placeholder="AI, 設計, 開発環境"
-          onChange={(event) => setTags(event.target.value)}
-        />
-        <p id="journal-tags-help">
-          カンマで区切って入力してください（30個まで・各80文字以内）。空欄で保存するとタグをすべて削除します。
-        </p>
-        <button disabled={!entry || busy} onClick={() => void act('tags')}>
-          タグを保存
-        </button>
-        <p>
-          タグは一覧と記事に反映されます。ダウンロードする原稿はアップロード時の内容です。
-        </p>
+    <AdminFrame>
+      <header className="ja-heading">
+        <div>
+          <p className="ja-eyebrow">YOUR WRITING SPACE</p>
+          <h1>記事を育てる。</h1>
+          <p className="ja-muted">
+            アイデアを下書きに。伝えたいタイミングで公開。
+          </p>
+        </div>
+        <div className="ja-actions">
+          <a className="ja-button" href="/journal/admin/upload">
+            <Upload size={16} />
+            インポート
+          </a>
+          <button
+            className="ja-button ja-primary"
+            disabled={busy}
+            onClick={() => void create()}
+          >
+            <Plus size={18} />
+            記事を書く
+          </button>
+        </div>
+      </header>
+      <div className="ja-tabs" aria-label="記事の状態">
+        {Object.entries(tabs).map(([key, label]) => (
+          <button
+            key={key}
+            aria-current={status === key ? 'page' : undefined}
+            onClick={() => filter({ status: key })}
+          >
+            {label}
+            <span>{data?.counts[key] ?? '—'}</span>
+          </button>
+        ))}
       </div>
-      <label htmlFor="journal-visibility">公開範囲</label>{' '}
-      <select
-        id="journal-visibility"
-        value={visibility}
-        onChange={(e) => {
-          setVisibility(e.target.value as Visibility);
-          setReviewed(false);
+      <form
+        className="ja-filters"
+        key={query}
+        onSubmit={(e) => {
+          e.preventDefault();
+          const form = new FormData(e.currentTarget);
+          filter(Object.fromEntries(form) as Record<string, string>);
         }}
       >
-        {Object.entries(labels).map(([value, label]) => (
-          <option key={value} value={value}>
-            {label}
-          </option>
-        ))}
-      </select>
-      <p>
-        {visibility === 'private'
-          ? '本人だけが閲覧できます。共有リンクも停止します。'
-          : visibility === 'unlisted'
-            ? '一覧には掲載しません。リンクを持つ人は閲覧・再共有できます。'
-            : '誰でも一覧から閲覧できます。'}
-      </p>
-      <label>
+        <label className="ja-search">
+          <Search size={18} />
+          <input
+            aria-label="タイトルを検索"
+            name="q"
+            defaultValue={search.get('q') ?? ''}
+            placeholder="タイトルを検索…"
+          />
+        </label>
         <input
-          type="checkbox"
-          checked={reviewed}
-          onChange={(e) => setReviewed(e.target.checked)}
-        />{' '}
-        下の原稿と公開範囲を確認しました
-      </label>
-      <div className="journal-actions">
-        <button
-          disabled={!entry || busy || stale || !reviewed}
-          onClick={() => void act('apply')}
+          aria-label="タグで絞り込み"
+          name="tag"
+          defaultValue={search.get('tag') ?? ''}
+          placeholder="タグ"
+        />
+        <select
+          aria-label="記事の種類"
+          name="kind"
+          defaultValue={search.get('kind') ?? ''}
         >
-          公開範囲を保存
-        </button>
-        {entry?.visibility === 'unlisted' && (
-          <button
-            disabled={busy || visibility !== 'unlisted'}
-            onClick={() => void act('rotate')}
-          >
-            旧リンクを停止して新しい共有リンクを発行
-          </button>
-        )}
-      </div>
-      <output>{busy ? '保存中…' : message}</output>
-      {share && (
-        <p>
-          共有リンク（この画面を離れる前に控えてください）：
-          <a href={share}>{share}</a>
+          <option value="">すべての種類</option>
+          {[
+            'article',
+            'log',
+            'hypothesis',
+            'experiment',
+            'decision',
+            'failure',
+          ].map((k) => (
+            <option key={k} value={k}>
+              {kindNames[k]}
+            </option>
+          ))}
+        </select>
+        <select
+          aria-label="並び順"
+          name="sort"
+          defaultValue={search.get('sort') ?? 'desc'}
+        >
+          <option value="desc">保存が新しい順</option>
+          <option value="asc">保存が古い順</option>
+        </select>
+        <button className="ja-button">検索</button>
+      </form>
+      {error && (
+        <p className="ja-error" role="alert">
+          {error}
+          <button onClick={() => setReload((v) => v + 1)}>再試行</button>
         </p>
       )}
-    </section>
+      <output className="ja-status">{busy ? '読み込み中…' : message}</output>
+      <div className="ja-list" aria-busy={busy}>
+        <div className="ja-list-head">
+          <span>記事</span>
+          <span>状態</span>
+          <span>保存日時 / 公開日</span>
+          <span>操作</span>
+        </div>
+        {data?.entries.map((e) => (
+          <div className="ja-row" key={e.id}>
+            <div className="ja-row-title">
+              <FileText size={20} />
+              <div>
+                <a href={`/journal/admin/${e.id}`}>{e.title || '無題の記事'}</a>
+                <div className="ja-tags">
+                  {JSON.parse(e.tags_json ?? '[]').map((tag: string) => (
+                    <button key={tag} onClick={() => filter({ tag })}>
+                      {tag}
+                    </button>
+                  ))}
+                  <span>{kindNames[e.kind] ?? e.kind}</span>
+                </div>
+              </div>
+            </div>
+            <div>
+              <span
+                className={`ja-badge ${e.visibility === 'public' && !e.deleted_at ? 'is-public' : ''}`}
+              >
+                {statusName(e)}
+              </span>
+              {e.live_revision &&
+                e.draft_revision !== e.live_revision &&
+                !e.deleted_at && (
+                  <small className="ja-muted">未反映の変更あり</small>
+                )}
+            </div>
+            <div className="ja-row-date">
+              <time>{dateLabel(e.received_at)}</time>
+              <small>
+                {e.published_at
+                  ? `公開 ${e.published_at}`
+                  : 'まだ公開していません'}
+              </small>
+            </div>
+            <div className="ja-row-actions">
+              {/* oxlint-disable-next-line jsx-a11y/no-noninteractive-element-interactions -- Escape from any descendant dismisses the native disclosure. */}
+              <details
+                className="ja-menu"
+                name="journal-row-actions"
+                onBlur={(event) => {
+                  if (!event.currentTarget.contains(event.relatedTarget))
+                    event.currentTarget.open = false;
+                }}
+                onKeyDown={(event) => {
+                  if (event.key === 'Escape') {
+                    event.currentTarget.open = false;
+                    event.currentTarget.querySelector('summary')?.focus();
+                  }
+                }}
+              >
+                <summary
+                  className="ja-icon-action"
+                  aria-label={`${e.title || '無題の記事'}の操作`}
+                  data-tooltip="その他の操作"
+                >
+                  <MoreHorizontal size={20} aria-hidden="true" />
+                </summary>
+                <div>
+                  {!e.deleted_at ? (
+                    <>
+                      <a href={`/journal/admin/${e.id}?view=preview`}>
+                        プレビュー
+                      </a>
+                      <a href={`/journal/admin/${e.id}`}>編集・タグ変更</a>
+                      <a href={`/api/journal/admin/entries/${e.id}?source=1`}>
+                        Markdownを保存
+                      </a>
+                      {e.visibility === 'public' && (
+                        <a
+                          href={`/journal/${e.id}`}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          公開記事を開く ↗
+                        </a>
+                      )}
+                      {e.visibility !== 'private' && (
+                        <button
+                          onClick={() =>
+                            setPending({ entry: e, action: 'visibility' })
+                          }
+                        >
+                          公開を停止
+                        </button>
+                      )}
+                    </>
+                  ) : (
+                    <button
+                      onClick={() =>
+                        setPending({ entry: e, action: 'restore' })
+                      }
+                    >
+                      非公開で復元
+                    </button>
+                  )}
+                </div>
+              </details>
+              <button
+                className="ja-icon-action ja-danger"
+                aria-label={e.deleted_at ? '完全に削除' : 'ゴミ箱に移動'}
+                data-tooltip={e.deleted_at ? '完全に削除' : 'ゴミ箱に移動'}
+                onClick={() =>
+                  setPending({
+                    entry: e,
+                    action: e.deleted_at ? 'purge' : 'trash',
+                  })
+                }
+              >
+                <Trash2 size={18} aria-hidden="true" />
+              </button>
+            </div>
+          </div>
+        ))}
+        {!busy && data?.entries.length === 0 && (
+          <div className="ja-empty">
+            <FileText size={32} />
+            <h2>
+              {status === 'trash' ? 'ゴミ箱は空です' : '記事が見つかりません'}
+            </h2>
+            <p>検索条件を変えるか、新しい記事を書いてみましょう。</p>
+          </div>
+        )}
+      </div>
+      {data?.next && (
+        <button
+          className="ja-button ja-more"
+          disabled={busy}
+          onClick={async () => {
+            setBusy(true);
+            try {
+              const more = await request<Listing>(
+                `/entries?${query}&after=${data.next}`,
+              );
+              setData({ ...more, entries: [...data.entries, ...more.entries] });
+            } catch (e) {
+              setError((e as Error).message);
+            } finally {
+              setBusy(false);
+            }
+          }}
+        >
+          さらに表示
+        </button>
+      )}
+      {pending && (
+        <Modal label="記事の操作確認" onClose={() => !busy && setPending(null)}>
+          {error && (
+            <p className="ja-error" role="alert">
+              {error}
+            </p>
+          )}
+          <Trash2 size={24} />
+          <h2 id="confirm-title">
+            {pending.action === 'purge'
+              ? '完全に削除しますか？'
+              : pending.action === 'restore'
+                ? '記事を復元しますか？'
+                : pending.action === 'trash'
+                  ? 'ゴミ箱に移動しますか？'
+                  : '公開を停止しますか？'}
+          </h2>
+          <p>「{pending.entry.title || '無題の記事'}」</p>
+          <p className="ja-muted">
+            {pending.action === 'purge'
+              ? '保存原稿と変更履歴も削除します。この操作は取り消せません。'
+              : pending.action === 'restore'
+                ? '非公開で復元します。以前の共有リンクは復活しません。'
+                : '読者と共有リンクから閲覧できなくなります。原稿は残ります。'}
+          </p>
+          <div className="ja-actions">
+            <button
+              className="ja-button"
+              disabled={busy}
+              onClick={() => setPending(null)}
+            >
+              キャンセル
+            </button>
+            <button
+              className="ja-button ja-primary"
+              disabled={busy}
+              onClick={() => void act()}
+            >
+              実行する
+            </button>
+          </div>
+        </Modal>
+      )}
+    </AdminFrame>
   );
 }

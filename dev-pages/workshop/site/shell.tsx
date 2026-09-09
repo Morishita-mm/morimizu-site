@@ -235,7 +235,7 @@ function Footer() {
           <a href="/projects">Projects</a>
           <a href="/notes">Notes</a>
           <a href="/about">About</a>
-          <a href="/journal/admin/upload">
+          <a href="/journal/admin">
             {t('Journal管理', 'Journal admin')}
           </a>
           <a href="https://github.com/Morishita-mm">GitHub ↗</a>

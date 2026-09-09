@@ -15,9 +15,9 @@ export function NotesHeading({
       <header className="e-page-heading">
         <p className="e-kicker">02 / NOTES</p>
         <h1>
-          {t('日々の記録と、', 'Daily notes,')}
+          {t('書いたこと、', 'Things I wrote,')}
           <br />
-          {t('技術記事。', 'technical articles.')}
+          {t('のこしたもの。', 'things I kept.')}
         </h1>
         <p>
           {t(

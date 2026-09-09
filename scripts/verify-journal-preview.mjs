@@ -19,7 +19,7 @@ try {
   const errors = [];
   page.on('pageerror', (error) => errors.push(error.message));
   await page.goto(base + '/');
-  await page.locator('header nav a[href="/notes"]').click();
+  await page.locator('header nav[data-desktop-nav] a[href="/notes"]').click();
   await page.locator('.e-notes-tabs a[href="/journal"]').click();
   await page
     .getByRole('link', {
@@ -38,24 +38,18 @@ try {
     path: 'outputs/journal/local-sample-desktop.png',
     fullPage: true,
   });
-  await page.locator('footer a[href="/journal/admin/upload"]').click();
+  await page.locator('footer a[href="/journal/admin"]').click();
   await page
-    .getByLabel('Markdownファイルを選択', { exact: true })
+    .getByRole('heading', { name: '記事を育てる。', exact: true })
+    .waitFor();
+  await page.getByRole('link', { name: 'インポート', exact: true }).click();
+  await page
+    .getByLabel('Markdownファイル', { exact: true })
     .setInputFiles(resolve('scripts/journal/preview-sample.md'));
   await page
-    .getByRole('checkbox', {
-      name: '内容を確定し、アップロード後はローカルの原稿を編集しません',
-    })
-    .check();
-  await page
-    .getByRole('button', { name: '非公開で保存する', exact: true })
-    .click();
-  await page
-    .getByRole('heading', { name: 'この原稿はすでに保存されています' })
+    .getByRole('button', { name: '下書きを更新して編集へ', exact: true })
     .waitFor();
-  await page.getByRole('link', { name: '保存した原稿を確認 →' }).click();
-  await page.getByText('現在：公開 ／ 本文固定', { exact: true }).waitFor();
-  await page.goto(base + '/journal/admin/upload');
+  // Only inspect the import; no saved article is modified by this preview check.
   for (const width of [1440, 390, 320]) {
     await page.setViewportSize({ width, height: 900 });
     assert.equal(

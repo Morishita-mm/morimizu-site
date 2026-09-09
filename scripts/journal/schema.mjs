@@ -42,7 +42,11 @@ export function assertNoCredentials(source, file) {
   }
 }
 
-export function parseEntry(source, file, { managed = false } = {}) {
+export function parseEntry(
+  source,
+  file,
+  { managed = false, draft = false } = {},
+) {
   const fail = (field) => {
     throw new Error(`${file}: invalid ${field}`);
   };
@@ -73,6 +77,13 @@ export function parseEntry(source, file, { managed = false } = {}) {
   const string = (key, required = false, max = 300) => {
     const value = data[key];
     if (value === undefined && !required) return undefined;
+    if (
+      draft &&
+      ['title', 'summary'].includes(key) &&
+      typeof value === 'string' &&
+      value.length <= max
+    )
+      return value.trim();
     if (typeof value !== 'string' || !value.trim() || value.length > max)
       fail(key);
     return value.trim();
@@ -156,7 +167,7 @@ export function parseEntry(source, file, { managed = false } = {}) {
     publishedAt,
     content: content.trim(),
   };
-  if (!entry.content) fail('body');
+  if (!draft && !entry.content) fail('body');
   if (entry.relatedEntries.includes(id)) fail('self relation');
   return entry;
 }

@@ -1,5 +1,7 @@
 import { isAdmin, secretMatches } from './auth.mjs';
 import { manuscriptTemplate } from './template.mjs';
+import { prepareManuscript } from './manuscript.mjs';
+import { compileMarkdown } from '../lib/content/markdown.mjs';
 import {
   JournalError,
   database,
@@ -9,6 +11,10 @@ import {
   change,
   publicList,
   publicEntry,
+  createDraft,
+  saveDraft,
+  revisionHistory,
+  revisionSource,
 } from './store.mjs';
 
 export function protect(response, privatePage = false, privatePreview = false) {
@@ -89,7 +95,45 @@ export async function handleJournal(request, env, next) {
     if (path.startsWith('/api/journal')) {
       const url = new URL(request.url);
       let result;
-      if (path === '/api/journal/admin/template' && request.method === 'GET') {
+      if (
+        path.startsWith('/api/journal/admin') &&
+        !['GET', 'HEAD'].includes(request.method)
+      ) {
+        if (request.headers.get('origin') !== url.origin)
+          throw new JournalError(403, 'Same-origin request required');
+      }
+      if (path === '/api/journal/admin/entries' && request.method === 'POST') {
+        result = await createDraft(database(env));
+      } else if (
+        ['/api/journal/admin/preview', '/api/journal/admin/import'].includes(
+          path,
+        ) &&
+        request.method === 'POST'
+      ) {
+        if (request.headers.get('content-type') !== 'application/json')
+          throw new JournalError(415, 'JSON required');
+        let parsed;
+        try {
+          const input = JSON.parse(await boundedText(request, 1024 * 1024));
+          parsed = prepareManuscript(input.source, {
+            draft: path.endsWith('/preview'),
+          });
+        } catch (error) {
+          if (error instanceof JournalError) throw error;
+          throw new JournalError(400, error.message);
+        }
+        const existing = path.endsWith('/import')
+          ? await adminEntry(database(env), parsed.document.id)
+          : null;
+        result = {
+          ...parsed,
+          tree: compileMarkdown(parsed.document.content),
+          existing,
+        };
+      } else if (
+        path === '/api/journal/admin/template' &&
+        request.method === 'GET'
+      ) {
         return protect(
           new Response(manuscriptTemplate(), {
             headers: {
@@ -137,12 +181,37 @@ export async function handleJournal(request, env, next) {
         result = await adminList(
           database(env),
           url.searchParams.get('after') ?? '',
+          Object.fromEntries(url.searchParams),
         );
       } else if (/^\/api\/journal\/admin\/entries\/[a-z0-9-]+$/.test(path)) {
         const id = path.split('/').at(-1);
         if (request.method === 'GET') {
           result = await adminEntry(database(env), id);
           if (!result) throw new JournalError(404, 'Not found');
+          if (url.searchParams.has('history')) {
+            return protect(
+              Response.json(
+                await revisionHistory(
+                  database(env),
+                  id,
+                  url.searchParams.get('before') ?? '',
+                ),
+              ),
+              true,
+            );
+          }
+          if (url.searchParams.has('revision')) {
+            return protect(
+              Response.json({
+                source: await revisionSource(
+                  database(env),
+                  id,
+                  url.searchParams.get('revision'),
+                ),
+              }),
+              true,
+            );
+          }
           if (url.searchParams.has('source')) {
             const row = await database(env)
               .prepare(
@@ -168,14 +237,28 @@ export async function handleJournal(request, env, next) {
             throw new JournalError(403, 'Same-origin JSON required');
           let input;
           try {
-            input = JSON.parse(await boundedText(request, 16 * 1024));
+            input = JSON.parse(await boundedText(request, 1024 * 1024));
           } catch (error) {
             if (error instanceof JournalError) throw error;
             throw new JournalError(400, 'Invalid JSON');
           }
           if (!input || typeof input !== 'object')
             throw new JournalError(400, 'Invalid action');
-          result = await change(database(env), id, input);
+          if (input.action === 'save')
+            result = await saveDraft(
+              database(env),
+              id,
+              input.source,
+              input.version,
+            );
+          else if (input.action === 'revert')
+            result = await saveDraft(
+              database(env),
+              id,
+              await revisionSource(database(env), id, input.revision),
+              input.version,
+            );
+          else result = await change(database(env), id, input);
         } else throw new JournalError(405, 'Method not allowed');
       } else if (
         path === '/api/journal/v1/entries' &&

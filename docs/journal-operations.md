@@ -1,5 +1,8 @@
 # Journalの運用
 
+> 2026-09-09更新：編集可能なJournal Studioの現行ローカル仕様は [journal-studio.md](journal-studio.md) を参照。以下は本文固定方式の導入時記録です。
+
+
 現行方式は「ローカルで書き終える → 管理画面からアップロード → 表示確認 → 公開範囲を選択」。アップロード後はサーバーの保存版を正本とし、本文を固定する。ローカルの元原稿は以後編集しない。本番初期設定は未実施。設計・費用は [journal-runtime-design.md](journal-runtime-design.md)、検証結果は [journal-runtime-validation.md](journal-runtime-validation.md)。
 
 ## まずローカルで開く
