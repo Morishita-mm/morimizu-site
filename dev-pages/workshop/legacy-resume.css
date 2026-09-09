@@ -893,3 +893,21 @@
     font-size: 7.2pt !important;
   }
 }
+
+.resume-back-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin: 12px 30px 0;
+  font-size: 12px;
+  color: var(--ink);
+}
+.resume-back-link:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+@media print {
+  .resume-back-link {
+    display: none;
+  }
+}

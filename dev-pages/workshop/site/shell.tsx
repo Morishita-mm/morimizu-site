@@ -9,7 +9,7 @@ import {
   type Locale,
 } from '../locale';
 import { LINKEDIN_URL } from '@/lib/social-links';
-import { SiteIcon } from '../site-identity';
+import { MountainIcon } from '@/components/mountain-icon';
 import { BrandWordmark } from '../brand-concepts';
 import { Arrow } from './components';
 import { ThemeToggle } from '@/components/theme-toggle';
@@ -44,7 +44,11 @@ function HeaderLinks({
       <a
         href="/about"
         onClick={onNavigate}
-        aria-current={path.endsWith('/about') ? 'page' : undefined}
+        aria-current={
+          path.endsWith('/about') || path.endsWith('/resume')
+            ? 'page'
+            : undefined
+        }
       >
         <span>03</span>About
       </a>
@@ -152,7 +156,7 @@ function Header({ path, preview }: { path: string; preview: boolean }) {
           className="e-brand"
           aria-label={t('morimizu works ホーム', 'morimizu works Home')}
         >
-          <SiteIcon variant="shoulder-raised" />
+          <MountainIcon />
         </a>
         <nav
           data-desktop-nav
@@ -209,7 +213,7 @@ function Footer() {
     <footer className="e-footer shell">
       <a className="footer-wordmark" href="/">
         <span className="adopted-lockup">
-          <SiteIcon variant="shoulder-raised" />
+          <MountainIcon />
           <BrandWordmark variant="shoulder-raised" />
         </span>
         <svg
@@ -235,9 +239,7 @@ function Footer() {
           <a href="/projects">Projects</a>
           <a href="/notes">Notes</a>
           <a href="/about">About</a>
-          <a href="/journal/admin">
-            {t('Journal管理', 'Journal admin')}
-          </a>
+          <a href="/journal/admin">{t('Journal管理', 'Journal admin')}</a>
           <a href="https://github.com/Morishita-mm">GitHub ↗</a>
         </nav>
         <small>© 2026 Mizuki</small>

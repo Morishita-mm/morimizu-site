@@ -40,6 +40,7 @@ try {
     '/projects',
     '/notes',
     '/about',
+    '/resume',
     '/projects/lissue',
     '/projects/ragy',
     '/projects/rust-log-analyzer',
@@ -56,11 +57,32 @@ try {
             : 'つくったもの。書いたこと。',
         ),
       );
-      assert.ok(!html.includes('href="/en/about"'));
+      if (path !== '/resume') assert.ok(!html.includes('href="/en/about"'));
       assert.equal((html.match(/class="e-language-toggle"/g) ?? []).length, 1);
       assert.ok(html.includes('class="footer-home-icon"'));
       assert.ok(!html.includes('横にスクロールして見る'));
-      if (path === '/about')
+      if (path === '/about') {
+        assert.ok(
+          html.includes(
+            initialLocale === 'en' ? 'I’m Mizuki.' : 'Mizukiです。',
+          ),
+        );
+        assert.ok(
+          html.includes(
+            initialLocale === 'en' ? 'href="/en/resume"' : 'href="/resume"',
+          ),
+        );
+        assert.ok(html.includes('about-desk-image-light'));
+        assert.ok(html.includes('about-desk-image-dark'));
+        assert.ok(!html.includes('id="story"'));
+        assert.ok(!html.includes('id="roots"'));
+      }
+      if (path === '/resume') {
+        assert.ok(
+          html.includes(
+            initialLocale === 'en' ? 'href="/en/about"' : 'href="/about"',
+          ),
+        );
         assert.ok(
           html.includes(
             initialLocale === 'en'
@@ -68,6 +90,7 @@ try {
               : '業務アプリケーション開発',
           ),
         );
+      }
       if (path.startsWith('/projects/'))
         assert.ok(
           html.includes(
@@ -76,7 +99,25 @@ try {
         );
     }
   }
-  console.log('PASS: 8 routes × 2 languages; unchanged internal URLs');
+  // English-prefixed links emitted by About must resolve in standalone preview.
+  for (const path of [
+    '/en',
+    '/en/about',
+    '/en/resume',
+    '/en/projects',
+    '/en/projects/lissue',
+    '/en/notes',
+  ]) {
+    const html = renderToString(createElement(Preview, { path }));
+    assert.ok(!html.includes('e-not-found'), `English preview route: ${path}`);
+    assert.ok(
+      html.includes('Things I build. Things I write.'),
+      `English locale: ${path}`,
+    );
+  }
+  console.log(
+    'PASS: 9 routes × 2 languages; About/Résumé content and links; 6 English preview routes',
+  );
 } finally {
   await server.close();
 }

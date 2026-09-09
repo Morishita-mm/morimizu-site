@@ -15,6 +15,9 @@ const routes = process.env.ROUTES?.split(',') ?? [
   '/projects/tech-interviewer',
   '/notes',
   '/about',
+  '/en/about',
+  '/resume',
+  '/en/resume',
   '/notes/90dbd51a30be86d5a4cb',
   '/notes/ec44e9b3d6d16682089e',
 ];
@@ -196,7 +199,7 @@ try {
             );
           }
         }
-        if (route === '/about' && width === 1440) {
+        if ((route === '/resume' || route === '/en/resume') && width === 1440) {
           const details = page.locator('.poster-timeline details');
           if ((await details.count()) > 1) {
             const entry = details.nth(1);

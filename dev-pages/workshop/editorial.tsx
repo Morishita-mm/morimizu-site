@@ -12,6 +12,7 @@ import { Home } from './site/home';
 import { ProjectsPage } from './site/projects';
 import { NotesPage } from './site/notes';
 import { AboutPage } from './site/about';
+import { ResumePage } from './site/resume-page';
 import { ProjectPage } from './site/project';
 import { ArticlePage } from './site/article';
 import { Arrow } from './site/components';
@@ -30,8 +31,9 @@ function Page({ path, preview }: { path: string; preview: boolean }) {
     return <ProjectsPage projects={getProjectCards()} />;
   if (path === '/notes')
     return <NotesPage articles={getAllQiitaArticles().map(articleSummary)} />;
-  if (path === '/about' || path === '/en/about')
-    return <AboutPage resume={{ ja: RESUME_JA, en: RESUME_EN }} />;
+  if (path === '/about') return <AboutPage />;
+  if (path === '/resume')
+    return <ResumePage resume={{ ja: RESUME_JA, en: RESUME_EN }} />;
   const project =
     path.startsWith('/projects/') || path.startsWith('/blueprint/')
       ? getProjectData(path.split('/')[2])
@@ -72,13 +74,15 @@ export function Preview({
   initialLocale?: Locale;
   preview?: boolean;
 }) {
+  const englishPath = /^\/en(?:\/|$)/.test(path);
+  const pagePath = englishPath ? path.slice(3) || '/' : path;
   return (
     <SiteShell
-      path={path}
-      initialLocale={initialLocale ?? (path === '/en/about' ? 'en' : 'ja')}
+      path={pagePath}
+      initialLocale={initialLocale ?? (englishPath ? 'en' : 'ja')}
       preview={preview}
     >
-      <Page path={path} preview={preview} />
+      <Page path={pagePath} preview={preview} />
     </SiteShell>
   );
 }

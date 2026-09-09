@@ -2,7 +2,7 @@
 /* oxlint-disable next/no-img-element, next/no-html-link-for-pages -- Optimized native images and existing routes. */
 import { useLocale } from '../locale';
 import { ControlLabel } from '@/components/control-label';
-import { SiteIcon } from '../site-identity';
+import { MountainIcon } from '@/components/mountain-icon';
 import { BrandWordmark } from '../brand-concepts';
 import { ProjectCarousel } from '../project-carousel';
 import { LikesUpdated } from '../qiita-likes';
@@ -27,7 +27,7 @@ export function Home({
         <div className="masthead">
           <h1>
             <span className="adopted-lockup">
-              <SiteIcon variant="shoulder-raised" />
+              <MountainIcon />
               <BrandWordmark variant="shoulder-raised" />
             </span>
           </h1>
@@ -123,8 +123,13 @@ export function Home({
               <span>{about.role}</span>
             </h2>
             <p>{about.summary[en ? 'en' : 'ja']}</p>
-            <a href="/about" className="e-solid-link">
-              <ControlLabel locale={en ? 'en' : 'ja'} ja="職務経歴書" en="Résumé" /> <Arrow />
+            <a href={en ? '/en/resume' : '/resume'} className="e-solid-link">
+              <ControlLabel
+                locale={en ? 'en' : 'ja'}
+                ja="職務経歴書"
+                en="Résumé"
+              />{' '}
+              <Arrow />
             </a>
           </div>
           <div className="about-skills">
