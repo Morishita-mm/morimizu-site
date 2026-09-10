@@ -60,7 +60,7 @@ for (const route of [
   assert.ok(sampleJs.includes(route), `Missing route: ${route}`);
 }
 for (const text of [
-  '銀行預り物件管理システム開発（ディレクテック株式会社）',
+  '業務システム開発（ディレクテック株式会社）',
   'Architecture Diagnostic',
   'Qiita記事',
 ]) {

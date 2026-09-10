@@ -28,6 +28,20 @@ try {
         (expected) => document.documentElement.lang === expected,
         lang,
       );
+      const entries = page.locator('.poster-timeline-node');
+      await page.evaluate(() => {
+        window.addEventListener('beforeprint', () => {
+          window.printedEntries = [
+            ...document.querySelectorAll('.poster-timeline-node'),
+          ].map(
+            (entry) =>
+              entry.open &&
+              entry
+                .querySelector('.poster-timeline-details')
+                .getBoundingClientRect().height > 0,
+          );
+        });
+      });
       const mobile = width <= 760;
       const trigger = page.locator('.resume-print-trigger');
       const panel = page.locator('.resume-print-options');
@@ -99,6 +113,21 @@ try {
           index + 1,
         );
         if (mobile) assert.equal(await panel.isVisible(), false);
+        const beforePrint = await entries.evaluateAll((nodes) =>
+          nodes.map((node) => node.open),
+        );
+        await page.pdf({ preferCSSPageSize: true });
+        assert.ok(
+          (await page.evaluate(() => window.printedEntries)).every(Boolean),
+          'Every experience body is included when printing, even if collapsed',
+        );
+        assert.deepEqual(
+          await entries.evaluateAll((nodes) => nodes.map((node) => node.open)),
+          beforePrint,
+          'Printing restores the screen disclosure state',
+        );
+        // Exercise a different user-selected state on the next print.
+        if (index === 0) await entries.nth(1).locator('summary').click();
       }
       await page.emulateMedia({ media: 'print' });
       assert.equal(await trigger.isVisible(), false);
@@ -115,6 +144,36 @@ try {
       assert.ok(sizes[0].height >= 44);
     }
   }
+  // Browser printing without an app button, and repeated/cancelled print events.
+  const entries = page.locator('.poster-timeline-node');
+  await entries.evaluateAll((nodes) =>
+    nodes.forEach((node) => {
+      node.open = false;
+    }),
+  );
+  await page.pdf({ preferCSSPageSize: true });
+  assert.ok((await page.evaluate(() => window.printedEntries)).every(Boolean));
+  assert.equal(await page.locator('.poster-timeline-node[open]').count(), 0);
+  await page.evaluate(() => {
+    window.dispatchEvent(new Event('beforeprint'));
+    window.dispatchEvent(new Event('beforeprint'));
+  });
+  assert.equal(
+    await page.locator('.poster-timeline-node[open]').count(),
+    await entries.count(),
+  );
+  await page.evaluate(() => window.dispatchEvent(new Event('afterprint')));
+  assert.equal(await page.locator('.poster-timeline-node[open]').count(), 0);
+  await entries.evaluateAll((nodes) =>
+    nodes.forEach((node) => {
+      node.open = true;
+    }),
+  );
+  await page.pdf({ preferCSSPageSize: true });
+  assert.equal(
+    await page.locator('.poster-timeline-node[open]').count(),
+    await entries.count(),
+  );
   await page.goto(`${origin}/projects/tech-interviewer`);
   assert.equal(
     await page
@@ -124,7 +183,7 @@ try {
   );
   assert.deepEqual(errors, []);
   console.log(
-    'PASS: bilingual mobile disclosure, keyboard/outside dismissal, portrait/landscape requests, desktop controls, print media hiding, app URL. OS print dialog not automated.',
+    'PASS: bilingual mobile disclosure, keyboard/outside dismissal, portrait/landscape PDF includes collapsed bodies and restores screen state, desktop controls, print media hiding, app URL. OS print dialog not automated.',
   );
 } finally {
   await browser.close();
