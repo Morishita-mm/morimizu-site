@@ -10,6 +10,7 @@ updatedAt: '${date}'
 kind: log
 summary: この記録で考えたこと・試したことを短く書きます。
 language: ja
+authorship: unknown
 tags: []
 projects: []
 relatedEntries: []

@@ -13,14 +13,14 @@ try {
   const args = process.argv.slice(2);
   if (args.includes('--help')) {
     console.log(
-      'npm run journal:new -- [--title "タイトル"] [--dir /path/to/articles] [--template /path/to/template.md]',
+      'npm run journal:new -- [--title "タイトル"] [--authorship human|ai|unknown] [--dir /path/to/articles] [--template /path/to/template.md]',
     );
   } else {
     const options = {};
     while (args.length) {
       const key = args.shift();
       if (
-        !['--title', '--dir', '--template'].includes(key) ||
+        !['--title', '--dir', '--template', '--authorship'].includes(key) ||
         !args.length ||
         args[0].startsWith('--')
       )
@@ -40,6 +40,7 @@ try {
       {
         ...data,
         id,
+        authorship: options.authorship ?? data.authorship ?? 'unknown',
         title: options.title ?? data.title,
         createdAt: date,
         updatedAt: date,

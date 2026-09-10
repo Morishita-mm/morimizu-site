@@ -25,6 +25,7 @@ const fields = new Set([
   'result',
   'confidence',
   'sourceType',
+  'authorship',
   'publishedAt',
 ]);
 const identifier = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
@@ -164,6 +165,7 @@ export function parseEntry(
       ['manual', 'conversation-derived', 'evaluation'],
       'manual',
     ),
+    authorship: choice('authorship', ['unknown', 'human', 'ai'], 'unknown'),
     publishedAt,
     content: content.trim(),
   };
@@ -204,6 +206,7 @@ export function publishedProjection(entries) {
       result: e.result,
       confidence: e.confidence,
       sourceType: e.sourceType,
+      authorship: e.authorship,
       content: e.content,
     }))
     .sort(

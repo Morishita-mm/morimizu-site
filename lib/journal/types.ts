@@ -6,6 +6,7 @@ export const journalKinds = {
   failure: 'Failure / Incident',
   article: 'Article',
 } as const;
+export type JournalAuthorship = 'unknown' | 'human' | 'ai';
 export type JournalEntry = {
   id: string;
   title: string;
@@ -22,5 +23,6 @@ export type JournalEntry = {
   result?: string;
   confidence?: 'low' | 'medium' | 'high';
   sourceType: 'manual' | 'conversation-derived' | 'evaluation';
+  authorship?: JournalAuthorship;
   content: string;
 };

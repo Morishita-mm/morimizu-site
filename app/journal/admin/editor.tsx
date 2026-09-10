@@ -26,6 +26,7 @@ import {
   type Entry,
 } from './client';
 import { ArticlePreview, type Preview } from './preview';
+import { AuthorshipField, withAuthorship } from './authorship';
 
 type Revision = { revision: string; title: string; received_at: string };
 export function JournalEditor({ id }: { id: string }) {
@@ -613,6 +614,14 @@ export function JournalEditor({ id }: { id: string }) {
                     </select>
                   </section>
                 )}
+                {!publish && (
+                  <section>
+                    <AuthorshipField
+                      value={fields.authorship}
+                      onChange={(value) => field('authorship', value)}
+                    />
+                  </section>
+                )}
                 <section>
                   <h2>原稿と履歴</h2>
                   <button
@@ -816,6 +825,13 @@ export function JournalEditor({ id }: { id: string }) {
             )}
             <h2>下書きを差し替える</h2>
             <p>公開中の記事は変わりません。現在の保存版は履歴に残ります。</p>
+            <AuthorshipField
+              value={imported.document.authorship}
+              onChange={(value) =>
+                updateImport(withAuthorship(imported, value))
+              }
+              disabled={busy}
+            />
             <ManuscriptDiff before={source} after={imported.source} />
             <div className="ja-actions">
               <button className="ja-button" onClick={() => updateImport(null)}>

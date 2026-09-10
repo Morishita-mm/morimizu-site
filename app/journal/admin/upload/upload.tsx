@@ -7,6 +7,7 @@ import { ManuscriptDiff } from '../diff';
 import { AdminFrame } from '../frame';
 import { request, type Entry } from '../client';
 import { ArticlePreview, type Preview } from '../preview';
+import { AuthorshipField, withAuthorship } from '../authorship';
 
 type ImportPreview = Preview & {
   existing: Entry | null;
@@ -159,6 +160,11 @@ export function JournalUpload() {
                   保存しても自動公開されません。保存後もブラウザーで編集できます。
                 </p>
               )}
+              <AuthorshipField
+                value={preview.document.authorship}
+                onChange={(value) => setPreview(withAuthorship(preview, value))}
+                disabled={busy}
+              />
               <ArticlePreview preview={preview} />
               {preview.existing && (
                 <details className="ja-import-diff">

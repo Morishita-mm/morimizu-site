@@ -4,6 +4,8 @@ import { MermaidDiagram } from '@/components/mermaid-diagram';
 import { jsx, jsxs } from 'react/jsx-runtime';
 import { toJsxRuntime } from 'hast-util-to-jsx-runtime';
 import type { Root } from 'hast';
+import type { JournalAuthorship } from '@/lib/journal/types';
+import { JournalAuthorshipBadge } from '@/components/journal-authorship';
 
 export type Preview = {
   source: string;
@@ -12,6 +14,7 @@ export type Preview = {
     summary?: string;
     content: string;
     tags: string[];
+    authorship?: JournalAuthorship;
   };
   tree: Root;
 };
@@ -44,6 +47,7 @@ export function ArticlePreview({ preview }: { preview: Preview }) {
           <span key={tag}>{tag}</span>
         ))}
       </div>
+      <JournalAuthorshipBadge authorship={preview.document.authorship} />
       <div className="markdown-body">
         {toJsxRuntime(preview.tree, {
           Fragment,

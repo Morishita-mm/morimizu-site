@@ -27,7 +27,18 @@ await test('CLI creates unique private Markdown from the template without replac
     const e = parseEntry(await readFile(path, 'utf8'), file, { managed: true });
     assert.equal(file, `${e.id}.md`);
     assert.equal(e.title, '日本語タイトル');
+    assert.equal(e.authorship, 'unknown');
     assert.equal((await stat(path)).mode & 0o777, 0o600);
   }
   await assert.rejects(exec(process.execPath, [script, '--bad']));
+  await exec(process.execPath, [script, '--dir', dir, '--authorship', 'ai']);
+  const created = (await readdir(dir)).find((file) => !files.includes(file));
+  assert.equal(
+    parseEntry(await readFile(join(dir, created), 'utf8'), created).authorship,
+    'ai',
+  );
+  await assert.rejects(
+    exec(process.execPath, [script, '--dir', dir, '--authorship', 'guessed']),
+  );
+  assert.equal((await readdir(dir)).length, 3);
 });

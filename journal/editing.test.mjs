@@ -63,7 +63,13 @@ await test('editable drafts, concurrent saves, publication snapshots, history an
   );
   const data = readFrontMatter(entry.source).data;
   const source = serializeManuscript(
-    { ...data, title: '最初の記事', summary: '要約', tags: ['最初'] },
+    {
+      ...data,
+      title: '最初の記事',
+      summary: '要約',
+      tags: ['最初'],
+      authorship: 'human',
+    },
     '公開する本文',
   );
   const empty = entry.draft_revision;
@@ -83,7 +89,13 @@ await test('editable drafts, concurrent saves, publication snapshots, history an
         db,
         entry.id,
         serializeManuscript(
-          { ...data, title, summary: '変更', tags: ['未反映'] },
+          {
+            ...data,
+            title,
+            summary: '変更',
+            tags: ['未反映'],
+            authorship: 'ai',
+          },
           'PRIVATE NEW DRAFT',
         ),
         v,
@@ -97,6 +109,9 @@ await test('editable drafts, concurrent saves, publication snapshots, history an
   assert.equal(live.title, '最初の記事');
   assert.equal(live.content, '公開する本文');
   assert.deepEqual(live.tags, ['最初']);
+  assert.equal(live.authorship, 'human');
+  assert.equal((await publicList(db)).entries[0].authorship, 'human');
+  assert.equal(JSON.parse(entry.document).authorship, 'ai');
   assert.equal((await revisionHistory(db, entry.id)).revisions.length, 3);
   assert.equal(await revisionSource(db, entry.id, first), source);
   await assert.rejects(
@@ -130,6 +145,7 @@ await test('editable drafts, concurrent saves, publication snapshots, history an
     'PRIVATE NEW DRAFT',
   );
   assert.deepEqual((await publicEntry(db, entry.id)).entry.tags, ['未反映']);
+  assert.equal((await publicList(db)).entries[0].authorship, 'ai');
   // Restoring an older version is only a draft change.
   entry = await saveDraft(
     db,
@@ -148,6 +164,7 @@ await test('editable drafts, concurrent saves, publication snapshots, history an
     visibility: 'unlisted',
   });
   entry = await adminEntry(db, entry.id);
+  assert.equal(JSON.parse(entry.document).authorship, 'human');
   const shared = await change(db, entry.id, {
     action: 'rotate',
     version: entry.version,
