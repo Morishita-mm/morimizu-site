@@ -1190,3 +1190,103 @@
 :root[data-theme='dark'] .ja-badge.is-public {
   color: #6cd4aa;
 }
+
+.journal-card-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px 28px;
+  margin-top: 18px;
+}
+.journal-authorship {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+.journal-authorship-human {
+  margin: 14px;
+  line-height: 0;
+}
+.journal-authorship-human img {
+  display: block;
+  width: 131px;
+  height: 42px;
+  max-width: none;
+}
+.journal-authorship-ai {
+  margin: 14px 0;
+  min-height: 32px;
+  padding: 5px 12px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  color: var(--gray);
+  font-size: 12px;
+  font-weight: 550;
+  letter-spacing: 0.04em;
+}
+.ja-authorship {
+  border: 0;
+  padding: 0;
+  margin: 0 0 20px;
+  min-width: 0;
+}
+.ja-sidebar .ja-authorship {
+  margin-bottom: 0;
+}
+.ja-authorship legend {
+  margin-bottom: 14px;
+  font-size: 14px;
+  font-weight: 650;
+}
+.ja-authorship-options {
+  display: grid;
+  gap: 8px;
+}
+.ja-authorship .ja-authorship-options > label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  cursor: pointer;
+}
+.ja-authorship .ja-authorship-options > .is-selected {
+  border-color: var(--blue);
+  background: color-mix(in srgb, var(--blue) 5%, var(--white));
+}
+.ja-authorship .ja-authorship-options input {
+  appearance: auto;
+  width: 16px;
+  height: 16px;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  accent-color: var(--blue);
+  flex-shrink: 0;
+}
+.ja-authorship strong,
+.ja-authorship small {
+  display: block;
+}
+.ja-authorship strong {
+  font-size: 13px;
+  font-weight: 600;
+}
+.ja-authorship small {
+  margin-top: 4px;
+  color: var(--gray);
+  font-size: 11px;
+}
+.ja-authorship a {
+  color: var(--blue);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  margin-left: 4px;
+}
+.ja-authorship input:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 3px;
+}

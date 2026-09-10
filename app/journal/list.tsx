@@ -9,6 +9,7 @@ import {
 } from 'react';
 import { NotesListHeader } from '@/dev-pages/workshop/site/notes-list-header';
 import { journalKinds, type JournalEntry } from '@/lib/journal/types';
+import { JournalAuthorshipBadge } from '@/components/journal-authorship';
 export type ListData = {
   entries: Omit<JournalEntry, 'content' | 'relatedEntries'>[];
   next: string | null;
@@ -105,10 +106,13 @@ export function JournalList({
                 <a href={`/journal/${entry.id}`}>{entry.title}</a>
               </h2>
               <p>{entry.summary}</p>
-              <div className="e-tags">
-                {entry.tags.map((tag) => (
-                  <span key={tag}>{tag}</span>
-                ))}
+              <div className="journal-card-footer">
+                <div className="e-tags">
+                  {entry.tags.map((tag) => (
+                    <span key={tag}>{tag}</span>
+                  ))}
+                </div>
+                <JournalAuthorshipBadge authorship={entry.authorship} />
               </div>
             </li>
           ))}

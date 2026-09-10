@@ -4,6 +4,7 @@ import { SiteShell } from '@/dev-pages/workshop/site/shell';
 import { MarkdownArticle } from '@/components/markdown-article';
 import { journalKinds, type JournalEntry } from '@/lib/journal/types';
 import { getProject } from '@/lib/projects';
+import { JournalAuthorshipBadge } from './journal-authorship';
 export function JournalEntryView({
   entry,
   related = [],
@@ -47,6 +48,7 @@ export function JournalEntryView({
               <span key={tag}>{tag}</span>
             ))}
           </div>
+          <JournalAuthorshipBadge authorship={entry.authorship} />
           {entry.projects.length > 0 && (
             <p className="journal-projects">
               Project:{' '}

@@ -167,6 +167,7 @@ export async function createDraft(db, id = newArticleId()) {
       createdAt: date,
       updatedAt: date,
       language: 'ja',
+      authorship: 'unknown',
       tags: [],
       projects: [],
       relatedEntries: [],

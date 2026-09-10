@@ -70,6 +70,7 @@ for (const [field, value] of Object.entries({
   language: 'xx',
   confidence: 0.9,
   sourceType: 'raw',
+  authorship: 'guessed',
   createdAt: '2026-02-30',
   updatedAt: '2025-01-01',
   title: '',
@@ -185,4 +186,17 @@ test('generation retracts published entries and fails closed without stale outpu
   } finally {
     await rm(root, { recursive: true, force: true });
   }
+});
+
+test('authorship is explicit and survives public projection without inferring legacy content', () => {
+  assert.equal(parse().authorship, 'unknown');
+  assert.equal(parse({ sourceType: 'manual' }).authorship, 'unknown');
+  for (const authorship of ['unknown', 'human', 'ai']) {
+    assert.equal(
+      publishedProjection([publicEntry({ authorship })])[0].authorship,
+      authorship,
+    );
+  }
+  for (const authorship of [true, false, 1, [], {}])
+    assert.throws(() => parse({ authorship }));
 });
