@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    icon: '/favicon.svg',
+    icon: { url: '/favicon.svg?v=mountain-1', type: 'image/svg+xml' },
   },
   openGraph: {
     type: 'website',
