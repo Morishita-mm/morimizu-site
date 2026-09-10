@@ -12,6 +12,32 @@ export function PrintButton({ locale = 'ja' }: { locale?: 'ja' | 'en' }) {
   const triggerRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
+    const resume = mobileRef.current?.closest('.poster-page-wrapper');
+    let closedEntries: HTMLDetailsElement[] | null = null;
+    const prepare = () => {
+      if (closedEntries !== null) return;
+      closedEntries = Array.from(
+        resume?.querySelectorAll<HTMLDetailsElement>(
+          '.poster-timeline-node:not([open])',
+        ) ?? [],
+      );
+      for (const entry of closedEntries) entry.open = true;
+    };
+    const restore = () => {
+      for (const entry of closedEntries ?? []) entry.open = false;
+      closedEntries = null;
+    };
+    // Also covers printing from the browser menu or keyboard shortcut.
+    window.addEventListener('beforeprint', prepare);
+    window.addEventListener('afterprint', restore);
+    return () => {
+      window.removeEventListener('beforeprint', prepare);
+      window.removeEventListener('afterprint', restore);
+      restore();
+    };
+  }, []);
+
+  useEffect(() => {
     if (!open) return;
     const dismissOutside = (event: PointerEvent) => {
       if (!mobileRef.current?.contains(event.target as Node)) setOpen(false);
@@ -66,7 +92,11 @@ export function PrintButton({ locale = 'ja' }: { locale?: 'ja' | 'en' }) {
         type="button"
       >
         <Printer aria-hidden="true" size={14} />
-        <ControlLabel locale={locale} ja="A4縦で印刷" en="Print A4 (Portrait)" />
+        <ControlLabel
+          locale={locale}
+          ja="A4縦で印刷"
+          en="Print A4 (Portrait)"
+        />
       </button>
 
       <button
@@ -80,7 +110,11 @@ export function PrintButton({ locale = 'ja' }: { locale?: 'ja' | 'en' }) {
         type="button"
       >
         <Printer aria-hidden="true" size={14} />
-        <ControlLabel locale={locale} ja="A4横で印刷" en="Print A4 (Landscape)" />
+        <ControlLabel
+          locale={locale}
+          ja="A4横で印刷"
+          en="Print A4 (Landscape)"
+        />
       </button>
     </>
   );
@@ -92,7 +126,8 @@ export function PrintButton({ locale = 'ja' }: { locale?: 'ja' | 'en' }) {
         className="resume-print-mobile"
         ref={mobileRef}
         onBlur={(event) => {
-          if (!event.currentTarget.contains(event.relatedTarget)) setOpen(false);
+          if (!event.currentTarget.contains(event.relatedTarget))
+            setOpen(false);
         }}
       >
         <button
@@ -107,11 +142,7 @@ export function PrintButton({ locale = 'ja' }: { locale?: 'ja' | 'en' }) {
           <ControlLabel locale={locale} ja="印刷" en="Print" />
           <ChevronDown aria-hidden="true" size={14} />
         </button>
-        <div
-          id={panelId}
-          className="resume-print-options"
-          hidden={!open}
-        >
+        <div id={panelId} className="resume-print-options" hidden={!open}>
           {choices}
         </div>
       </div>

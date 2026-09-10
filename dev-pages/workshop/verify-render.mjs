@@ -274,7 +274,7 @@ try {
       );
     if (path === '/resume')
       assert.ok(
-        html.includes('銀行預り物件管理システム開発（ディレクテック株式会社）'),
+        html.includes('業務システム開発（ディレクテック株式会社）'),
       );
     if (path === '/en/resume') assert.ok(html.includes('U-VEC'));
     if (path === '/about' || path === '/en/about') {

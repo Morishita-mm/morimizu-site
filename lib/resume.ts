@@ -76,10 +76,10 @@ export const RESUME_JA: PosterResumeData = {
   experiences: [
     {
       period: '2026.07 - Present',
-      company: '銀行預り物件管理システム開発（ディレクテック株式会社）',
+      company: '業務システム開発（ディレクテック株式会社）',
       role: '業務アプリケーション開発',
       description: [
-        '地方銀行の預り物件管理業務を支援する業務アプリケーションを開発。',
+        '業務システムの開発を担当。',
         'Figmaを用いた画面デザインを担当し、30画面を超えるUIを設計。',
         'HTMLで業務ロジックを実装。今後はバックエンド側の開発も担当予定。',
       ],
@@ -102,7 +102,7 @@ export const RESUME_JA: PosterResumeData = {
       role: '品質保証・テストエンジニア',
       description: [
         'Javaバージョンアップに伴う基盤機能・諸機能の更新検証。ローカル開発環境およびAWSテスト環境にて計500件以上のテストケースを実施。',
-        '自動化が困難なエンドユーザー向け画面テストにおいて、テストエビデンスのフォーマット作成を簡略化・標準化して消化速度を他メンバー比1.5倍に向上。プロジェクト離任時点で最多テスト実施数を記録。',
+        '自動化が困難なエンドユーザー向け画面テストにおいて、テストエビデンスのフォーマット作成を簡略化・標準化し、テスト実施・記録作業を効率化。',
       ],
     },
     {
@@ -191,10 +191,10 @@ export const RESUME_EN: PosterResumeData = {
   experiences: [
     {
       period: '2026.07 - Present',
-      company: 'Bank Custodied-Asset Management System Development (Directech Inc.)',
+      company: 'Business System Development (Directech Inc.)',
       role: 'Business Application Developer',
       description: [
-        'Developing a business application for safekeeping-asset operations at a regional bank.',
+        'Developing a business system.',
         'Designed more than 30 screens in Figma.',
         'Implementing business logic in HTML and scheduled to take on backend development next.',
       ],
@@ -216,8 +216,8 @@ export const RESUME_EN: PosterResumeData = {
         'Airline Infrastructure: Modernization & Java Upgrade (U-VEC Inc.)',
       role: 'Quality Assurance & Test Engineer',
       description: [
-        'Executed 500+ integration test cases across local environments and AWS deployments following major Java runtime upgrade.',
-        'Streamlined evidence logging templates for complex UI testing, accelerating execution speed by 1.5x and recording highest test coverage in the project.',
+        'Executed 500+ test cases across local development and AWS test environments to verify updates to infrastructure and related functionality following a Java version upgrade.',
+        'Simplified and standardized test-evidence templates for end-user UI tests that were difficult to automate, improving the efficiency of test execution and documentation.',
       ],
     },
     {
