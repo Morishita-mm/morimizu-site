@@ -1,21 +1,28 @@
 # Architecture Sandbox logical diagram
 
-The Japanese and English SVGs show three logical components at the same level:
+The Japanese and English SVGs show the user, application and Gemini, with two
+functional components inside the application:
 
-- **Design workspace:** captures requirements and system diagrams.
-- **Application:** coordinates conversations and evaluations.
-- **AI service:** generates replies and design evaluations.
+- **User:** creates a design and reviews the results to refine it.
+- **Application:** contains architecture design and design evaluation.
+- **Architecture design:** clarifies requirements through dialogue with Gemini
+  and lets the user draw a system.
+- **Design evaluation:** receives the diagram and rationale, then displays
+  feedback across six dimensions and improvement suggestions from Gemini.
+- **Gemini:** generates dialogue replies and design evaluations.
 
-The first two components belong to Architecture Sandbox. The AI service is
-external, and all communication with it passes through the application.
-Labeled arrows distinguish outgoing requests from returning results.
+The two internal components are capabilities of one application, not separate
+services or infrastructure layers. The downward arrow passes the diagram and
+rationale from design to evaluation. Two-way arrows represent the application's
+request/response exchanges with Gemini. The returning result connects evaluation
+to the user, who can revise the design.
 
 The visual design follows the published Lissue diagram: a large serif title,
 monospaced section labels, white space, fine outlines, blue request paths,
 an oval application enclosure and a dark external-service capsule. Its blue
 and white palette matches the supplied Lissue reference on the project page.
-The two central outlines emphasize one application component. They do not
-introduce additional architectural layers or a Clean Architecture claim.
+The central outlines group the two internal capabilities within one application.
+They do not introduce deployment boundaries or a Clean Architecture claim.
 
 This is a logical view, not a deployment or operations diagram. Product logos,
 frameworks, hosting providers, secret management, persistence, sharing and
