@@ -428,7 +428,7 @@ export const projects: Project[] = [
     visual: 'architecture-sandbox',
     architecture: {
       src: '/projects/architecture/architecture-sandbox.svg',
-      alt: 'CloudflareからブラウザーへReact画面を配信し、Cloud Run上のRust API経由でGeminiを呼び出す構成。Google Cloud内のSecret Manager、端末のJSON保存、TinyURLとXへの共有、GitHub Actionsの配置経路も示す。',
+      alt: 'Architecture Sandboxの論理構成。要件を整理して構成を描く設計ワークスペース、対話と評価を制御するアプリケーション、回答と設計評価を生成する外部AIサービスの3つの役割と、質問・設計・評価のやり取りを示す。',
     },
     languages: ['TypeScript', 'Rust'],
     stack: ['React', 'React Flow', 'Recharts', 'Rust', 'Axum', 'Gemini', 'Cloudflare Workers', 'Cloud Run'],

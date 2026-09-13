@@ -368,7 +368,7 @@ export const projectsEn: Project[] = [
     visual: 'architecture-sandbox',
     architecture: {
       src: '/projects/architecture/architecture-sandbox-en.svg',
-      alt: 'Cloudflare delivers the React frontend to the browser, which calls Gemini through a Rust API on Cloud Run. The diagram also shows Secret Manager within Google Cloud, local JSON persistence, sharing through TinyURL and X, and deployment from GitHub Actions.',
+      alt: 'Architecture Sandbox logical architecture: a design workspace captures requirements and diagrams, the application coordinates conversations and evaluations, and an external AI service generates replies and design evaluations. Arrows show requests and returning results between these three roles.',
     },
     languages: ['TypeScript', 'Rust'],
     stack: ['React', 'React Flow', 'Recharts', 'Rust', 'Axum', 'Gemini', 'Cloudflare Workers', 'Cloud Run'],
