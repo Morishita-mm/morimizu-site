@@ -8,6 +8,8 @@
   "scripts": {
     "predev": "npm run sync:articles && npm run prepare:journal && npm run prepare:fonts",
     "dev": "vinext dev",
+    "dev:origori": "vite --config dev-pages/origori/vite.config.ts",
+    "build:origori": "vite build --config dev-pages/origori/vite.config.ts",
     "dev:workshop": "vite --config dev-pages/workshop/vite.config.ts --host 127.0.0.1 --port 3002 --strictPort",
     "predev:workshop": "node dev-pages/workshop/sync-qiita-likes.mjs",
     "prebuild:workshop": "node dev-pages/workshop/sync-qiita-likes.mjs",

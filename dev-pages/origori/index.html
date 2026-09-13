@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>morimizu works — オリゴリと、つくる。</title>
+    <link rel="icon" type="image/svg+xml" href="../workshop/assets/favicon-mountain.svg" />
+    <script>
+      try { document.documentElement.dataset.theme = localStorage.getItem('morimizu-theme') || 'light'; } catch {}
+      if (new URLSearchParams(location.search).get('view') !== 'current') document.documentElement.classList.add('origori-design');
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/main.tsx"></script>
+  </body>
+</html>

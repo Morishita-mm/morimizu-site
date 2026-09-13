@@ -23,7 +23,7 @@ import {
   articleSummary,
 } from './site/data';
 const NoteBody = lazy(() => import('./note-body'));
-function Page({ path, preview }: { path: string; preview: boolean }) {
+export function PreviewPage({ path, preview }: { path: string; preview: boolean }) {
   const { t } = useLocale();
   if (path === '/') return <Home data={getHomeData()} preview={preview} />;
   if (preview && path === '/brand-lab') return <BrandConcepts />;
@@ -82,7 +82,7 @@ export function Preview({
       initialLocale={initialLocale ?? (englishPath ? 'en' : 'ja')}
       preview={preview}
     >
-      <Page path={pagePath} preview={preview} />
+      <PreviewPage path={pagePath} preview={preview} />
     </SiteShell>
   );
 }

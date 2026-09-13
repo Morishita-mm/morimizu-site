@@ -1,0 +1,355 @@
+.origori-design .o-animated {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  position: relative;
+}
+.origori-design .o-animated > img,
+.origori-design .o-animated > svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.origori-design .o-animated[data-pose='crumpled'] > img {
+  transform: scale(0.74);
+}
+.origori-design .o-playful {
+  width: 100%;
+  position: relative;
+  padding: 30px 0 52px;
+}
+.origori-design .o-character-button {
+  appearance: none;
+  padding: 0;
+  border: 0;
+  width: 100%;
+  display: block;
+  color: inherit;
+  background: none;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  border-radius: 20%;
+}
+.origori-design .o-character-button:hover {
+  filter: drop-shadow(0 10px 12px #123e5810);
+}
+.origori-design .o-character-button:focus-visible {
+  outline: 2px dashed var(--blue);
+  outline-offset: 4px;
+}
+.origori-design .o-character-button:active {
+  cursor: grabbing;
+}
+.origori-design .o-playful-message {
+  position: absolute;
+  inset: 0 0 auto;
+  text-align: center;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  transform: rotate(-3deg);
+  min-height: 24px;
+}
+.origori-design .o-playful-hint {
+  text-align: center;
+  font-size: 10px;
+  line-height: 1.7;
+  color: var(--gray);
+  margin-top: 12px;
+}
+.origori-design .o-playful .o-rest-button {
+  bottom: 0;
+  right: 50%;
+  transform: translateX(50%);
+  white-space: nowrap;
+}
+.origori-design .o-hero-art .o-playful {
+  padding-inline: 32px;
+}
+.origori-design .o-hero-art .o-character-sign {
+  bottom: 110px;
+  pointer-events: none;
+}
+.origori-design .o-hero-art .o-playful-message {
+  text-align: right;
+  padding-right: 20px;
+}
+.origori-design .o-hero-art .o-art-cross {
+  pointer-events: none;
+}
+.origori-design .o-flight {
+  position: fixed;
+  z-index: 1000;
+  pointer-events: none;
+  transform-origin: center;
+  transition:
+    transform 300ms cubic-bezier(0.45, 0, 1, 0.65),
+    opacity 300ms ease-in;
+}
+.origori-design .o-flight.is-flying {
+  opacity: 0.5;
+}
+.origori-design [data-departing='true'] .o-mascot {
+  visibility: hidden;
+}
+.origori-design [data-origori-flight] .o-mascot {
+  transition: transform 180ms ease-out;
+}
+.origori-design [data-origori-flight]:hover .o-mascot {
+  transform: translateY(-4px) rotate(-3deg);
+}
+.origori-design [data-origori-flight]:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 4px;
+}
+
+.origori-design .o-notes-heading {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 290px;
+  align-items: center;
+  column-gap: 60px;
+}
+.origori-design .o-notes-heading .e-page-heading {
+  grid-column: 1;
+  grid-row: 1;
+  border-bottom: 0;
+  padding: 70px 0 42px;
+}
+.origori-design .o-notes-heading .e-page-heading h1 {
+  font-size: clamp(34px, 4.8vw, 62px);
+  line-height: 1.6;
+}
+.origori-design .o-notes-heading .e-page-heading > p:last-child {
+  max-width: 620px;
+}
+.origori-design .o-notes-companion {
+  grid-column: 2;
+  grid-row: 1;
+  align-self: center;
+}
+.origori-design .o-notes-heading .e-notes-tabs {
+  grid-column: 1 / -1;
+  border-top: 1px solid var(--line);
+  padding-top: 28px;
+}
+.origori-design .o-notes-heading .e-notes-intro {
+  grid-column: 1 / -1;
+  margin-bottom: 52px;
+}
+
+.origori-design .o-about-companion-page .about-intro {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+  gap: 48px;
+  padding-block: 56px 42px;
+}
+.origori-design .o-about-companion-page .about-intro h1 {
+  font-size: clamp(38px, 4.2vw, 60px);
+}
+.origori-design .o-about-origori {
+  position: relative;
+  isolation: isolate;
+  padding: 30px 20px 0;
+}
+.origori-design .o-about-orbit {
+  position: absolute;
+  z-index: -1;
+  inset: 50px -15px 100px;
+  border: 1px solid var(--line);
+  border-radius: 48% 52% 45% 55%;
+  transform: rotate(-12deg);
+  background: color-mix(in srgb, var(--blue) 5%, transparent);
+}
+.origori-design .o-about-stamp {
+  position: absolute;
+  top: 12px;
+  right: 10px;
+  font:
+    11px/1.7 'Courier New',
+    monospace;
+  letter-spacing: 0.2em;
+  transform: rotate(5deg);
+  color: var(--gray);
+}
+.origori-design .o-about-stamp small {
+  font-size: 8px;
+  letter-spacing: 0.05em;
+}
+.origori-design .o-about-origori .o-playful {
+  max-width: 420px;
+  margin: auto;
+}
+.origori-design .o-about-origori .o-playful-message {
+  text-align: left;
+  padding-left: 8px;
+}
+.origori-design .o-about-companion-label {
+  text-align: center;
+  padding: 22px 0;
+}
+.origori-design .o-about-companion-label > span {
+  font-size: 18px;
+  letter-spacing: 0.07em;
+}
+.origori-design .o-about-companion-label > p {
+  font-size: 11px;
+  margin-top: 8px;
+  color: var(--gray);
+}
+.origori-design .o-origori-story {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  align-items: center;
+  gap: 70px;
+  padding-block: 40px 90px;
+  border-top: 1px solid var(--line);
+}
+.origori-design .o-origori-story h2 {
+  font-size: clamp(24px, 3vw, 34px);
+  font-weight: 500;
+  margin: 20px 0;
+}
+.origori-design .o-origori-story p:not(.o-eyebrow) {
+  font-size: 14px;
+  color: var(--gray);
+  line-height: 2;
+  max-width: 570px;
+}
+.origori-design .o-story-flight {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 20px;
+}
+.origori-design .o-story-flight .o-mascot {
+  width: 180px;
+}
+.origori-design .o-story-flight > span:not(.o-mascot) {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+}
+.origori-design .o-story-flight small {
+  font-size: 10px;
+  color: var(--gray);
+}
+@media (max-width: 1000px) {
+  .origori-design .o-notes-heading {
+    grid-template-columns: minmax(0, 1fr) 220px;
+    gap: 0 24px;
+  }
+  .origori-design .o-about-companion-page .about-intro {
+    gap: 24px;
+  }
+  .origori-design .o-about-orbit {
+    inset-inline: 8px;
+    transform: none;
+  }
+}
+@media (max-width: 760px) {
+  .origori-design .o-hero-art .o-playful {
+    padding-inline: 16px;
+  }
+  .origori-design .o-hero-art .o-character-sign {
+    bottom: 130px;
+    left: -4px;
+  }
+  .origori-design .o-playful-message {
+    font-size: 11px;
+  }
+  .origori-design .o-playful-hint {
+    font-size: 9px;
+  }
+  .origori-design .o-notes-heading {
+    grid-template-columns: minmax(0, 1fr) 122px;
+    column-gap: 12px;
+  }
+  .origori-design .o-notes-heading .e-page-heading {
+    padding-block: 42px 28px;
+  }
+  .origori-design .o-notes-heading .e-page-heading h1 {
+    font-size: clamp(23px, 5vw, 38px);
+    line-height: 1.7;
+  }
+  .origori-design .o-notes-heading .e-page-heading > p:last-child {
+    font-size: 11px;
+  }
+  .origori-design .o-notes-companion {
+    padding-bottom: 42px;
+  }
+  .origori-design .o-notes-companion .o-playful-message {
+    font-size: 9px;
+    white-space: normal;
+    line-height: 1.6;
+  }
+  .origori-design .o-notes-companion .o-playful-hint {
+    font-size: 8px;
+  }
+  .origori-design .o-notes-companion .o-rest-button {
+    font-size: 8px;
+    gap: 3px;
+    padding-inline: 0;
+  }
+  .origori-design .o-notes-heading .e-notes-intro {
+    margin-bottom: 32px;
+  }
+  .origori-design .o-about-companion-page .about-intro {
+    grid-template-columns: 1fr;
+    padding-top: 42px;
+  }
+  .origori-design .o-about-origori {
+    max-width: 420px;
+    width: 100%;
+    margin: 8px auto 0;
+    padding-inline: 12px;
+  }
+  .origori-design .o-about-orbit {
+    inset-inline: 8px;
+    transform: none;
+  }
+  .origori-design .o-about-companion-label > span {
+    font-size: 16px;
+  }
+  .origori-design .o-origori-story {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding-block: 40px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .origori-design .o-flight {
+    display: none;
+  }
+  .origori-design [data-origori-flight]:hover .o-mascot {
+    transform: none;
+  }
+}
+@media (max-width: 480px) {
+  .origori-design .o-notes-heading .e-page-heading {
+    display: contents;
+  }
+  .origori-design .o-notes-heading .e-kicker {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    margin: 40px 0 12px;
+  }
+  .origori-design .o-notes-heading .e-page-heading h1 {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    font-size: 32px;
+    margin: 0 0 22px;
+  }
+  .origori-design .o-notes-heading .e-page-heading > p:last-child {
+    grid-column: 1;
+    grid-row: 3;
+    font-size: 12px;
+    margin: 0 0 30px;
+    align-self: center;
+  }
+  .origori-design .o-notes-companion {
+    grid-row: 3;
+    margin: 0 0 30px;
+  }
+}
