@@ -1,3 +1,5 @@
+import { ARCHITECTURE_SANDBOX_URL } from './project-links';
+
 export type ProjectStatus =
   | '公開中'
   | '日常利用中'
@@ -22,7 +24,7 @@ export type Project = {
     label: string;
     href: string;
   };
-  visual: 'lissue' | 'ragy' | 'rust-log-analyzer' | 'tech-interviewer';
+  visual: 'lissue' | 'ragy' | 'rust-log-analyzer' | 'tech-interviewer' | 'architecture-sandbox';
   image?: {
     src: string;
     alt: string;
@@ -404,6 +406,63 @@ export const projects: Project[] = [
       'フィルタとログ選択のテストを追加する',
       'CI・ライセンス・一括起動の導線を整える',
     ],
+  },
+  {
+    slug: 'architecture-sandbox',
+    number: '05',
+    name: 'Architecture Sandbox',
+    shortName: 'architecture-sandbox',
+    category: 'INTERACTIVE SYSTEM DESIGN',
+    status: '公開中',
+    statusDetail: 'Public Web App',
+    tagline: '要件を聞き、構成を描き、設計を磨く。',
+    summary:
+      'AIクライアントとの対話で要件を引き出し、キャンバスにシステム構成を描く設計練習アプリです。6軸の評価とフィードバックを手がかりに、構成や技術選定の理由を見直せます。',
+    repositoryUrl: 'https://github.com/Morishita-mm/architecture-sandbox',
+    primaryLink: { label: 'アプリを開く', href: ARCHITECTURE_SANDBOX_URL },
+    visual: 'architecture-sandbox',
+    architecture: {
+      src: '/projects/architecture/architecture-sandbox.svg',
+      alt: 'Cloudflareから配信するReact画面、Cloud Run上のRust API、Gemini、Secret Manager、手元のJSON保存の関係を示したArchitecture Sandboxの構成図',
+    },
+    languages: ['TypeScript', 'Rust'],
+    stack: ['React', 'React Flow', 'Recharts', 'Rust', 'Axum', 'Gemini', 'Cloudflare Workers', 'Cloud Run'],
+    facts: [
+      { label: '練習テーマ', value: '勤怠管理 / 画像投稿SNS / 自由設計' },
+      { label: 'フィードバック', value: '6軸評価と改善提案' },
+      { label: '保存', value: 'JSONファイルで保存・復元' },
+    ],
+    challenge:
+      '設計パターンを読むだけでは、曖昧な依頼から必要な条件を聞き出し、構成に落とし込む練習ができません。要件定義から設計の見直しまで、自分の手で繰り返せる場所がほしくてつくりました。',
+    answer:
+      'シナリオごとにAIクライアントへ質問し、サーバーやDBなどの部品を配置・接続します。技術選定の理由も添えて評価に送り、可用性・拡張性・安全性・保守性・コスト・実現性の6軸から設計を振り返る流れにしました。',
+    flow: [
+      { label: 'SELECT', title: '題材を選ぶ', detail: 'プリセットまたは自由なテーマで設計を始める' },
+      { label: 'ASK', title: '要件を聞く', detail: 'AIクライアントへの質問で予算や規模、制約を確認' },
+      { label: 'DESIGN', title: '構成を描く', detail: '部品を配置・接続し、技術選定の理由を書き添える' },
+      { label: 'REFINE', title: '見直す', detail: '6軸の評価と改善提案を読み、設計を修正する' },
+    ],
+    decisions: [
+      {
+        title: '対話とキャンバスをひとつの練習環境に',
+        detail: 'React Flowの構成図と要件ヒアリングを同じプロジェクトで扱います。図だけでなく部品ごとのメモも評価へ渡し、構成を選んだ理由まで振り返れるようにしました。',
+      },
+      {
+        title: '画面配信とAIを呼ぶAPIを分ける',
+        detail: 'フロントエンドはCloudflare Workers Static Assets、Rust / AxumのAPIはCloud Runへ配置。GeminiのAPIキーはSecret Managerからサーバーだけへ渡し、プリセットの隠れた要件もサーバーで管理します。',
+      },
+      {
+        title: '練習の成果を手元へ持ち帰る',
+        detail: '構成図・会話・評価をJSONファイルとして保存し、読み込み直して練習を続けられます。シナリオを共有する挑戦状のURLも用意し、同じ題材で別の設計を試せるようにしました。',
+      },
+    ],
+    evidence: [
+      '公開アプリでシナリオ選択から対話・設計・評価まで利用可能',
+      '構成図の接続操作とJSON保存・復元を本番環境で検証',
+      'CloudflareとCloud RunへGitHub Actionsで配信',
+    ],
+    now: 'Webアプリを公開中です。勤怠管理・画像投稿SNS・自由設計を題材に、要件ヒアリング、構成図作成、AI評価、JSON保存・復元、挑戦状の共有を利用できます。',
+    next: [],
   },
 ];
 

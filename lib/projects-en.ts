@@ -1,4 +1,5 @@
 import type { Project } from './projects';
+import { ARCHITECTURE_SANDBOX_URL } from './project-links';
 
 export const projectsEn: Project[] = [
   {
@@ -349,6 +350,63 @@ export const projectsEn: Project[] = [
       'Expanded automated test coverage for complex filter logic',
       'One-click multi-container deployment scripts',
     ],
+  },
+  {
+    slug: 'architecture-sandbox',
+    number: '05',
+    name: 'Architecture Sandbox',
+    shortName: 'architecture-sandbox',
+    category: 'INTERACTIVE SYSTEM DESIGN',
+    status: 'Public',
+    statusDetail: 'Public Web App',
+    tagline: 'Ask about requirements. Draw a system. Refine the design.',
+    summary:
+      'A system design practice app where you interview an AI client and build an architecture on a canvas. Feedback across six dimensions helps you revisit the structure and the reasoning behind your technology choices.',
+    repositoryUrl: 'https://github.com/Morishita-mm/architecture-sandbox',
+    primaryLink: { label: 'Open app', href: ARCHITECTURE_SANDBOX_URL },
+    visual: 'architecture-sandbox',
+    architecture: {
+      src: '/projects/architecture/architecture-sandbox-en.svg',
+      alt: 'Architecture Sandbox system diagram connecting the React interface served by Cloudflare, a Rust API on Cloud Run, Gemini, Secret Manager, and local JSON files',
+    },
+    languages: ['TypeScript', 'Rust'],
+    stack: ['React', 'React Flow', 'Recharts', 'Rust', 'Axum', 'Gemini', 'Cloudflare Workers', 'Cloud Run'],
+    facts: [
+      { label: 'Scenarios', value: 'Attendance / Photo SNS / Custom' },
+      { label: 'Feedback', value: 'Six dimensions and suggestions' },
+      { label: 'Save & restore', value: 'Local JSON files' },
+    ],
+    challenge:
+      'Reading architecture patterns does not give you practice uncovering requirements from an ambiguous brief and turning them into a system. I wanted a place to repeat the whole process, from asking questions to revising a design.',
+    answer:
+      'Interview an AI client, place and connect components such as servers and databases, and submit the diagram with your rationale. Reflect on feedback covering availability, scalability, security, maintainability, cost, and feasibility.',
+    flow: [
+      { label: 'SELECT', title: 'Choose a scenario', detail: 'Start with a preset or define your own design challenge' },
+      { label: 'ASK', title: 'Find requirements', detail: 'Ask the AI client about budget, scale, and constraints' },
+      { label: 'DESIGN', title: 'Draw the system', detail: 'Connect components and explain your technology choices' },
+      { label: 'REFINE', title: 'Revisit the design', detail: 'Use six-dimension feedback to improve your architecture' },
+    ],
+    decisions: [
+      {
+        title: 'Keep the conversation and canvas together',
+        detail: 'The requirements interview and React Flow diagram belong to the same project. Component notes are included in the evaluation so you can revisit both the structure and the reasons behind it.',
+      },
+      {
+        title: 'Separate static delivery from the AI API',
+        detail: 'Cloudflare Workers Static Assets serves the frontend, while Cloud Run hosts the Rust / Axum API. Secret Manager supplies the Gemini API key only to the server, which also holds the hidden requirements for preset scenarios.',
+      },
+      {
+        title: 'Let people take their practice home',
+        detail: 'Save diagrams, conversations, and evaluations as a JSON file and restore them to continue later. Challenge URLs share a scenario so someone else can explore a different design for the same brief.',
+      },
+    ],
+    evidence: [
+      'Public app supports scenario selection, interviews, diagramming, and evaluation',
+      'Diagram connections and JSON save and restore verified in production',
+      'GitHub Actions deploys to Cloudflare and Cloud Run',
+    ],
+    now: 'The web app is public. Practice with attendance management, a photo-sharing SNS, or a custom scenario; interview the AI client, draw and evaluate an architecture, save and restore JSON files, and share challenges. The app interface is in Japanese.',
+    next: [],
   },
 ];
 
