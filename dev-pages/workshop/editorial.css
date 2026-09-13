@@ -1067,6 +1067,20 @@ a:hover > .e-arrow.diagonal {
   fill: var(--icon-ink, var(--black));
   stroke: var(--icon-ink, var(--black));
 }
+/* OPEN A: preserve the supplied primary and dark SVG palettes. */
+.architecture-sandbox-mark {
+  --sandbox-mark-body: #2164e8;
+  --sandbox-mark-joint: #009f97;
+  fill: var(--sandbox-mark-body);
+  stroke: none;
+}
+.architecture-sandbox-mark .sandbox-mark-joint {
+  fill: var(--sandbox-mark-joint);
+}
+[data-theme='dark'] .architecture-sandbox-mark {
+  --sandbox-mark-body: #93b7ff;
+  --sandbox-mark-joint: #58d7c4;
+}
 .lissue .project-poster {
   --icon-ink: #fff;
   --icon-accent: #91a2ff;
