@@ -12,14 +12,13 @@ import {
   Mail,
 } from 'lucide-react';
 import { useLocale } from '../locale';
-import type { ReactNode } from 'react';
 import { ShizuokaCard } from './about-shizuoka';
 import { AboutTools } from './about-tools';
 import { GitHubIcon, LinkedInIcon, QiitaIcon } from '@/components/social-icons';
 import { LINKEDIN_URL } from '@/lib/social-links';
 import './about-personal.css';
 
-export function AboutPage({ companion }: { companion?: ReactNode } = {}) {
+export function AboutPage() {
   const { en, t } = useLocale();
   const interests = [
     {
@@ -99,9 +98,7 @@ export function AboutPage({ companion }: { companion?: ReactNode } = {}) {
     ],
   ];
   return (
-    <article
-      className={`about-personal shell${companion ? ' o-about-companion-page' : ''}`}
-    >
+    <article className="about-personal shell">
       <header className="about-intro">
         <div className="about-intro-copy">
           <p className="about-kicker">ABOUT / MIZUKI MORISHITA</p>
@@ -132,7 +129,7 @@ export function AboutPage({ companion }: { companion?: ReactNode } = {}) {
             <ArrowUpRight size={17} />
           </a>
         </div>
-        {companion ?? <ShizuokaCard />}
+        <ShizuokaCard />
       </header>
       <nav
         className="about-index"
@@ -258,20 +255,18 @@ export function AboutPage({ companion }: { companion?: ReactNode } = {}) {
           </a>
         </div>
       </footer>
-      {!companion && (
-        <details className="about-credits">
-          <summary>{t('クレジット', 'Credits')}</summary>
-          <p>
-            <a href="https://www.gsi.go.jp/kankyochiri/gm_jpn.html">
-              {t('地球地図日本（国土地理院）', 'Global Map Japan · GSI')}
-            </a>
-            {t(
-              'を加工して静岡県の図を作成。',
-              ', adapted for the Shizuoka illustration.',
-            )}
-          </p>
-        </details>
-      )}
+      <details className="about-credits">
+        <summary>{t('クレジット', 'Credits')}</summary>
+        <p>
+          <a href="https://www.gsi.go.jp/kankyochiri/gm_jpn.html">
+            {t('地球地図日本（国土地理院）', 'Global Map Japan · GSI')}
+          </a>
+          {t(
+            'を加工して静岡県の図を作成。',
+            ', adapted for the Shizuoka illustration.',
+          )}
+        </p>
+      </details>
     </article>
   );
 }
