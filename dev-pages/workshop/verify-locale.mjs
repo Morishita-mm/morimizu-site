@@ -45,6 +45,7 @@ try {
     '/projects/ragy',
     '/projects/rust-log-analyzer',
     '/projects/tech-interviewer',
+    '/projects/architecture-sandbox',
   ]) {
     for (const initialLocale of ['ja', 'en']) {
       const html = renderToString(
@@ -97,6 +98,17 @@ try {
             initialLocale === 'en' ? 'Design decisions' : '設計判断',
           ),
         );
+      if (path === '/projects') {
+        assert.ok(html.includes('href="/projects/architecture-sandbox"'));
+        assert.ok(html.includes('Architecture Sandbox'));
+      }
+      if (path === '/projects/architecture-sandbox') {
+        assert.ok(html.includes('href="https://sandbox.morimizu.dev/"'));
+        assert.ok(html.includes('href="https://github.com/Morishita-mm/architecture-sandbox"'));
+        assert.ok(html.includes('data:image/svg+xml'));
+        assert.ok(html.includes(initialLocale === 'en' ? 'Local JSON files' : 'JSONファイルで保存・復元'));
+        assert.ok(!html.includes('e-not-found'));
+      }
     }
   }
   // English-prefixed links emitted by About must resolve in standalone preview.
@@ -106,6 +118,7 @@ try {
     '/en/resume',
     '/en/projects',
     '/en/projects/lissue',
+    '/en/projects/architecture-sandbox',
     '/en/notes',
   ]) {
     const html = renderToString(createElement(Preview, { path }));
@@ -116,7 +129,7 @@ try {
     );
   }
   console.log(
-    'PASS: 9 routes × 2 languages; About/Résumé content and links; 6 English preview routes',
+    'PASS: 10 routes × 2 languages; About/Résumé links; Sandbox content, diagram and production link; 7 English preview routes',
   );
 } finally {
   await server.close();

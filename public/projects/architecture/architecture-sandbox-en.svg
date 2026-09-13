@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Architecture Sandbox — System architecture</title>
+  <desc id="desc">The React interface served by Cloudflare connects to a Rust API on Cloud Run, Gemini, Secret Manager, and local JSON files.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="#327871" stroke-width="1.5"/></marker>
+    <style>
+      text{font-family:-apple-system,BlinkMacSystemFont,"Noto Sans JP","Hiragino Sans",sans-serif;fill:#17241e}
+      .mono{font-family:"SFMono-Regular",Consolas,monospace;font-size:15px;letter-spacing:1px;fill:#536159}
+      .label{font-size:21px;fill:#536159}.node{font-size:30px;font-weight:600}.sub{font-size:20px;fill:#536159}
+      .box{fill:#fbfaf5;stroke:#17241e;stroke-opacity:.25;stroke-width:1.5}
+      .accent{fill:#eaf1ec;stroke:#327871;stroke-width:2}
+      .flow{fill:none;stroke:#327871;stroke-width:2;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="1600" height="900" fill="#f4f1e8"/>
+  <text x="56" y="52" class="mono">05 / SYSTEM ARCHITECTURE</text>
+  <text x="1544" y="52" class="mono" text-anchor="end">CLOUDFLARE + GOOGLE CLOUD</text>
+  <path d="M56 76H1544" stroke="#17241e" stroke-opacity=".18"/>
+  <text x="56" y="175" font-size="72" font-weight="500">Architecture Sandbox</text>
+  <text x="58" y="233" font-size="29" fill="#327871">Ask about requirements. Draw a system. Refine it.</text>
+  <text x="56" y="300" class="mono">DELIVERY / Cloudflare Workers Static Assets</text>
+  <rect x="56" y="340" width="430" height="190" rx="8" class="accent"/>
+  <text x="84" y="392" class="node">Browser</text>
+  <text x="84" y="435" class="label">React / React Flow / Recharts</text>
+  <text x="84" y="483" class="sub">Interview / Canvas / Six-dimension feedback</text>
+  <rect x="586" y="340" width="430" height="190" rx="8" class="accent"/>
+  <text x="614" y="392" class="node">Rust API</text>
+  <text x="614" y="435" class="label">Cloud Run / Axum / Tokio</text>
+  <text x="614" y="483" class="sub">Validation / Hidden requirements / AI calls</text>
+  <rect x="1116" y="340" width="428" height="190" rx="8" class="box"/>
+  <text x="1144" y="392" class="node">Gemini</text>
+  <text x="1144" y="435" class="label">Google Gemini API</text>
+  <text x="1144" y="483" class="sub">Client conversations / Design evaluation</text>
+  <path d="M486 405H586" class="flow"/>
+  <path d="M1016 405H1116" class="flow"/>
+  <path d="M586 467H486" class="flow"/>
+  <path d="M1116 467H1016" class="flow"/>
+  <text x="536" y="384" class="mono" text-anchor="middle">HTTPS</text>
+  <text x="1066" y="384" class="mono" text-anchor="middle">HTTPS</text>
+  <text x="56" y="570" class="sub">Chat / diagram → API → Gemini</text>
+  <text x="56" y="603" class="sub">Gemini → API → Reply / feedback</text>
+  <rect x="56" y="684" width="430" height="112" rx="8" class="box"/>
+  <text x="84" y="726" class="node">Local JSON file</text>
+  <text x="84" y="765" class="sub">Save and restore diagrams, chats, evaluations</text>
+  <path d="M452 530V684" class="flow" marker-start="url(#arrow)"/>
+  <text x="430" y="652" class="sub" text-anchor="end">Save / restore</text>
+  <rect x="586" y="684" width="430" height="112" rx="8" class="box"/>
+  <text x="614" y="726" class="node">Secret Manager</text>
+  <text x="614" y="765" class="sub">Supply the API key to the server</text>
+  <path d="M801 684V530" class="flow"/>
+  <text x="826" y="620" class="sub">Server-side retrieval</text>
+  <path d="M56 832H1544" stroke="#17241e" stroke-opacity=".18"/>
+  <text x="56" y="874" class="sub">Static frontend delivery. AI calls and secrets stay on the server.</text>
+</svg>

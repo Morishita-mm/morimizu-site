@@ -17,6 +17,14 @@ export function OriginalProjectMark({ kind }: { kind: string }) {
           <circle className="original-accent-fill" cx="94" cy="76" r="6" />
           <circle className="original-light-fill" cx="94" cy="96" r="5" />
         </>
+      ) : kind === 'architecture-sandbox' ? (
+        <>
+          <path d="M60 38v18M28 80V56h64v24" />
+          <rect x="42" y="14" width="36" height="24" rx="5" />
+          <rect className="original-accent" x="10" y="80" width="36" height="24" rx="5" />
+          <rect className="original-accent" x="74" y="80" width="36" height="24" rx="5" />
+          <circle className="original-accent-fill" cx="60" cy="56" r="5" />
+        </>
       ) : kind === 'ragy' ? (
         <>
           <path d="M20 35c24 0 24 50 48 50s24-25 32-25" />
