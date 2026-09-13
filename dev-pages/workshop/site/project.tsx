@@ -132,6 +132,13 @@ export function ProjectPage({
         <div>
           <p>{project.challenge}</p>
           <p>{project.answer}</p>
+          {project.relatedArticle && (
+            <p>
+              <a href={project.relatedArticle.href} className="e-outline-link">
+                {project.relatedArticle.label} <Arrow diagonal />
+              </a>
+            </p>
+          )}
         </div>
       </section>
       <section className="e-design-decisions">

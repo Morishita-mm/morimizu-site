@@ -105,6 +105,8 @@ try {
       if (path === '/projects/architecture-sandbox') {
         assert.ok(html.includes('href="https://sandbox.morimizu.dev/"'));
         assert.ok(html.includes('href="https://github.com/Morishita-mm/architecture-sandbox"'));
+        assert.ok(html.includes('href="https://qiita.com/gorilla_tech/items/af5cb63424ddd54ee585"'));
+        assert.ok(html.includes(initialLocale === 'en' ? 'Share results on X' : '結果をXで共有'));
         assert.ok(html.includes('data:image/svg+xml'));
         assert.ok(html.includes(initialLocale === 'en' ? 'Local JSON files' : 'JSONファイルで保存・復元'));
         assert.ok(!html.includes('e-not-found'));

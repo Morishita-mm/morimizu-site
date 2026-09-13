@@ -1,5 +1,5 @@
 import type { Project } from './projects';
-import { ARCHITECTURE_SANDBOX_URL } from './project-links';
+import { ARCHITECTURE_SANDBOX_URL, ARCHITECTURE_SANDBOX_QIITA_URL } from './project-links';
 
 export const projectsEn: Project[] = [
   {
@@ -364,6 +364,7 @@ export const projectsEn: Project[] = [
       'A system design practice app where you interview an AI client and build an architecture on a canvas. Feedback across six dimensions helps you revisit the structure and the reasoning behind your technology choices.',
     repositoryUrl: 'https://github.com/Morishita-mm/architecture-sandbox',
     primaryLink: { label: 'Open app', href: ARCHITECTURE_SANDBOX_URL },
+    relatedArticle: { label: 'Read the story on Qiita (Japanese)', href: ARCHITECTURE_SANDBOX_QIITA_URL },
     visual: 'architecture-sandbox',
     architecture: {
       src: '/projects/architecture/architecture-sandbox-en.svg',
@@ -399,13 +400,17 @@ export const projectsEn: Project[] = [
         title: 'Let people take their practice home',
         detail: 'Save diagrams, conversations, and evaluations as a JSON file and restore them to continue later. Challenge URLs share a scenario so someone else can explore a different design for the same brief.',
       },
+      {
+        title: 'Share results on X and try the same challenge',
+        detail: 'The evaluation screen’s share button opens an X post composer with the scenario name, total score, and challenge URL. Anyone following the link can try the same scenario and compare their approach to yours.',
+      },
     ],
     evidence: [
       'Public app supports scenario selection, interviews, diagramming, and evaluation',
       'Diagram connections and JSON save and restore verified in production',
       'GitHub Actions deploys to Cloudflare and Cloud Run',
     ],
-    now: 'The web app is public. Practice with attendance management, a photo-sharing SNS, or a custom scenario; interview the AI client, draw and evaluate an architecture, save and restore JSON files, and share challenges. The app interface is in Japanese.',
+    now: 'The web app is public. Practice with attendance management, a photo-sharing SNS, or a custom scenario; interview the AI client, draw and evaluate an architecture, save and restore JSON files, and share results and challenge URLs on X. The app interface is in Japanese.',
     next: [],
   },
 ];

@@ -1,4 +1,4 @@
-import { ARCHITECTURE_SANDBOX_URL } from './project-links';
+import { ARCHITECTURE_SANDBOX_URL, ARCHITECTURE_SANDBOX_QIITA_URL } from './project-links';
 
 export type ProjectStatus =
   | '公開中'
@@ -21,6 +21,10 @@ export type Project = {
   repositoryUrl: string;
   repositoryVisibility?: 'public' | 'private';
   primaryLink?: {
+    label: string;
+    href: string;
+  };
+  relatedArticle?: {
     label: string;
     href: string;
   };
@@ -420,6 +424,7 @@ export const projects: Project[] = [
       'AIクライアントとの対話で要件を引き出し、キャンバスにシステム構成を描く設計練習アプリです。6軸の評価とフィードバックを手がかりに、構成や技術選定の理由を見直せます。',
     repositoryUrl: 'https://github.com/Morishita-mm/architecture-sandbox',
     primaryLink: { label: 'アプリを開く', href: ARCHITECTURE_SANDBOX_URL },
+    relatedArticle: { label: '開発背景をQiitaで読む', href: ARCHITECTURE_SANDBOX_QIITA_URL },
     visual: 'architecture-sandbox',
     architecture: {
       src: '/projects/architecture/architecture-sandbox.svg',
@@ -455,13 +460,17 @@ export const projects: Project[] = [
         title: '練習の成果を手元へ持ち帰る',
         detail: '構成図・会話・評価をJSONファイルとして保存し、読み込み直して練習を続けられます。シナリオを共有する挑戦状のURLも用意し、同じ題材で別の設計を試せるようにしました。',
       },
+      {
+        title: '結果をXで共有し、同じ題材に挑戦する',
+        detail: '評価画面の「結果をシェア」から、シナリオ名・総合スコア・挑戦用URLを添えたXの投稿画面を開けます。リンクを受け取った人は同じ題材に挑戦でき、それぞれの設計を見比べられます。',
+      },
     ],
     evidence: [
       '公開アプリでシナリオ選択から対話・設計・評価まで利用可能',
       '構成図の接続操作とJSON保存・復元を本番環境で検証',
       'CloudflareとCloud RunへGitHub Actionsで配信',
     ],
-    now: 'Webアプリを公開中です。勤怠管理・画像投稿SNS・自由設計を題材に、要件ヒアリング、構成図作成、AI評価、JSON保存・復元、挑戦状の共有を利用できます。',
+    now: 'Webアプリを公開中です。勤怠管理・画像投稿SNS・自由設計を題材に、要件ヒアリング、構成図作成、AI評価、JSON保存・復元、Xへの結果共有と挑戦状の共有を利用できます。',
     next: [],
   },
 ];
