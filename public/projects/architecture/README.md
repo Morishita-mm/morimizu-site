@@ -18,7 +18,19 @@ Manager. Cloud Run uses its own four-color core product icon. The older blue
 console icons are not used. All brand marks identify the services in this project;
 they are not project logos or endorsements.
 
-The main diagram describes application delivery, AI requests, secret access,
-and local JSON persistence. The page separately explains sharing results on X.
-That feature opens a post composer with the scenario name, score, and challenge
-URL; it does not post automatically or attach a screenshot.
+The diagram separates static delivery, the user's device, the Google Cloud
+runtime, and the external Gemini API. Labeled request and response arrows show
+the main AI flow. Dashed arrows identify delivery, local persistence, and secret
+injection. Sharing and deployment are separate supporting flows at the bottom.
+The interface silhouette, distinct runtime group, and labeled paths take cues
+from the Rust Log Analyzer diagram; this diagram uses its own layout and palette.
+
+Architecture is based on the current
+[application source](https://github.com/Morishita-mm/architecture-sandbox):
+`frontend/wrangler.jsonc`, `frontend/src/components/EvaluationPanel.tsx`,
+`backend/src/main.rs`, `terraform/gcp/main.tf`, and `.github/workflows/deploy.yml`.
+Secret Manager supplies the Cloud Run environment variable at container startup.
+Sharing calls the Rust API to shorten the challenge URL through TinyURL, then
+opens an X post composer in the browser with the score and URL. It does not post
+automatically or attach a screenshot. The deployment flow sends the frontend to
+Cloudflare and the API image through Artifact Registry to Cloud Run.
