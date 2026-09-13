@@ -1,5 +1,19 @@
-// Existing production ProjectGlyph geometry, with local theme classes only.
+// Shared project marks, including the user-supplied Architecture Sandbox OPEN A.
 export function OriginalProjectMark({ kind }: { kind: string }) {
+  if (kind === 'architecture-sandbox') {
+    return (
+      <svg
+        className="e-mark architecture-sandbox-mark"
+        viewBox="0 0 128 128"
+        aria-hidden="true"
+        data-original-icon={kind}
+      >
+        <path d="M16 108L51 27Q54 20 62 20H74L96 68H73L62 44L44 84H74L85 108Z" />
+        <path className="sandbox-mark-joint" d="M80 78H101L115 108H94Z" />
+      </svg>
+    );
+  }
+
   return (
     <svg
       className="e-mark original-project-mark"
@@ -16,14 +30,6 @@ export function OriginalProjectMark({ kind }: { kind: string }) {
           <circle className="original-accent-fill" cx="48" cy="26" r="5" />
           <circle className="original-accent-fill" cx="94" cy="76" r="6" />
           <circle className="original-light-fill" cx="94" cy="96" r="5" />
-        </>
-      ) : kind === 'architecture-sandbox' ? (
-        <>
-          <path d="M60 38v18M28 80V56h64v24" />
-          <rect x="42" y="14" width="36" height="24" rx="5" />
-          <rect className="original-accent" x="10" y="80" width="36" height="24" rx="5" />
-          <rect className="original-accent" x="74" y="80" width="36" height="24" rx="5" />
-          <circle className="original-accent-fill" cx="60" cy="56" r="5" />
         </>
       ) : kind === 'ragy' ? (
         <>

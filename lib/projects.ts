@@ -428,7 +428,7 @@ export const projects: Project[] = [
     visual: 'architecture-sandbox',
     architecture: {
       src: '/projects/architecture/architecture-sandbox.svg',
-      alt: 'Architecture Sandboxの論理構成。要件を整理して構成を描く設計ワークスペース、対話と評価を制御するアプリケーション、回答と設計評価を生成する外部AIサービスの3つの役割と、質問・設計・評価のやり取りを示す。',
+      alt: 'Architecture Sandboxの論理構成。ユーザーがアプリケーション内でアーキテクチャ設計を行い、構成図と設計意図を設計評価へ渡す。両機能はGeminiと対話・評価をやり取りし、ユーザーは評価結果を確認して設計を見直す。',
     },
     languages: ['TypeScript', 'Rust'],
     stack: ['React', 'React Flow', 'Recharts', 'Rust', 'Axum', 'Gemini', 'Cloudflare Workers', 'Cloud Run'],
