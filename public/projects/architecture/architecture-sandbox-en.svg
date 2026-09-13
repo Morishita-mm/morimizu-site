@@ -1,57 +1,84 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="580" viewBox="0 0 1440 580" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
   <title id="title">Architecture Sandbox — three logical responsibilities</title>
-  <desc id="desc">The design workspace and application form Architecture Sandbox. The application connects to an external AI service. The workspace captures requirements and diagrams, the application coordinates conversations and evaluations, and the AI service generates replies and design evaluations. Requests travel through the application and results return to the workspace.</desc>
+  <desc id="desc">The design workspace captures requirements and diagrams, the central application coordinates conversations and evaluations, and an external AI service generates replies and design evaluations. Requests travel left to right and results return right to left. Both central outlines represent one application.</desc>
   <defs>
-    <marker id="request" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
-      <path d="M2 1 L8 5 L2 9" fill="none" stroke="#526bd6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M1 1L9 5L1 9" fill="none" stroke="#2449ff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
     </marker>
-    <marker id="response" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
-      <path d="M2 1 L8 5 L2 9" fill="none" stroke="#8090a7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <marker id="arrow-ink" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M1 1L9 5L1 9" fill="none" stroke="#151519" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
     </marker>
     <style>
-      text { font-family: 'Inter', 'Noto Sans JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; }
-      .eyebrow { font-size: 14px; font-weight: 500; letter-spacing: 2px; }
-      .title { font-size: 28px; font-weight: 600; letter-spacing: -0.7px; }
-      .body { font-size: 20px; }
-      .flow { font-size: 18px; text-anchor: middle; }
+      .sans{font-family:-apple-system,BlinkMacSystemFont,"Noto Sans JP","Hiragino Sans",sans-serif}
+      .serif{font-family:Georgia,"Times New Roman",serif}
+      .mono{font-family:"SFMono-Regular",Consolas,"Liberation Mono",monospace}
+      .ink{fill:#151519}.soft{fill:#67676f}.blue{fill:#2449ff}
+      .rule{stroke:#151519;stroke-opacity:.18;stroke-width:1}
+      .micro{font-size:13px;letter-spacing:.13em}
+      .flowLabel{font-size:16px;text-anchor:middle}
+      .flow{fill:none;stroke:#2449ff;stroke-width:2.4;stroke-linecap:round;marker-end:url(#arrow-blue)}
+      .flowInk{fill:none;stroke:#151519;stroke-width:1.8;stroke-linecap:round;stroke-opacity:.72;marker-end:url(#arrow-ink)}
     </style>
   </defs>
-  <rect width="1440" height="580" fill="#f7f9fc"/>
-  <text x="64" y="52" class="eyebrow" fill="#677b97">LOGICAL ARCHITECTURE</text>
-  <text x="64" y="110" font-size="42" font-weight="600" letter-spacing="-1.4" fill="#1b304b">Architecture Sandbox</text>
-  <text x="64" y="151" font-size="22" fill="#637790">Three roles behind conversations and system design.</text>
-  <path d="M64 184 H1376" stroke="#dce3ee"/>
+  <rect width="1600" height="900" fill="#ffffff"/>
+  <g fill="none" stroke="#2449ff" stroke-width="2" aria-hidden="true">
+    <circle cx="1485" cy="105" r="112" stroke-opacity=".08"/>
+    <circle cx="1485" cy="105" r="72" stroke-opacity=".08"/>
+    <circle cx="1485" cy="105" r="31" stroke-opacity=".14"/>
+  </g>
+  <g class="mono micro soft">
+    <text x="56" y="52">05 / SYSTEM ARCHITECTURE</text>
+    <text x="1544" y="52" text-anchor="end">LOGICAL VIEW / 3 ROLES</text>
+  </g>
+  <line x1="56" y1="76" x2="1544" y2="76" class="rule"/>
+  <text x="58" y="183" class="serif ink" font-size="92" font-weight="500">Architecture Sandbox</text>
+  <text x="60" y="230" class="sans blue" font-size="25" font-weight="500">Ask about requirements. Draw a system. Refine the design.</text>
 
-  <!-- One application boundary; three logical components at the same level. -->
-  <rect x="40" y="218" width="856" height="320" rx="20" fill="#edf2fa"/>
-  <text x="64" y="252" font-size="16" fill="#637790">This application</text>
-  <text x="1072" y="252" font-size="16" fill="#637790">External service</text>
+  <text x="56" y="302" class="mono micro blue">DESIGN WORKSPACE</text>
+  <text x="560" y="302" class="mono micro blue">APPLICATION</text>
+  <text x="1230" y="302" class="mono micro blue">EXTERNAL AI</text>
 
-  <rect x="64" y="280" width="304" height="228" rx="14" fill="#ffffff" stroke="#d6deeb"/>
-  <text x="90" y="320" class="eyebrow" fill="#7183a0">WORKSPACE</text>
-  <text x="90" y="366" class="title" fill="#1b304b">Design workspace</text>
-  <text x="90" y="422" class="body" fill="#637790">Capture requirements.</text>
-  <text x="90" y="454" class="body" fill="#637790">Draw the system.</text>
+  <!-- The workspace is one logical component. -->
+  <rect x="56" y="390" width="330" height="208" rx="8" fill="#ffffff" stroke="#151519" stroke-opacity=".28" stroke-width="1.5"/>
+  <circle cx="87" cy="433" r="8" fill="#2449ff"/>
+  <text x="111" y="441" class="sans ink" font-size="25" font-weight="500">Design workspace</text>
+  <text x="84" y="491" class="sans soft" font-size="20">Capture requirements.</text>
+  <text x="84" y="523" class="sans soft" font-size="20">Draw the system.</text>
 
-  <rect x="568" y="280" width="304" height="228" rx="14" fill="#1b304b"/>
-  <text x="594" y="320" class="eyebrow" fill="#aab9d2">APPLICATION</text>
-  <text x="594" y="366" class="title" fill="#ffffff">Application</text>
-  <text x="594" y="422" class="body" fill="#d2dced">Coordinate conversations</text>
-  <text x="594" y="454" class="body" fill="#d2dced">and evaluations.</text>
+  <!-- Both outlines emphasize the same application, not additional layers. -->
+  <rect x="560" y="334" width="480" height="320" rx="160" fill="#ffffff" stroke="#151519" stroke-opacity=".22" stroke-width="1.5"/>
+  <rect x="606" y="376" width="388" height="236" rx="118" fill="#f0f2ff" stroke="#2449ff" stroke-opacity=".5" stroke-width="1.5"/>
+  <text x="800" y="420" text-anchor="middle" class="mono micro blue">COORDINATION</text>
+  <text x="800" y="471" text-anchor="middle" class="sans ink" font-size="30" font-weight="500">Application</text>
+  <text x="800" y="513" text-anchor="middle" class="sans soft" font-size="20">Coordinate conversations</text>
+  <text x="800" y="543" text-anchor="middle" class="sans soft" font-size="20">and evaluations.</text>
 
-  <rect x="1072" y="280" width="304" height="228" rx="14" fill="#ffffff" stroke="#d6deeb"/>
-  <text x="1098" y="320" class="eyebrow" fill="#7183a0">AI SERVICE</text>
-  <text x="1098" y="366" class="title" fill="#1b304b">AI service</text>
-  <text x="1098" y="422" class="body" fill="#637790">Generate replies</text>
-  <text x="1098" y="454" class="body" fill="#637790">and design evaluations.</text>
+  <rect x="1230" y="390" width="314" height="208" rx="104" fill="#151519"/>
+  <text x="1387" y="435" text-anchor="middle" class="mono micro" fill="#bac6ff">EXTERNAL SERVICE</text>
+  <text x="1387" y="477" text-anchor="middle" class="sans" font-size="30" font-weight="500" fill="#ffffff">AI service</text>
+  <text x="1387" y="514" text-anchor="middle" class="sans" font-size="18" fill="#ffffff">Generate replies</text>
+  <text x="1387" y="543" text-anchor="middle" class="sans" font-size="18" fill="#ffffff">and design evaluations.</text>
 
-  <!-- Requests travel right; answers and evaluations return left. -->
-  <path d="M368 360 H568" fill="none" stroke="#526bd6" stroke-width="2.2" marker-end="url(#request)"/>
-  <text x="468" y="339" class="flow" fill="#526bd6">Questions / designs</text>
-  <path d="M872 360 H1072" fill="none" stroke="#526bd6" stroke-width="2.2" marker-end="url(#request)"/>
-  <text x="972" y="339" class="flow" fill="#526bd6">Chat / evaluation</text>
-  <path d="M568 438 H368" fill="none" stroke="#8090a7" stroke-width="2" marker-end="url(#response)"/>
-  <text x="468" y="470" class="flow" fill="#637790">Replies / results</text>
-  <path d="M1072 438 H872" fill="none" stroke="#8090a7" stroke-width="2" marker-end="url(#response)"/>
-  <text x="972" y="470" class="flow" fill="#637790">Generated results</text>
+  <!-- Requests travel right; replies and evaluations return left. -->
+  <path d="M386 440C450 440 491 438 563 462" class="flow"/>
+  <text x="471" y="416" class="sans blue flowLabel">Questions / designs</text>
+  <path d="M563 526C491 552 450 548 386 548" class="flowInk"/>
+  <text x="471" y="576" class="sans soft flowLabel">Replies / results</text>
+  <path d="M1037 462C1100 438 1165 440 1245 440" class="flow"/>
+  <text x="1138" y="416" class="sans blue flowLabel">Chat / evaluation</text>
+  <path d="M1245 548C1165 548 1100 552 1037 526" class="flowInk"/>
+  <text x="1138" y="576" class="sans soft flowLabel">Generated results</text>
+
+  <line x1="56" y1="762" x2="1544" y2="762" class="rule"/>
+  <g class="mono micro soft">
+    <text x="56" y="807">DESIGN INTENT</text>
+    <text x="389" y="807">DESIGN FIRST</text>
+    <text x="741" y="807">CLEAR RESPONSIBILITIES</text>
+    <text x="1227" y="807">FEEDBACK LOOP</text>
+  </g>
+  <g fill="#2449ff" aria-hidden="true">
+    <circle cx="369" cy="802" r="4"/>
+    <circle cx="721" cy="802" r="4"/>
+    <circle cx="1207" cy="802" r="4"/>
+  </g>
 </svg>
