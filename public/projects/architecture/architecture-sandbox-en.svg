@@ -32,7 +32,7 @@
   </g>
   <line x1="56" y1="76" x2="1544" y2="76" class="rule"/>
   <text x="58" y="183" class="serif ink" font-size="92" font-weight="500">Architecture Sandbox</text>
-  <text x="60" y="230" class="sans blue" font-size="25" font-weight="500">Ask about requirements. Draw a system. Refine the design.</text>
+  <text x="60" y="230" class="sans blue" font-size="25" font-weight="500">Connect, test, and explain the reasoning.</text>
 
   <text x="56" y="302" class="mono micro blue">USER</text>
   <text x="478" y="302" class="mono micro blue">APPLICATION</text>
@@ -81,8 +81,8 @@
   <line x1="56" y1="762" x2="1544" y2="762" class="rule"/>
   <g class="mono micro soft">
     <text x="56" y="807">DESIGN INTENT</text>
-    <text x="389" y="807">DESIGN FIRST</text>
-    <text x="741" y="807">CLEAR RESPONSIBILITIES</text>
+    <text x="389" y="807">LEARN BY DOING</text>
+    <text x="741" y="807">EVIDENCE-BASED DESIGN</text>
     <text x="1227" y="807">FEEDBACK LOOP</text>
   </g>
   <g fill="#2449ff" aria-hidden="true">

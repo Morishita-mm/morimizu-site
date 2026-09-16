@@ -359,9 +359,9 @@ export const projectsEn: Project[] = [
     category: 'INTERACTIVE SYSTEM DESIGN',
     status: 'Public',
     statusDetail: 'Public Web App',
-    tagline: 'Ask about requirements. Draw a system. Refine the design.',
+    tagline: 'Connect, test, and explain the reasoning.',
     summary:
-      'A system design practice app where you interview an AI client and build an architecture on a canvas. Feedback across six dimensions helps you revisit the structure and the reasoning behind your technology choices.',
+      'An experiential learning app that teaches component roles, requirements discovery, architecture drawing, and AI-assisted reflection in one flow.',
     repositoryUrl: 'https://github.com/Morishita-mm/architecture-sandbox',
     primaryLink: { label: 'Open app', href: ARCHITECTURE_SANDBOX_URL },
     relatedArticle: { label: 'Read the story on Qiita (Japanese)', href: ARCHITECTURE_SANDBOX_QIITA_URL },
@@ -373,45 +373,45 @@ export const projectsEn: Project[] = [
     languages: ['TypeScript', 'Rust'],
     stack: ['React', 'React Flow', 'Recharts', 'Rust', 'Axum', 'Gemini', 'Cloudflare Workers', 'Cloud Run'],
     facts: [
-      { label: 'Scenarios', value: 'Attendance / Photo SNS / Custom' },
-      { label: 'Feedback', value: 'Six dimensions and suggestions' },
-      { label: 'Save & restore', value: 'Local JSON files' },
+      { label: 'Learning', value: '8 stages / Free design' },
+      { label: 'Challenges', value: '2 themes × 3 cases + custom' },
+      { label: 'Evaluation', value: 'Weighted six axes + interview reach' },
     ],
     challenge:
-      'Reading architecture patterns does not give you practice uncovering requirements from an ambiguous brief and turning them into a system. I wanted a place to repeat the whole process, from asking questions to revising a design.',
+      'Reading architecture patterns does not let you practice trying component roles, turning an ambiguous brief into requirements, and explaining a design. I built one place where learning and design can be repeated together.',
     answer:
-      'Interview an AI client, place and connect components such as servers and databases, and submit the diagram with your rationale. Reflect on feedback covering availability, scalability, security, maintainability, cost, and feasibility.',
+      'Learn eight components one at a time, then use all 32 in a design challenge. Ask the AI client questions, record the diagram and rationale, and revise from six-axis feedback split into strengths, gaps, and unknowns.',
     flow: [
-      { label: 'SELECT', title: 'Choose a scenario', detail: 'Start with a preset or define your own design challenge' },
-      { label: 'ASK', title: 'Find requirements', detail: 'Ask the AI client about budget, scale, and constraints' },
-      { label: 'DESIGN', title: 'Draw the system', detail: 'Connect components and explain your technology choices' },
-      { label: 'REFINE', title: 'Revisit the design', detail: 'Use six-dimension feedback to improve your architecture' },
+      { label: 'LEARN', title: 'Learn component roles', detail: 'Experience eight stages and unlock the graduation challenge' },
+      { label: 'ASK', title: 'Discover requirements', detail: 'Ask about volume, downtime tolerance, retention, and budget' },
+      { label: 'DESIGN', title: 'Record the design', detail: 'Place 32 component types and capture connections and rationale' },
+      { label: 'REFINE', title: 'Revise from evidence', detail: 'Use six axes, strengths, gaps, and unknowns to iterate' },
     ],
     decisions: [
       {
-        title: 'Keep the conversation and canvas together',
-        detail: 'The requirements interview and React Flow diagram belong to the same project. Component notes are included in the evaluation so you can revisit both the structure and the reasons behind it.',
+        title: 'Connect the course and design challenges',
+        detail: 'The first eight components unlock progressively through hands-on stages. Graduation diagrams and notes carry into free design, while experienced users can skip the course.',
       },
       {
         title: 'Separate static delivery from the AI API',
         detail: 'Cloudflare Workers Static Assets serves the frontend, while Cloud Run hosts the Rust / Axum API. Secret Manager supplies the Gemini API key only to the server, which also holds the hidden requirements for preset scenarios.',
       },
       {
-        title: 'Let people take their practice home',
-        detail: 'Save diagrams, conversations, and evaluations as a JSON file and restore them to continue later. Challenge URLs share a scenario so someone else can explore a different design for the same brief.',
+        title: 'Keep evidence with the evaluation',
+        detail: 'Case-specific weights shape the six-axis score, while confirmed conditions retain their question-and-answer evidence. Agreed specification versions carry into later conversation and evaluation.',
       },
       {
         title: 'Share results on X and try the same challenge',
-        detail: 'The evaluation screen’s share button opens an X post composer with the scenario name, total score, and challenge URL. Anyone following the link can try the same scenario and compare their approach to yours.',
+        detail: 'Diagrams, conversations, and evaluations can be saved as JSON and restored later. Results can be shared on X, and a challenge URL lets others try the same brief.',
       },
     ],
     evidence: [
-      'Public app supports scenario selection, interviews, diagramming, and evaluation',
-      'Diagram connections and JSON save and restore verified in production',
-      'GitHub Actions deploys to Cloudflare and Cloud Run',
+      'Public app supports the eight-stage course and the full design-challenge flow',
+      'Production acceptance completed 36 real-Gemini evaluations across two themes and six designs',
+      'GitHub Actions deploys to Cloudflare and Cloud Run; JSON restore and X sharing are verified',
     ],
-    now: 'The web app is public. Practice with attendance management, a photo-sharing SNS, or a custom scenario; interview the AI client, draw and evaluate an architecture, save and restore JSON files, and share results and challenge URLs on X. The app interface is in Japanese.',
-    next: [],
+    now: 'The eight-stage beginner course and 32-component design challenges are public. AI evaluation is learning guidance rather than expert judgment; independent expert review and beginner learning studies remain to be run. The app interface is in Japanese.',
+    next: ['Independent review by architecture specialists', 'Beginner completion and transfer study with a new scenario'],
   },
 ];
 

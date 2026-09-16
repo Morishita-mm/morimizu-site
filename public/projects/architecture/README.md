@@ -27,8 +27,8 @@ They do not introduce deployment boundaries or a Clean Architecture claim.
 This is a logical view, not a deployment or operations diagram. Product logos,
 frameworks, hosting providers, secret management, persistence, sharing and
 deployment paths are intentionally omitted to keep the abstraction consistent.
-Implementation details, JSON persistence, X sharing and the public app / Qiita
-links remain in the project page's text.
+The project page text covers the learning course, scenario cases, JSON
+persistence, X sharing and the public app / Qiita links.
 
 The SVGs are self-contained, use the same layout and contain no external assets.
 Their title, description and page alt text describe the same logical view.
