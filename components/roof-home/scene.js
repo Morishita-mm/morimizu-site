@@ -203,6 +203,8 @@ export function initializeRoofScene() {
       drawSpotlight(hour);
       ctx.drawImage(blend, 0, 0);
     }
+    // The life layer can sleep while static and redraw only when this scene does.
+    if (source) canvas.dispatchEvent(new Event('morimizu-scene'));
   }
   function finish() {
     cancelAnimationFrame(frame);

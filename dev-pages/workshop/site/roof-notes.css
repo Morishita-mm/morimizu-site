@@ -394,28 +394,33 @@
 }
 .roof-article .markdown-code-block {
   position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-rows: minmax(38px, auto) auto;
   border: 1px solid var(--line);
   margin: 28px 0;
-  padding-top: 38px;
+  padding-top: 0;
   background: color-mix(in srgb, var(--ink) 3%, var(--bg));
   border-radius: 0;
   overflow: visible;
 }
 .roof-article .markdown-code-name {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  min-height: 38px;
-  border-bottom: 1px solid var(--line);
+  position: static;
+  grid-column: 1;
+  grid-row: 1;
+  min-width: 0;
+  border: 0;
   background: transparent;
-  padding: 9px 85px 9px 18px;
+  padding: 9px 18px;
   font-size: 10px;
   line-height: 1.8;
   color: var(--muted);
   overflow-wrap: anywhere;
 }
 .roof-article .markdown-code-block pre {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  min-width: 0;
   margin: 0;
   padding: 23px;
   overflow: auto;
@@ -426,6 +431,7 @@
   background: transparent;
   color: var(--ink);
   border-radius: 0;
+  border-top: 1px solid var(--line);
 }
 .roof-article .markdown-code-block pre code {
   background: none;
@@ -436,9 +442,12 @@
   overflow-wrap: normal;
 }
 .article-copy-code {
-  position: absolute;
-  right: 12px;
-  top: 3px;
+  position: static;
+  grid-column: 2;
+  grid-row: 1;
+  align-self: start;
+  justify-self: end;
+  margin: 3px 12px 3px 0;
   min-height: 32px;
   padding: 4px 8px;
   background: var(--bg);

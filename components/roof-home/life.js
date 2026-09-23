@@ -421,6 +421,9 @@ export function initializeRoofLife() {
     label();
     if (wakeAnimation) wake();
   }
+  function needsAnimation() {
+    return !reduced.matches && (!paused || seasonFade < 1);
+  }
   function tick(now) {
     frame = 0;
     if (disposed || !loaded || document.hidden || !visible) {
@@ -442,11 +445,14 @@ export function initializeRoofLife() {
       }
     } else if (reduced.matches) staticPose();
     seasonFade = Math.min(1, seasonFade + (reduced.matches ? 1 : delta / 1.2));
-    if (now - lastPaint > 40) {
+    const animate = needsAnimation();
+    // Always paint the static endpoint, even inside the normal paint throttle.
+    if (!animate || now - lastPaint > 40) {
       paint();
       lastPaint = now;
     }
-    frame = requestAnimationFrame(tick);
+    if (animate) frame = requestAnimationFrame(tick);
+    else last = 0;
   }
   function wake() {
     if (!disposed && loaded && !frame && !document.hidden && visible) {
@@ -476,6 +482,8 @@ export function initializeRoofLife() {
     wake();
   });
   listen(window, 'morimizu-theme', () => desiredNight());
+  // A static resident still follows scene lighting and foreground changes.
+  listen(house, 'morimizu-scene', wake);
   listen(reduced, 'change', () => syncMotion());
   listen(document, 'visibilitychange', () => {
     last = 0;
@@ -522,7 +530,7 @@ export function initializeRoofLife() {
     sourceMask();
     if (reduced.matches) staticPose();
     paint();
-    wake();
+    if (needsAnimation()) wake();
   });
   return () => {
     disposed = true;

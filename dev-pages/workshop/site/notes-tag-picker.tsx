@@ -23,6 +23,7 @@ export function NotesTagPicker({
   const root = useRef<HTMLDivElement>(null);
   const trigger = useRef<HTMLButtonElement>(null);
   const input = useRef<HTMLInputElement>(null);
+  const composing = useRef(false);
   const enhanced = useSyncExternalStore(
     subscribeHydration,
     () => true,
@@ -55,6 +56,7 @@ export function NotesTagPicker({
       ?.scrollIntoView({ block: 'nearest' });
   }, [active, query]);
   const close = () => {
+    composing.current = false;
     setOpen(false);
     trigger.current?.focus();
   };
@@ -63,6 +65,7 @@ export function NotesTagPicker({
     close();
   };
   const show = () => {
+    composing.current = false;
     setQuery('');
     setActive(
       Math.max(
@@ -150,7 +153,22 @@ export function NotesTagPicker({
                 setQuery(event.target.value);
                 setActive(0);
               }}
+              onCompositionStart={() => {
+                composing.current = true;
+              }}
+              onCompositionEnd={() => {
+                composing.current = false;
+              }}
               onKeyDown={(event) => {
+                // Safari can end composition before its confirming Enter keydown;
+                // keyCode 229 still identifies that IME event when isComposing is false.
+                if (
+                  composing.current ||
+                  event.nativeEvent.isComposing ||
+                  // oxlint-disable-next-line typescript/no-deprecated -- Required for Safari composition-commit events without isComposing.
+                  event.nativeEvent.keyCode === 229
+                )
+                  return;
                 if (event.key === 'Escape') {
                   event.preventDefault();
                   close();

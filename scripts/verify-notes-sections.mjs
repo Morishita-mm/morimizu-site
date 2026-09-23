@@ -10,11 +10,38 @@ try {
     locale: 'ja-JP',
   });
   debugPage = page;
+  async function assertNotesMetadata(path) {
+    assert.equal(await page.locator('link[rel="canonical"]').count(), 1);
+    assert.equal(
+      await page.locator('link[rel="canonical"]').getAttribute('href'),
+      `https://morimizu.dev${path}`,
+    );
+    assert.equal(
+      await page
+        .locator('link[rel="alternate"][hreflang="ja-JP"]')
+        .getAttribute('href'),
+      'https://morimizu.dev/notes',
+    );
+    assert.equal(
+      await page
+        .locator('link[rel="alternate"][hreflang="en-US"]')
+        .getAttribute('href'),
+      'https://morimizu.dev/en/notes',
+    );
+    assert.equal(await page.title(), 'Notes — morimizu works');
+    const description = await page
+      .locator('meta[name="description"]')
+      .getAttribute('content');
+    assert.match(description, /Journal/);
+    assert.match(description, /Qiita/);
+    if (path === '/en/notes') assert.match(description, /^Journal entries /);
+  }
   const errors = [];
   page.on('pageerror', (error) => errors.push(error.message));
   const base = process.env.NOTES_PREVIEW_URL || 'http://127.0.0.1:3003';
   await page.goto(base + '/');
   await page.locator('header nav a[href="/notes"]').click();
+  await assertNotesMetadata('/notes');
   assert.equal(await page.locator('header nav a[href="/journal"]').count(), 0);
   assert.equal(
     await page.locator('.e-notes-tabs a[aria-current]').textContent(),
@@ -198,6 +225,7 @@ try {
     '/notes',
   );
   await page.goto(base + '/en/notes');
+  await assertNotesMetadata('/en/notes');
   await page
     .getByRole('navigation', { name: 'Notes sections', exact: true })
     .waitFor();
@@ -252,6 +280,121 @@ try {
   assert.equal(await page.locator('.notes-list > .note-row').count(), allRows);
   assert.equal(await articleSearch.inputValue(), '');
   assert.equal(new URL(page.url()).search, '');
+  // These are synthetic native composition/keyboard events dispatched through
+  // the real input and React event path, not an actual OS Japanese IME session.
+  await page.locator('.tag-trigger').click();
+  await tagSearch.fill('個人');
+  await page.getByRole('option', { name: /^個人開発/ }).waitFor();
+  assert.ok((await page.getByRole('option').count()) > 1);
+  const imeBefore = {
+    url: page.url(),
+    active: await tagSearch.getAttribute('aria-activedescendant'),
+    historyLength: await page.evaluate(() => history.length),
+  };
+  async function assertCompositionUnchanged() {
+    assert.equal(page.url(), imeBefore.url);
+    assert.equal(
+      await page.locator('.tag-trigger').getAttribute('aria-expanded'),
+      'true',
+    );
+    assert.equal(
+      await tagSearch.getAttribute('aria-activedescendant'),
+      imeBefore.active,
+    );
+    assert.equal(
+      await tagSearch.evaluate((node) => node === document.activeElement),
+      true,
+    );
+    assert.equal(
+      await page.evaluate(() => history.length),
+      imeBefore.historyLength,
+    );
+  }
+  await tagSearch.evaluate((node) =>
+    node.dispatchEvent(
+      new CompositionEvent('compositionstart', { bubbles: true, data: '個人' }),
+    ),
+  );
+  for (const [key, keyCode, isComposing] of [
+    ['Enter', 13, true],
+    ['ArrowDown', 40, true],
+    ['ArrowUp', 38, true],
+    ['Escape', 27, true],
+    ['Home', 36, true],
+    ['End', 35, true],
+    // Composition state also covers an event that omits the native flag.
+    ['Enter', 13, false],
+    ['ArrowDown', 40, false],
+  ]) {
+    const prevented = await tagSearch.evaluate(
+      (node, init) => {
+        const event = new KeyboardEvent('keydown', {
+          ...init,
+          bubbles: true,
+          cancelable: true,
+        });
+        node.dispatchEvent(event);
+        return event.defaultPrevented;
+      },
+      { key, keyCode, isComposing },
+    );
+    assert.equal(
+      prevented,
+      false,
+      `IME ${key} must remain available to the browser`,
+    );
+    await assertCompositionUnchanged();
+  }
+  await tagSearch.evaluate((node) =>
+    node.dispatchEvent(
+      new CompositionEvent('compositionend', { bubbles: true, data: '個人' }),
+    ),
+  );
+  const commitKey = await tagSearch.evaluate((node) => {
+    const event = new KeyboardEvent('keydown', {
+      key: 'Enter',
+      code: 'Enter',
+      // oxlint-disable-next-line typescript/no-deprecated -- Reproduce the legacy IME sentinel, not an ordinary Enter event.
+      keyCode: 229,
+      isComposing: false,
+      bubbles: true,
+      cancelable: true,
+    });
+    node.dispatchEvent(event);
+    return {
+      // oxlint-disable-next-line typescript/no-deprecated -- Assert that the browser retained the synthetic legacy sentinel.
+      keyCode: event.keyCode,
+      isComposing: event.isComposing,
+      prevented: event.defaultPrevented,
+    };
+  });
+  assert.deepEqual(commitKey, {
+    keyCode: 229,
+    isComposing: false,
+    prevented: false,
+  });
+  await assertCompositionUnchanged();
+  await tagSearch.press('Enter');
+  assert.equal(new URL(page.url()).searchParams.get('tag'), '個人開発');
+  assert.equal(
+    await page.evaluate(() => history.length),
+    imeBefore.historyLength + 1,
+  );
+  assert.equal(
+    await page.locator('.tag-trigger').getAttribute('aria-expanded'),
+    'false',
+  );
+  assert.equal(
+    await page
+      .locator('.tag-trigger')
+      .evaluate((node) => node === document.activeElement),
+    true,
+  );
+  await page.goBack();
+  await page.waitForFunction(
+    () => !new URL(location.href).searchParams.has('tag'),
+  );
+  assert.equal(await page.locator('.notes-list > .note-row').count(), allRows);
   for (const width of [390, 320]) {
     await page.setViewportSize({ width, height: 900 });
     assert.equal(
@@ -263,7 +406,7 @@ try {
   }
   assert.deepEqual(errors, []);
   console.log(
-    'PASS: Notes/Qiita/Journal navigation, existing article links, partial sorting, English and mobile layouts.',
+    'PASS: Notes/Qiita/Journal navigation, metadata, search/sort/history, English/mobile, and synthetic composition/229 keyboard guards (OS IME not exercised).',
   );
 } catch (error) {
   console.error(
