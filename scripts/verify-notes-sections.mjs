@@ -12,7 +12,8 @@ try {
   debugPage = page;
   const errors = [];
   page.on('pageerror', (error) => errors.push(error.message));
-  await page.goto('http://127.0.0.1:3003/');
+  const base = process.env.NOTES_PREVIEW_URL || 'http://127.0.0.1:3003';
+  await page.goto(base + '/');
   await page.locator('header nav a[href="/notes"]').click();
   assert.equal(await page.locator('header nav a[href="/journal"]').count(), 0);
   assert.equal(
@@ -26,7 +27,9 @@ try {
   await page.evaluate(() => {
     window.qiitaMarker = 'retained';
   });
-  await page.getByRole('link', { name: '古い順', exact: true }).click();
+  await page
+    .locator('.e-notes-list-header select[name=sort]')
+    .selectOption('asc');
   const oldest = await page
     .locator('.e-note-row')
     .evaluateAll((nodes) => nodes.map((node) => node.getAttribute('href')));
@@ -35,20 +38,20 @@ try {
   await page.goBack();
   await page.waitForFunction(
     () =>
-      document.querySelector('.journal-sort a[aria-current]')?.textContent ===
-      '新しい順',
+      document.querySelector('.e-notes-list-header select[name=sort]')
+        ?.value === 'desc',
   );
   await page.goForward();
   await page.waitForFunction(
     () =>
-      document.querySelector('.journal-sort a[aria-current]')?.textContent ===
-      '古い順',
+      document.querySelector('.e-notes-list-header select[name=sort]')
+        ?.value === 'asc',
   );
   await page.reload();
   await page.waitForFunction(
     () =>
-      document.querySelector('.journal-sort a[aria-current]')?.textContent ===
-      '古い順',
+      document.querySelector('.e-notes-list-header select[name=sort]')
+        ?.value === 'asc',
   );
   assert.deepEqual(
     await page
@@ -56,7 +59,9 @@ try {
       .evaluateAll((nodes) => nodes.map((node) => node.getAttribute('href'))),
     oldest,
   );
-  await page.getByRole('link', { name: '新しい順', exact: true }).click();
+  await page
+    .locator('.e-notes-list-header select[name=sort]')
+    .selectOption('desc');
   const qiitaHeader = await page.locator('.e-notes-list-header').boundingBox();
 
   await mkdir('outputs/journal', { recursive: true });
@@ -109,7 +114,9 @@ try {
   await page.evaluate(() => {
     window.notesDocumentMarker = 'preserved';
   });
-  await page.getByRole('link', { name: '古い順', exact: true }).click();
+  await page
+    .locator('.e-notes-list-header select[name=sort]')
+    .selectOption('asc');
   await page.waitForFunction(
     () => new URL(location.href).searchParams.get('sort') === 'asc',
   );
@@ -147,20 +154,20 @@ try {
   await page.goBack();
   await page.waitForFunction(
     () =>
-      document.querySelector('.journal-sort a[aria-current]')?.textContent ===
-      '古い順',
+      document.querySelector('.e-notes-list-header select[name=sort]')
+        ?.value === 'asc',
   );
   await page.goBack();
   await page.waitForFunction(
     () =>
-      document.querySelector('.journal-sort a[aria-current]')?.textContent ===
-      '新しい順',
+      document.querySelector('.e-notes-list-header select[name=sort]')
+        ?.value === 'desc',
   );
   await page.goForward();
   await page.waitForFunction(
     () =>
-      document.querySelector('.journal-sort a[aria-current]')?.textContent ===
-      '古い順',
+      document.querySelector('.e-notes-list-header select[name=sort]')
+        ?.value === 'asc',
   );
   await page.goForward();
   await page.waitForFunction(
@@ -190,7 +197,7 @@ try {
     await page.locator('header nav a[aria-current]').getAttribute('href'),
     '/notes',
   );
-  await page.goto('http://127.0.0.1:3003/en/notes');
+  await page.goto(base + '/en/notes');
   await page
     .getByRole('navigation', { name: 'Notes sections', exact: true })
     .waitFor();
@@ -198,6 +205,62 @@ try {
     await page.locator('.e-notes-tabs a[aria-current]').textContent(),
     'Qiita articles',
   );
+  await page.goto(base + '/notes');
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  const allRows = await page.locator('.notes-list > .note-row').count();
+  const articleSearch = page.locator('input[name=q]');
+  await articleSearch.fill('Rust');
+  await articleSearch.blur();
+  assert.ok((await page.locator('.notes-list > .note-row').count()) < allRows);
+  assert.equal(new URL(page.url()).searchParams.get('q'), 'Rust');
+  await page.locator('.tag-trigger').click();
+  const tagSearch = page.getByRole('combobox', {
+    name: /タグを検索|Search tags/,
+  });
+  await tagSearch.fill('Ｐｙ');
+  await page.getByRole('option', { name: /^Python/ }).waitFor();
+  assert.equal(await articleSearch.inputValue(), 'Rust');
+  await tagSearch.press('Enter');
+  assert.equal(new URL(page.url()).searchParams.get('tag'), 'Python');
+  await page.goBack();
+  await page.waitForFunction(
+    () => !new URL(location.href).searchParams.has('tag'),
+  );
+  assert.equal(await articleSearch.inputValue(), 'Rust');
+  await page.goBack();
+  await page.waitForFunction(
+    () => document.querySelector('input[name=q]')?.value === '',
+  );
+  assert.equal(await page.locator('.notes-list > .note-row').count(), allRows);
+  await page.locator('.tag-trigger').click();
+  await tagSearch.fill('not-a-real-tag');
+  await page.locator('.tag-empty').waitFor();
+  await tagSearch.press('Escape');
+  assert.equal(
+    await page.locator('.tag-trigger').getAttribute('aria-expanded'),
+    'false',
+  );
+  assert.equal(
+    await page
+      .locator('.tag-trigger')
+      .evaluate((node) => node === document.activeElement),
+    true,
+  );
+  await articleSearch.fill('not-a-real-article');
+  await page.locator('.notes-empty').waitFor();
+  await page.locator('.notes-empty button').click();
+  assert.equal(await page.locator('.notes-list > .note-row').count(), allRows);
+  assert.equal(await articleSearch.inputValue(), '');
+  assert.equal(new URL(page.url()).search, '');
+  for (const width of [390, 320]) {
+    await page.setViewportSize({ width, height: 900 });
+    assert.equal(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth > innerWidth,
+      ),
+      false,
+    );
+  }
   assert.deepEqual(errors, []);
   console.log(
     'PASS: Notes/Qiita/Journal navigation, existing article links, partial sorting, English and mobile layouts.',

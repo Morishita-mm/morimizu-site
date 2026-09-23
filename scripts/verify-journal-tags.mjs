@@ -29,6 +29,52 @@ try {
   }
   const base = (await mf.ready).origin;
   browser = await chromium.launch({ channel: 'chrome', headless: true });
+  const noScript = await browser.newPage({
+    javaScriptEnabled: false,
+    locale: 'ja-JP',
+  });
+  await noScript.goto(
+    base + '/journal?sort=desc&before=9999-12-31%2Fz&lang=ja&hint=a&hint=b',
+    { waitUntil: 'domcontentloaded' },
+  );
+  assert.deepEqual(
+    await noScript.locator('.journal-list h2').allTextContents(),
+    ['newer', 'older'],
+  );
+  assert.equal(await noScript.locator('.page-head .page-count').count(), 0);
+  assert.equal(
+    await noScript.locator('.journal-sort-enhanced').isVisible(),
+    false,
+  );
+  await noScript.getByRole('link', { name: '古い順', exact: true }).click();
+  assert.deepEqual(
+    await noScript.locator('.journal-list h2').allTextContents(),
+    ['older', 'newer'],
+  );
+  let fallbackUrl = new URL(noScript.url());
+  assert.equal(fallbackUrl.searchParams.get('sort'), 'asc');
+  assert.equal(fallbackUrl.searchParams.has('before'), false);
+  assert.deepEqual(fallbackUrl.searchParams.getAll('hint'), ['a', 'b']);
+  assert.equal(fallbackUrl.searchParams.get('lang'), 'ja');
+  await noScript.getByRole('link', { name: '新しい順', exact: true }).click();
+  assert.deepEqual(
+    await noScript.locator('.journal-list h2').allTextContents(),
+    ['newer', 'older'],
+  );
+  await noScript.goto(base + '/journal?lang=en&hint=kept', {
+    waitUntil: 'domcontentloaded',
+  });
+  await noScript
+    .getByRole('link', { name: 'Oldest first', exact: true })
+    .click();
+  assert.deepEqual(
+    await noScript.locator('.journal-list h2').allTextContents(),
+    ['older', 'newer'],
+  );
+  fallbackUrl = new URL(noScript.url());
+  assert.equal(fallbackUrl.searchParams.get('lang'), 'en');
+  assert.equal(fallbackUrl.searchParams.get('hint'), 'kept');
+  await noScript.close();
   const page = await browser.newPage({
     extraHTTPHeaders: await adminHeaders(),
     viewport: { width: 1440, height: 1000 },
@@ -42,9 +88,11 @@ try {
   ]);
   await page.evaluate(() => {
     window.journalDocumentMarker = 'retained';
-    window.journalHeading = document.querySelector('.e-page-heading');
+    window.journalHeading = document.querySelector('.page-head');
   });
-  await page.getByRole('link', { name: '古い順', exact: true }).click();
+  await page
+    .getByRole('combobox', { name: '公開日の並び順', exact: true })
+    .selectOption('asc');
   await page.waitForFunction(
     () => document.querySelector('.journal-list h2')?.textContent === 'older',
   );
@@ -54,11 +102,13 @@ try {
   ]);
   assert.equal(
     await page
-      .getByRole('link', { name: '古い順', exact: true })
-      .getAttribute('aria-current'),
-    'page',
+      .getByRole('combobox', { name: '公開日の並び順', exact: true })
+      .inputValue(),
+    'asc',
   );
-  await page.getByRole('link', { name: '新しい順', exact: true }).click();
+  await page
+    .getByRole('combobox', { name: '公開日の並び順', exact: true })
+    .selectOption('desc');
   await page.waitForFunction(
     () => document.querySelector('.journal-list h2')?.textContent === 'newer',
   );
@@ -72,7 +122,7 @@ try {
   );
   assert.equal(
     await page.evaluate(
-      () => window.journalHeading === document.querySelector('.e-page-heading'),
+      () => window.journalHeading === document.querySelector('.page-head'),
     ),
     true,
   );
@@ -92,7 +142,9 @@ try {
   await page.route('**/api/journal/v1/entries*', (route) =>
     route.fulfill({ status: 503, body: '{}' }),
   );
-  await page.getByRole('link', { name: '古い順', exact: true }).click();
+  await page
+    .getByRole('combobox', { name: '公開日の並び順', exact: true })
+    .selectOption('asc');
   await page.getByRole('alert').waitFor();
   assert.equal(new URL(page.url()).searchParams.get('sort'), 'desc');
   assert.equal(
@@ -136,7 +188,7 @@ try {
     fullPage: true,
   });
   await page.goto(base + '/journal/newer');
-  assert.deepEqual(await page.locator('.e-tags span').allTextContents(), [
+  assert.deepEqual(await page.locator('.tag-list span').allTextContents(), [
     'AI',
     '設計',
   ]);
@@ -145,7 +197,7 @@ try {
     await page
       .locator('.journal-list li')
       .first()
-      .locator('.e-tags span')
+      .locator('.tag-list span')
       .allTextContents(),
     ['AI', '設計'],
   );
@@ -221,15 +273,27 @@ try {
     () => document.querySelectorAll('.journal-list li').length === 3,
   );
   assert.ok(new URL(page.url()).searchParams.get('before'));
+  assert.equal(await page.locator('.page-head .page-count').count(), 0);
+  assert.equal(
+    await page.locator('.notes-collection > span').textContent(),
+    '3',
+  );
   assert.equal(
     await page.evaluate(() => window.journalDocumentMarker),
     'pagination',
   );
-  await page.getByRole('link', { name: '古い順', exact: true }).click();
+  await page
+    .getByRole('combobox', { name: '公開日の並び順', exact: true })
+    .selectOption('asc');
   await page.waitForFunction(
     () => document.querySelector('.journal-list h2')?.textContent === 'page-00',
   );
   assert.equal(new URL(page.url()).searchParams.has('before'), false);
+  assert.equal(await page.locator('.page-head .page-count').count(), 0);
+  assert.equal(
+    await page.locator('.notes-collection > span').textContent(),
+    '50',
+  );
   assert.equal(
     await page.evaluate(() => window.journalDocumentMarker),
     'pagination',

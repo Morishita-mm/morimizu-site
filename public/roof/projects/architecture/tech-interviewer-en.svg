@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="architecture-title architecture-description">
+<title id="architecture-title">Architecture Diagnostic</title>
+<desc id="architecture-description">Architecture Diagnostic flow from candidate workspace through deterministic orchestration and evidence locking to bounded AI evaluation and a baseline report.</desc>
+<defs>
+<marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M1,1 L9,4 L1,7" fill="none" stroke="#151519" stroke-width="1.4" stroke-linecap="square" stroke-linejoin="miter"/></marker>
+<marker id="arrow-accent" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M1,1 L9,4 L1,7" fill="none" stroke="#2449FF" stroke-width="1.4" stroke-linecap="square" stroke-linejoin="miter"/></marker>
+</defs>
+<rect width="1600" height="900" fill="#FFFFFF"/>
+<line x1="56" y1="64" x2="1544" y2="64" stroke="#E0E0E5" stroke-width="1"/>
+<text x="56" y="44" fill="#67676F" font-size="10" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="500" text-anchor="start" letter-spacing="0.14em">01 / SYSTEM ARCHITECTURE</text>
+<text x="1544" y="44" fill="#67676F" font-size="10" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="500" text-anchor="end" letter-spacing="0.14em">SOURCE-GROUNDED / MVP v0.1.0</text>
+<text x="56" y="150" fill="#151519" font-size="72" font-family="Georgia, &#x27;Times New Roman&#x27;, serif" font-weight="400" text-anchor="start">Architecture Diagnostic</text>
+<text x="58" y="196" fill="#2449FF" font-size="21" font-family="Inter, &#x27;Noto Sans JP&#x27;, -apple-system, BlinkMacSystemFont, &#x27;Segoe UI&#x27;, sans-serif" font-weight="600" text-anchor="start">Deterministic progression and locked evidence bound the AI evaluation.</text>
+<text x="300" y="220" fill="#67676F" font-size="10" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="650" text-anchor="middle" letter-spacing="0.1em">ACTOR</text>
+<line x1="413.5" y1="240" x2="413.5" y2="814" stroke="#E0E0E5" stroke-width="0.8" stroke-dasharray="2 8"/>
+<text x="527" y="220" fill="#67676F" font-size="10" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="650" text-anchor="middle" letter-spacing="0.1em">WORKSPACE</text>
+<line x1="640.5" y1="240" x2="640.5" y2="814" stroke="#E0E0E5" stroke-width="0.8" stroke-dasharray="2 8"/>
+<text x="754" y="220" fill="#67676F" font-size="10" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="650" text-anchor="middle" letter-spacing="0.1em">ORCHESTRATION</text>
+<line x1="867.5" y1="240" x2="867.5" y2="814" stroke="#E0E0E5" stroke-width="0.8" stroke-dasharray="2 8"/>
+<text x="981" y="220" fill="#67676F" font-size="10" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="650" text-anchor="middle" letter-spacing="0.1em">EVIDENCE</text>
+<line x1="1094.5" y1="240" x2="1094.5" y2="814" stroke="#E0E0E5" stroke-width="0.8" stroke-dasharray="2 8"/>
+<text x="1208" y="220" fill="#67676F" font-size="10" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="650" text-anchor="middle" letter-spacing="0.1em">STATE / AUTHORITY</text>
+<line x1="1321.5" y1="240" x2="1321.5" y2="814" stroke="#E0E0E5" stroke-width="0.8" stroke-dasharray="2 8"/>
+<text x="1435" y="220" fill="#67676F" font-size="10" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="650" text-anchor="middle" letter-spacing="0.1em">OUTCOME / PROVIDER</text>
+<line x1="56" y1="326" x2="1544" y2="326" stroke="#E0E0E5" stroke-width="0.8"/>
+<text x="56" y="312" fill="#2449FF" font-size="11" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="650" text-anchor="start" letter-spacing="0.12em">01 / CANDIDATE EXPERIENCE</text>
+<line x1="56" y1="531" x2="1544" y2="531" stroke="#E0E0E5" stroke-width="0.8"/>
+<text x="56" y="517" fill="#2449FF" font-size="11" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="650" text-anchor="start" letter-spacing="0.12em">02 / DETERMINISTIC CORE</text>
+<line x1="56" y1="736" x2="1544" y2="736" stroke="#E0E0E5" stroke-width="0.8"/>
+<text x="56" y="722" fill="#2449FF" font-size="11" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="650" text-anchor="start" letter-spacing="0.12em">03 / AI EVALUATION</text>
+<g id="edge-candidate-workspace-0" data-edge-kind="command" data-route-axis="horizontal">
+<path d="M 387.5 326 H 439.5" fill="none" stroke="#2449FF" stroke-width="1.4" stroke-linecap="square" stroke-linejoin="miter" marker-end="url(#arrow-accent)"/>
+<rect x="380.65" y="300" width="65.7" height="18" rx="2" fill="#FFFFFF"/>
+<text x="413.5" y="313" fill="#67676F" font-size="11" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="500" text-anchor="middle">respond</text>
+</g>
+<g id="edge-workspace-diagnostic-1" data-edge-kind="command" data-route-axis="vertical">
+<path d="M 527 374 V 428.5 H 754 V 483" fill="none" stroke="#2449FF" stroke-width="1.4" stroke-linecap="square" stroke-linejoin="miter" marker-end="url(#arrow-accent)"/>
+<rect x="607.65" y="406.5" width="65.7" height="18" rx="2" fill="#FFFFFF"/>
+<text x="640.5" y="419.5" fill="#67676F" font-size="11" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="500" text-anchor="middle">advance</text>
+</g>
+<g id="edge-diagnostic-evidence-lock-2" data-edge-kind="state-update" data-route-axis="horizontal">
+<path d="M 841.5 531 H 893.5" fill="none" stroke="#2449FF" stroke-width="1.4" stroke-dasharray="7 6" stroke-linecap="square" stroke-linejoin="miter" marker-end="url(#arrow-accent)"/>
+<rect x="845.3" y="505" width="44.4" height="18" rx="2" fill="#FFFFFF"/>
+<text x="867.5" y="518" fill="#67676F" font-size="11" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="500" text-anchor="middle">lock</text>
+</g>
+<g id="edge-evidence-lock-firestore-3" data-edge-kind="state-update" data-route-axis="horizontal">
+<path d="M 1068.5 531 H 1120.5" fill="none" stroke="#151519" stroke-width="1.4" stroke-dasharray="7 6" stroke-linecap="square" stroke-linejoin="miter" marker-end="url(#arrow)"/>
+<rect x="1061.65" y="505" width="65.7" height="18" rx="2" fill="#FFFFFF"/>
+<text x="1094.5" y="518" fill="#67676F" font-size="11" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="500" text-anchor="middle">persist</text>
+</g>
+<g id="edge-evidence-lock-workflow-4" data-edge-kind="data" data-route-axis="vertical">
+<path d="M 981 579 V 688" fill="none" stroke="#2449FF" stroke-width="1.4" stroke-linecap="square" stroke-linejoin="miter" marker-end="url(#arrow-accent)"/>
+<rect x="932.2" y="617.5" width="129.6" height="18" rx="2" fill="#FFFFFF"/>
+<text x="997" y="630.5" fill="#67676F" font-size="11" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="500" text-anchor="middle">evaluation input</text>
+</g>
+<g id="edge-workflow-authority-5" data-edge-kind="query" data-route-axis="horizontal">
+<path d="M 1068.5 736 H 1120.5" fill="none" stroke="#151519" stroke-width="1.4" stroke-linecap="square" stroke-linejoin="miter" marker-end="url(#arrow)"/>
+<rect x="1022.6" y="710" width="143.8" height="18" rx="2" fill="#FFFFFF"/>
+<text x="1094.5" y="723" fill="#67676F" font-size="11" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="500" text-anchor="middle">authorize / budget</text>
+</g>
+<g id="edge-authority-provider-6" data-edge-kind="command" data-route-axis="horizontal">
+<path d="M 1295.5 736 H 1347.5" fill="none" stroke="#151519" stroke-width="1.4" stroke-linecap="square" stroke-linejoin="miter" marker-end="url(#arrow)"/>
+<rect x="1274.45" y="710" width="94.1" height="18" rx="2" fill="#FFFFFF"/>
+<text x="1321.5" y="723" fill="#67676F" font-size="11" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="500" text-anchor="middle">bounded run</text>
+</g>
+<g id="edge-provider-report-7" data-edge-kind="response" data-route-axis="vertical">
+<path d="M 1435 688 V 374" fill="none" stroke="#2449FF" stroke-width="1.4" stroke-dasharray="7 6" stroke-linecap="square" stroke-linejoin="miter" marker-end="url(#arrow-accent)"/>
+<rect x="1407.5" y="515" width="87" height="18" rx="2" fill="#FFFFFF"/>
+<text x="1451" y="528" fill="#67676F" font-size="11" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="500" text-anchor="middle">evaluation</text>
+</g>
+<g id="component-candidate" data-component-id="candidate" data-kind="actor">
+<rect x="212.5" y="278" width="175" height="96" rx="4" fill="#FFFFFF" stroke="#E0E0E5" stroke-width="1.4"/>
+<text x="300" y="319" fill="#242429" font-size="22" font-family="Inter, &#x27;Noto Sans JP&#x27;, -apple-system, BlinkMacSystemFont, &#x27;Segoe UI&#x27;, sans-serif" font-weight="650" text-anchor="middle">Candidate</text>
+<text x="300" y="347" fill="#67676F" font-size="12" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="400" text-anchor="middle">25-minute session</text>
+</g>
+<g id="component-workspace" data-component-id="workspace" data-kind="service">
+<rect x="439.5" y="278" width="175" height="96" rx="4" fill="#FFFFFF" stroke="#E0E0E5" stroke-width="1.4"/>
+<text x="527" y="319" fill="#242429" font-size="14.01" font-family="Inter, &#x27;Noto Sans JP&#x27;, -apple-system, BlinkMacSystemFont, &#x27;Segoe UI&#x27;, sans-serif" font-weight="650" text-anchor="middle">Diagnostic workspace</text>
+<text x="527" y="347" fill="#67676F" font-size="8.73" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="400" text-anchor="middle">questions · diagram · answers</text>
+</g>
+<g id="component-report" data-component-id="report" data-kind="entity">
+<rect x="1347.5" y="278" width="175" height="96" rx="4" fill="#F0F2FF" stroke="#2449FF" stroke-width="1.4"/>
+<text x="1435" y="319" fill="#242429" font-size="18.77" font-family="Inter, &#x27;Noto Sans JP&#x27;, -apple-system, BlinkMacSystemFont, &#x27;Segoe UI&#x27;, sans-serif" font-weight="650" text-anchor="middle">Baseline report</text>
+<text x="1435" y="347" fill="#67676F" font-size="12" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="400" text-anchor="middle">six fixed axes</text>
+</g>
+<g id="component-diagnostic" data-component-id="diagnostic" data-kind="service">
+<rect x="666.5" y="483" width="175" height="96" rx="4" fill="#F0F2FF" stroke="#2449FF" stroke-width="1.4"/>
+<text x="754" y="524" fill="#242429" font-size="15.59" font-family="Inter, &#x27;Noto Sans JP&#x27;, -apple-system, BlinkMacSystemFont, &#x27;Segoe UI&#x27;, sans-serif" font-weight="650" text-anchor="middle">Diagnostic service</text>
+<text x="754" y="552" fill="#67676F" font-size="10.13" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="400" text-anchor="middle">deterministic transitions</text>
+</g>
+<g id="component-evidence-lock" data-component-id="evidence-lock" data-kind="entity">
+<rect x="893.5" y="483" width="175" height="96" rx="4" fill="#FFFFFF" stroke="#E0E0E5" stroke-width="1.4"/>
+<text x="981" y="524" fill="#242429" font-size="21.47" font-family="Inter, &#x27;Noto Sans JP&#x27;, -apple-system, BlinkMacSystemFont, &#x27;Segoe UI&#x27;, sans-serif" font-weight="650" text-anchor="middle">Evidence Lock</text>
+<text x="981" y="552" fill="#67676F" font-size="8.44" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="400" text-anchor="middle">answers · diagram · constraint</text>
+</g>
+<g id="component-firestore" data-component-id="firestore" data-kind="store">
+<rect x="1120.5" y="483" width="175" height="96" rx="4" fill="#FFFFFF" stroke="#E0E0E5" stroke-width="1.4"/>
+<text x="1208" y="524" fill="#242429" font-size="22" font-family="Inter, &#x27;Noto Sans JP&#x27;, -apple-system, BlinkMacSystemFont, &#x27;Segoe UI&#x27;, sans-serif" font-weight="650" text-anchor="middle">Firestore</text>
+<text x="1208" y="552" fill="#67676F" font-size="9.38" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="400" text-anchor="middle">sessions · 30-day retention</text>
+</g>
+<g id="component-workflow" data-component-id="workflow" data-kind="service">
+<rect x="893.5" y="688" width="175" height="96" rx="4" fill="#FFFFFF" stroke="#E0E0E5" stroke-width="1.4"/>
+<text x="981" y="729" fill="#242429" font-size="14.76" font-family="Inter, &#x27;Noto Sans JP&#x27;, -apple-system, BlinkMacSystemFont, &#x27;Segoe UI&#x27;, sans-serif" font-weight="650" text-anchor="middle">Evaluation workflow</text>
+<text x="981" y="757" fill="#67676F" font-size="9.74" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="400" text-anchor="middle">projection · schema checks</text>
+</g>
+<g id="component-authority" data-component-id="authority" data-kind="store">
+<rect x="1120.5" y="688" width="175" height="96" rx="4" fill="#FFFFFF" stroke="#E0E0E5" stroke-width="1.4"/>
+<text x="1208" y="729" fill="#242429" font-size="22" font-family="Inter, &#x27;Noto Sans JP&#x27;, -apple-system, BlinkMacSystemFont, &#x27;Segoe UI&#x27;, sans-serif" font-weight="650" text-anchor="middle">AI Authority</text>
+<text x="1208" y="757" fill="#67676F" font-size="12" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="400" text-anchor="middle">model · hard budget</text>
+</g>
+<g id="component-provider" data-component-id="provider" data-kind="external">
+<rect x="1347.5" y="688" width="175" height="96" rx="18" fill="#151519" stroke="#151519" stroke-width="1.4"/>
+<text x="1435" y="729" fill="#FFFFFF" font-size="22" font-family="Inter, &#x27;Noto Sans JP&#x27;, -apple-system, BlinkMacSystemFont, &#x27;Segoe UI&#x27;, sans-serif" font-weight="650" text-anchor="middle">AI provider</text>
+<text x="1435" y="757" fill="#F0F2FF" font-size="9.04" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="400" text-anchor="middle">replaceable evaluation model</text>
+</g>
+<line x1="56" y1="788" x2="1544" y2="788" stroke="#E0E0E5" stroke-width="1"/>
+<circle cx="270" cy="828" r="4" fill="#2449FF"/>
+<text x="288" y="832" fill="#67676F" font-size="10" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="500" text-anchor="start" letter-spacing="0.1em">DETERMINISTIC FLOW</text>
+<circle cx="683.33" cy="828" r="4" fill="#2449FF"/>
+<text x="701.33" y="832" fill="#67676F" font-size="10" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="500" text-anchor="start" letter-spacing="0.1em">LOCKED EVIDENCE</text>
+<circle cx="1096.67" cy="828" r="4" fill="#2449FF"/>
+<text x="1114.67" y="832" fill="#67676F" font-size="10" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="500" text-anchor="start" letter-spacing="0.1em">BOUNDED AI</text>
+</svg>

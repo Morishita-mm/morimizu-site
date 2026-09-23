@@ -19,7 +19,7 @@ try {
   const errors = [];
   page.on('pageerror', (error) => errors.push(error.message));
   await page.goto(base + '/');
-  await page.locator('header nav[data-desktop-nav] a[href="/notes"]').click();
+  await page.locator('header .topnav a[href="/notes"]').click();
   await page.locator('.e-notes-tabs a[href="/journal"]').click();
   await page
     .getByRole('link', {

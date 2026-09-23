@@ -3,11 +3,25 @@ import type { QiitaArticle } from '@/lib/qiita-articles';
 export type Localized<T> = { ja: T; en: T };
 export type ProjectSummary = Pick<
   Project,
-  'slug' | 'number' | 'name' | 'shortName' | 'category' | 'status' | 'tagline'
+  | 'slug'
+  | 'number'
+  | 'name'
+  | 'shortName'
+  | 'category'
+  | 'status'
+  | 'tagline'
+  | 'summary'
+  | 'languages'
 >;
 export type ArticleSummary = Pick<
   QiitaArticle,
-  'id' | 'title' | 'tags' | 'updatedAt' | 'readingMinutes' | 'qiitaUrl'
+  | 'id'
+  | 'title'
+  | 'summary'
+  | 'tags'
+  | 'updatedAt'
+  | 'readingMinutes'
+  | 'qiitaUrl'
 >;
 export type HomeData = {
   projects: Localized<ProjectSummary>[];

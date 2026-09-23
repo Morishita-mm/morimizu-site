@@ -66,6 +66,9 @@ jobs:
       - name: Verify Markdown rendering and front matter
         run: npm run test:content
 
+      - name: Verify house animation, theme, and scroll behavior
+        run: npm run test:roof
+
       - name: Verify bilingual editorial routes
         run: node dev-pages/workshop/verify-locale.mjs
 

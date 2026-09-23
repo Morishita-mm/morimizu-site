@@ -11,37 +11,35 @@ const images = import.meta.glob('../../../public/projects/*.webp', {
   import: 'default',
   query: '?url',
 }) as Record<string, string>;
-const diagrams = import.meta.glob(
-  '../../../public/projects/architecture/*.svg',
-  { eager: true, import: 'default', query: '?raw' },
-) as Record<string, string>;
-function diagramForPreview(svg: string | undefined) {
-  if (!svg) return undefined;
-  // The factual diagram content stays intact; only its original theme tokens
-  // are mapped to this preview's palette. No production SVG is overwritten.
-  const palette: Record<string, string> = {
-    '#f4f1e8': '#ffffff',
-    '#fbfaf5': '#ffffff',
-    '#17241e': '#151519',
-    '#327871': '#2449ff',
-    '#536159': '#67676f',
-    '#eaf1ec': '#f0f2ff',
-    '#8fc3b9': '#bac6ff',
-  };
-  const themed = svg.replace(
-    /#[0-9a-f]{6}/gi,
-    (color) => palette[color.toLowerCase()] ?? color,
-  );
-  return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(themed)}`;
-}
 
 export function articleSummary(article: QiitaArticle): ArticleSummary {
-  const { id, title, tags, updatedAt, readingMinutes, qiitaUrl } = article;
-  return { id, title, tags, updatedAt, readingMinutes, qiitaUrl };
+  const { id, title, summary, tags, updatedAt, readingMinutes, qiitaUrl } =
+    article;
+  return { id, title, summary, tags, updatedAt, readingMinutes, qiitaUrl };
 }
 function projectSummary(project: Project): ProjectSummary {
-  const { slug, number, name, shortName, category, status, tagline } = project;
-  return { slug, number, name, shortName, category, status, tagline };
+  const {
+    slug,
+    number,
+    name,
+    shortName,
+    category,
+    status,
+    tagline,
+    summary,
+    languages,
+  } = project;
+  return {
+    slug,
+    number,
+    name,
+    shortName,
+    category,
+    status,
+    tagline,
+    summary,
+    languages,
+  };
 }
 export function getProjectCards() {
   return projects.map((project) => ({
@@ -70,8 +68,7 @@ export function getProjectData(slug: string) {
   const en = projectsEn.find((p) => p.slug === slug) ?? ja;
   const screenshot = (project: Project) =>
     project.image ? images['../../../public' + project.image.src] : undefined;
-  const architecture = (project: Project) =>
-    diagramForPreview(diagrams['../../../public' + project.architecture.src]);
+  const architecture = (project: Project) => `/roof${project.architecture.src}`;
   return {
     project: { ja, en },
     screenshots: { ja: screenshot(ja), en: screenshot(en) },

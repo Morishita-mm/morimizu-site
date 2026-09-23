@@ -3,7 +3,7 @@ import { AboutPage } from '@/dev-pages/workshop/site/about';
 export const metadata = {
   title: 'About — morimizu works',
   description:
-    'Meet Mizuki Morishita, a software engineer who enjoys personal projects and discussions with AI. Interests, values, and the tools I use.',
+    'Meet Mizuki Morishita, a software engineer who builds personal projects. My interests and the tools I use.',
   alternates: {
     canonical: '/en/about',
     languages: { 'ja-JP': '/about', 'en-US': '/en/about' },

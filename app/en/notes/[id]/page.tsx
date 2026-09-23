@@ -5,6 +5,7 @@ import { articleSummary } from '@/dev-pages/workshop/site/data';
 import NoteBody from '@/dev-pages/workshop/note-body';
 import { getQiitaArticle } from '@/lib/qiita-articles';
 export { generateStaticParams } from '@/app/notes/[id]/page';
+export { generateMetadata } from '@/app/notes/[id]/page';
 export const dynamicParams = false;
 export default async function Page({
   params,

@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Lissue system architecture</title>
+  <desc id="desc">Human and AI entry points share a clean application core, with SQLite for local operations and one JSON file per task for Git sharing.</desc>
+  <defs>
+    <marker id="arrow-jade" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M1 1L9 5L1 9" fill="none" stroke="#327871" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="arrow-ink" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M1 1L9 5L1 9" fill="none" stroke="#17241e" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <style>
+      .sans{font-family:-apple-system,BlinkMacSystemFont,"Noto Sans JP","Hiragino Sans",sans-serif}.serif{font-family:Georgia,"Times New Roman",serif}.mono{font-family:"SFMono-Regular",Consolas,"Liberation Mono",monospace}.ink{fill:#17241e}.soft{fill:#536159}.jade{fill:#327871}.rule{stroke:#17241e;stroke-opacity:.18;stroke-width:1}.surface{fill:#fbfaf5;stroke:#17241e;stroke-opacity:.28;stroke-width:1.5}.accent{fill:#eaf1ec;stroke:#327871;stroke-width:2}.nodeTitle{font-size:23px;font-weight:500}.nodeMeta{font-size:14px;letter-spacing:.02em}.micro{font-size:13px;letter-spacing:.13em}.flow{fill:none;stroke:#327871;stroke-width:2.4;stroke-linecap:round;marker-end:url(#arrow-jade)}.flowInk{fill:none;stroke:#17241e;stroke-width:1.8;stroke-linecap:round;stroke-opacity:.72;marker-end:url(#arrow-ink)}.sync{fill:none;stroke:#327871;stroke-width:1.8;stroke-linecap:round;stroke-dasharray:7 7;marker-end:url(#arrow-jade)}
+    </style>
+  </defs>
+  <rect width="1600" height="900" fill="#f4f1e8"/>
+  <circle cx="1485" cy="105" r="112" fill="none" stroke="#327871" stroke-opacity=".08" stroke-width="2"/>
+  <circle cx="1485" cy="105" r="72" fill="none" stroke="#327871" stroke-opacity=".08" stroke-width="2"/>
+  <circle cx="1485" cy="105" r="31" fill="none" stroke="#327871" stroke-opacity=".14" stroke-width="2"/>
+
+  <g class="mono micro soft">
+    <text x="56" y="52">01 / SYSTEM ARCHITECTURE</text>
+    <text x="1544" y="52" text-anchor="end">PUBLIC PRODUCT / v0.2.0</text>
+  </g>
+  <line x1="56" y1="76" x2="1544" y2="76" class="rule"/>
+  <text x="58" y="183" class="serif ink" font-size="112" font-weight="500">Lissue</text>
+  <text x="60" y="230" class="sans jade" font-size="25" font-weight="500">人とAIが、同じタスクをコードのそばで受け渡す。</text>
+
+  <g transform="translate(56 302)">
+    <text x="0" y="0" class="mono micro jade">ENTRY POINTS</text>
+    <rect x="0" y="34" width="252" height="130" rx="8" class="surface"/>
+    <circle cx="31" cy="71" r="8" fill="#327871"/>
+    <text x="54" y="78" class="sans ink nodeTitle">Developer</text>
+    <text x="28" y="115" class="mono soft nodeMeta">lissue tui</text>
+    <text x="28" y="140" class="mono soft nodeMeta">browse · edit · claim</text>
+
+    <rect x="0" y="204" width="252" height="130" rx="8" class="surface"/>
+    <path d="M24 241h14M31 234v14" stroke="#327871" stroke-width="2" stroke-linecap="round"/>
+    <text x="54" y="248" class="sans ink nodeTitle">AI agent</text>
+    <text x="28" y="285" class="mono soft nodeMeta">CLI / structured JSON</text>
+    <text x="28" y="310" class="mono soft nodeMeta">context · claim · sync</text>
+  </g>
+
+  <g transform="translate(385 300)">
+    <text x="0" y="0" class="mono micro jade">CLEAN APPLICATION CORE</text>
+    <rect x="0" y="34" width="520" height="336" rx="168" fill="#fbfaf5" stroke="#17241e" stroke-opacity=".22" stroke-width="1.5"/>
+    <rect x="54" y="79" width="412" height="246" rx="123" fill="#eaf1ec" stroke="#327871" stroke-opacity=".5" stroke-width="1.5"/>
+    <circle cx="260" cy="202" r="79" fill="#f4f1e8" stroke="#17241e" stroke-width="2"/>
+    <text x="260" y="186" text-anchor="middle" class="mono jade micro">DOMAIN</text>
+    <text x="260" y="219" text-anchor="middle" class="sans ink nodeTitle">Task</text>
+    <text x="260" y="244" text-anchor="middle" class="mono soft nodeMeta">UUID + local ID</text>
+    <text x="260" y="105" text-anchor="middle" class="mono soft nodeMeta">USE CASES</text>
+    <text x="260" y="297" text-anchor="middle" class="sans ink" font-size="17">add · claim · context · sync</text>
+    <text x="56" y="202" text-anchor="middle" class="mono soft nodeMeta" transform="rotate(-90 56 202)">PRESENTATION ADAPTERS</text>
+    <text x="464" y="202" text-anchor="middle" class="mono soft nodeMeta" transform="rotate(90 464 202)">REPOSITORY PORT</text>
+  </g>
+
+  <g transform="translate(1000 302)">
+    <text x="0" y="0" class="mono micro jade">HYBRID STORAGE</text>
+    <rect x="0" y="34" width="254" height="130" rx="8" class="accent"/>
+    <text x="26" y="78" class="sans ink nodeTitle">SQLite / WAL</text>
+    <text x="26" y="112" class="mono soft nodeMeta">.lissue/data.db</text>
+    <text x="26" y="138" class="mono soft nodeMeta">fast local query + update</text>
+
+    <rect x="0" y="204" width="254" height="130" rx="8" class="surface"/>
+    <text x="26" y="248" class="sans ink nodeTitle">JSON task files</text>
+    <text x="26" y="282" class="mono soft nodeMeta">1 task = 1 file</text>
+    <text x="26" y="308" class="mono soft nodeMeta">Git diff + merge</text>
+
+    <rect x="344" y="204" width="198" height="130" rx="65" fill="#17241e"/>
+    <text x="443" y="258" text-anchor="middle" class="mono" font-size="16" fill="#8fc3b9">SHARING LAYER</text>
+    <text x="443" y="291" text-anchor="middle" class="sans" font-size="24" font-weight="500" fill="#fbfaf5">Git</text>
+  </g>
+
+  <path d="M308 401C338 401 350 401 385 401" class="flow"/>
+  <path d="M308 571C338 571 350 536 385 536" class="flow"/>
+  <path d="M905 423C942 423 961 401 1000 401" class="flowInk"/>
+  <text x="953" y="390" text-anchor="middle" class="mono soft nodeMeta">local</text>
+  <path d="M905 521C942 521 961 571 1000 571" class="flowInk"/>
+  <text x="953" y="550" text-anchor="middle" class="mono soft nodeMeta">sync</text>
+  <path d="M1114 466C1114 486 1114 492 1114 506" class="sync"/>
+  <path d="M1140 506C1140 492 1140 486 1140 466" class="sync"/>
+  <text x="1184" y="490" class="mono soft nodeMeta">LWW</text>
+  <path d="M1254 571C1290 571 1311 571 1344 571" class="flow"/>
+  <text x="1298" y="553" text-anchor="middle" class="mono soft nodeMeta">track</text>
+
+  <line x1="56" y1="762" x2="1544" y2="762" class="rule"/>
+  <g class="mono micro soft">
+    <text x="56" y="807">DESIGN INTENT</text>
+    <text x="307" y="807">CLEAN CORE</text>
+    <text x="554" y="807">FAST LOCAL STATE</text>
+    <text x="846" y="807">ONE TASK / ONE FILE</text>
+    <text x="1184" y="807">GIT-FRIENDLY SHARING</text>
+  </g>
+  <circle cx="287" cy="802" r="4" fill="#327871"/>
+  <circle cx="534" cy="802" r="4" fill="#327871"/>
+  <circle cx="826" cy="802" r="4" fill="#327871"/>
+  <circle cx="1164" cy="802" r="4" fill="#327871"/>
+</svg>
