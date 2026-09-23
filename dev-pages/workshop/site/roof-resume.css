@@ -1,0 +1,125 @@
+/* The résumé uses the same open layout, paper, ink and rules as About. */
+.resume-page .resume-page-head{align-items:flex-end}
+.resume-print-controls{display:grid;grid-template-columns:repeat(2,max-content);justify-content:flex-end;gap:10px;flex-shrink:0}
+.resume-print-button{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-width:0;min-height:44px;border:1px solid var(--line);border-radius:0;background:none;padding:10px 14px;font:12px/1.5 'Noto Sans JP',sans-serif;color:var(--ink)}
+.resume-print-button .resume-print-icon{width:16px;height:16px;mask-image:url(/roof/file-text.svg)}
+.resume-print-button[data-print-orientation="landscape"] .resume-print-icon{transform:rotate(90deg)}
+.resume-print-button:hover{background:color-mix(in srgb,var(--ink) 5%,transparent)}
+.resume-intro{display:grid;grid-template-columns:210px minmax(0,1fr);gap:40px;padding:44px 0 48px;align-items:start}
+.resume-avatar{width:104px;height:104px;margin-top:5px}
+.resume-intro-copy{max-width:740px;min-width:0}
+.resume-intro h2{font-size:31px;font-weight:600;line-height:1.5;letter-spacing:.025em}
+.resume-profession{font-size:13px;line-height:1.7;color:var(--muted);margin-top:7px}
+.resume-summary{font-size:15px;line-height:2.05;margin-top:24px;text-wrap:pretty;overflow-wrap:anywhere}
+.resume-section{display:grid;grid-template-columns:210px minmax(0,1fr);gap:40px;border-top:1px solid var(--line);padding:38px 0 42px;scroll-margin-top:28px}
+.resume-section>h2{font-family:Barlow,sans-serif;font-weight:800;font-size:23px;line-height:1.6;letter-spacing:.01em}
+.resume-section-content{min-width:0}
+.resume-experience{border-bottom:1px solid var(--line)}
+.resume-experience:last-child{border:0}
+.resume-experience-summary{display:grid;grid-template-columns:minmax(0,1fr) 24px;column-gap:22px;list-style:none;cursor:pointer;padding:23px 0 25px;outline-offset:6px}
+.resume-experience:first-child>.resume-experience-summary{padding-top:0}
+.resume-experience-summary::-webkit-details-marker{display:none}
+.resume-experience-summary::marker{content:""}
+.resume-experience-summary:focus-visible{outline:2px solid var(--ink)}
+.resume-period{font-size:11px;line-height:1.7;letter-spacing:.015em;font-variant-numeric:tabular-nums;color:var(--muted)}
+.resume-experience-summary h3{grid-column:1;font-size:21px;font-weight:500;line-height:1.7;margin-top:10px;overflow-wrap:anywhere;text-wrap:pretty}
+.resume-experience-summary:hover h3{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:5px}
+.resume-role{grid-column:1;font-size:13px;line-height:1.9;margin-top:8px;color:var(--muted)}
+.resume-disclosure{grid-column:2;grid-row:1 / span 3;align-self:center;justify-self:end;display:flex;align-items:center}
+.resume-disclosure .icon{width:19px;height:19px;transform:rotate(90deg);transition:transform .2s}
+.resume-experience[open] .resume-disclosure .icon{transform:rotate(-90deg)}
+.resume-entry-details{padding:0 30px 25px 0}
+.resume-entry-details ul{margin:0;padding-left:20px;max-width:730px;font-size:14px;line-height:2}
+.resume-entry-details li{padding-left:3px;margin:0 0 12px;overflow-wrap:anywhere}
+.resume-entry-details li:last-child{margin-bottom:0}
+.resume-entry-details li::marker{color:var(--muted);font-size:.8em}
+.resume-skills{display:flex;flex-wrap:wrap;gap:14px 28px;padding:5px 0 0;margin:0;list-style:none;max-width:690px}
+.resume-skills li{font-size:16px;line-height:1.75;border-bottom:1px solid var(--line);padding-bottom:3px}
+.resume-education{display:grid;gap:28px}
+.resume-education h3{font-size:20px;font-weight:500;line-height:1.7;margin:8px 0}
+.resume-education article>p:last-child{font-size:14px;line-height:1.9;color:var(--muted)}
+.resume-languages,.resume-contacts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:25px 36px;margin:0}
+.resume-languages dt{font-size:16px;line-height:1.8}
+.resume-languages dd{margin:7px 0 0;font-size:13px;line-height:1.9;color:var(--muted)}
+.resume-contacts dt{font-size:10px;line-height:1.6;letter-spacing:.08em;color:var(--muted)}
+.resume-contacts dd{margin:8px 0 0;font-size:14px;line-height:1.9;overflow-wrap:anywhere}
+.resume-contacts a{text-decoration:underline;text-decoration-thickness:1px;text-decoration-color:var(--line);text-underline-offset:4px}
+.resume-contacts a:hover{text-decoration-color:var(--ink)}
+.resume-page .resume-return{margin-top:0}
+@media(max-width:1050px){
+  .resume-intro,.resume-section{grid-template-columns:170px minmax(0,1fr);gap:30px}
+  .resume-experience-summary h3{font-size:20px}
+  .resume-languages,.resume-contacts{gap:24px}
+}
+@media(max-width:800px){
+  .resume-intro{grid-template-columns:110px minmax(0,1fr);gap:28px}
+  .resume-section{grid-template-columns:1fr;gap:25px}
+  .resume-avatar{width:96px;height:96px}
+}
+@media(max-width:700px){
+  .resume-page .resume-page-head{align-items:flex-start;flex-direction:column;gap:23px}
+  .resume-print-controls{width:100%;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+  .resume-print-button{padding:10px 12px;font-size:11px}
+  .resume-intro{grid-template-columns:1fr;gap:22px;padding:32px 0}
+  .resume-avatar{width:88px;height:88px;margin:0}
+  .resume-intro h2{font-size:27px}
+  .resume-summary{font-size:14px;line-height:2.05;margin-top:22px}
+  .resume-section{padding:30px 0;gap:23px}
+  .resume-section>h2{font-size:22px}
+  .resume-experience-summary{column-gap:13px;padding:21px 0}
+  .resume-experience-summary h3{font-size:18px;line-height:1.8}
+  .resume-period{font-size:10px}
+  .resume-role{font-size:12px;line-height:1.85;margin-top:8px}
+  .resume-disclosure .icon{width:17px;height:17px}
+  .resume-entry-details{padding:0 0 22px}
+  .resume-entry-details ul{font-size:13px;line-height:2.05;padding-left:17px}
+  .resume-entry-details li{padding-left:2px}
+  .resume-skills{gap:12px 23px;padding-top:0}
+  .resume-skills li{font-size:15px}
+  .resume-education{gap:25px}
+  .resume-education h3{font-size:18px}
+  .resume-education article>p:last-child{font-size:13px}
+  .resume-languages,.resume-contacts{grid-template-columns:1fr;gap:22px}
+  .resume-languages dt{font-size:15px}
+  .resume-contacts dd{font-size:13px}
+}
+@page{size:A4 portrait;margin:12mm 13mm}
+@media print{
+  :root,body{--bg:#fff!important;--ink:#111!important;--muted:#444!important;--line:#bbb!important;--transition-edge:0!important;color-scheme:light!important;background:#fff!important;color:#111!important;text-shadow:none!important}
+  *,*::before,*::after{animation:none!important;transition:none!important;box-shadow:none!important;text-shadow:none!important}
+  .site-header,.site-footer,.breadcrumbs,.skip,.resume-print-controls,.resume-return,.resume-disclosure{display:none!important}
+  .page-main.wrap{width:100%;max-width:none;min-height:0;padding:0;margin:0}
+  .resume-page .resume-page-head{padding:0 0 6mm;display:block;break-after:avoid}
+  .resume-page .resume-page-head .eyebrow,.resume-page .resume-page-head .page-description{display:none}
+  .resume-page .resume-page-head .page-title{font-size:31pt;line-height:1;margin:0}
+  .resume-intro{display:grid;grid-template-columns:20mm minmax(0,1fr);gap:6mm;padding:7mm 0;break-inside:avoid}
+  .resume-avatar{width:18mm;height:18mm;margin:0}
+  .resume-intro h2{font-size:17pt;line-height:1.4}
+  .resume-profession{font-size:9pt;line-height:1.5;margin-top:1mm}
+  .resume-summary{font-size:9pt;line-height:1.65;margin-top:3mm;max-width:none}
+  .resume-section{display:block;padding:5mm 0;border-color:#bbb;break-inside:auto}
+  .resume-section>h2{font-size:14pt;line-height:1.3;margin:0 0 4mm;break-after:avoid}
+  .resume-experience{break-inside:auto}
+  .resume-experience-summary{display:block;padding:4mm 0 3mm;cursor:default;break-after:avoid}
+  .resume-experience-summary h3{font-size:11pt;line-height:1.55;margin-top:1.5mm;text-decoration:none}
+  .resume-period{font-size:8pt;line-height:1.5}
+  .resume-role{font-size:8.5pt;line-height:1.5;margin-top:1mm}
+  .resume-entry-details{padding:0 0 4mm}
+  .resume-entry-details ul{font-size:9pt;line-height:1.65;max-width:none;padding-left:4mm}
+  .resume-entry-details li{margin-bottom:2mm;padding-left:1mm;break-inside:avoid;orphans:3;widows:3}
+  .resume-skills{gap:2mm 6mm;max-width:none;padding:0}
+  .resume-skills li{font-size:9.5pt;line-height:1.5;padding-bottom:1mm;break-inside:avoid}
+  .resume-education{display:block}
+  .resume-education article{margin-bottom:4mm;break-inside:avoid}
+  .resume-education article:last-child{margin:0}
+  .resume-education h3{font-size:11pt;line-height:1.5;margin:1mm 0}
+  .resume-education article>p:last-child{font-size:9pt;line-height:1.6}
+  .resume-languages,.resume-contacts{grid-template-columns:repeat(2,minmax(0,1fr));gap:4mm 8mm}
+  .resume-languages>div,.resume-contacts>div{break-inside:avoid}
+  .resume-languages dt{font-size:10pt;line-height:1.5}
+  .resume-languages dd{font-size:9pt;line-height:1.5;margin-top:1mm}
+  .resume-contacts dt{font-size:8pt}
+  .resume-contacts dd{font-size:9pt;line-height:1.6;margin-top:1mm}
+  .resume-contacts a{text-decoration:none}
+}
+.resume-print-controls{border:0;margin:0;padding:0;min-width:0}

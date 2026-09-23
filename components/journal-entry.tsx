@@ -1,9 +1,15 @@
 /* oxlint-disable next/no-html-link-for-pages */
+import '@/app/journal/roof-journal.css';
 import type { ReactNode } from 'react';
 import { SiteShell } from '@/dev-pages/workshop/site/shell';
 import { MarkdownArticle } from '@/components/markdown-article';
 import { journalKinds, type JournalEntry } from '@/lib/journal/types';
 import { getProject } from '@/lib/projects';
+import { ArticleReading } from '@/dev-pages/workshop/site/article-reading';
+import {
+  RoofArrow,
+  RoofBreadcrumbs,
+} from '@/dev-pages/workshop/site/roof-page-components';
 import { JournalAuthorshipBadge } from './journal-authorship';
 export function JournalEntryView({
   entry,
@@ -17,18 +23,26 @@ export function JournalEntryView({
   return (
     <SiteShell path="/journal">
       {before}
-      <article className="e-article shell journal" lang={entry.language}>
-        <a className="e-back" href="/journal">
-          ← Notes / Journal
-        </a>
-        <header>
-          <p className="e-kicker">
+      <article
+        className="wrap page-main roof-article journal"
+        lang={entry.language}
+      >
+        <RoofBreadcrumbs
+          items={[
+            { label: 'HOME', href: '/' },
+            { label: 'NOTES', href: '/notes' },
+            { label: 'Journal', href: '/journal' },
+            { label: '記事' },
+          ]}
+        />
+        <header className="detail-head article-head">
+          <p className="eyebrow">
             {journalKinds[entry.kind]} /{' '}
             {entry.language === 'ja' ? '日本語' : 'English'}
           </p>
-          <h1>{entry.title}</h1>
+          <h1 className="article-title">{entry.title}</h1>
           <p className="journal-summary">{entry.summary}</p>
-          <div className="journal-meta">
+          <div className="detail-metadata">
             <span>
               {entry.publishedAt ? (
                 <>
@@ -43,7 +57,7 @@ export function JournalEntryView({
               更新 <time dateTime={entry.updatedAt}>{entry.updatedAt}</time>
             </span>
           </div>
-          <div className="e-tags">
+          <div className="tag-list">
             {entry.tags.map((tag) => (
               <span key={tag}>{tag}</span>
             ))}
@@ -95,7 +109,9 @@ export function JournalEntryView({
             </dl>
           </aside>
         )}
-        <MarkdownArticle content={entry.content} />
+        <ArticleReading>
+          <MarkdownArticle content={entry.content} />
+        </ArticleReading>
         {related.length > 0 && (
           <nav className="journal-related" aria-label="関連する記録">
             <h2>関連する記録</h2>
@@ -111,9 +127,11 @@ export function JournalEntryView({
             </ul>
           </nav>
         )}
-        <a className="e-outline-link" href="/journal">
-          Notes / Journal一覧に戻る →
-        </a>
+        <div className="page-return">
+          <a className="text-link" href="/journal">
+            Notes / Journal一覧に戻る <RoofArrow />
+          </a>
+        </div>
       </article>
     </SiteShell>
   );

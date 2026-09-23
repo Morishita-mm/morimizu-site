@@ -31,6 +31,7 @@
     "prejournal:preview": "npm run build",
     "journal:preview": "node scripts/journal-preview.mjs",
     "test:content": "node --test scripts/content/*.test.mjs",
+    "test:roof": "node --test components/roof-home/*.test.mjs components/roof/*.test.mjs",
     "benchmark:content": "node scripts/benchmark-content.mjs",
     "test:content:browser": "node scripts/verify-content-runtime.mjs",
     "journal:new": "node scripts/journal-new.mjs"

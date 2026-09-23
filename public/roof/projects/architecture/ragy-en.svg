@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="architecture-title architecture-description">
+<title id="architecture-title">Ragy</title>
+<desc id="architecture-description">Ragy architecture where document ingestion and query runtime converge on local Dify retrieval backed by Redis and Ollama.</desc>
+<defs>
+<marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M1,1 L9,4 L1,7" fill="none" stroke="#151519" stroke-width="1.4" stroke-linecap="square" stroke-linejoin="miter"/></marker>
+<marker id="arrow-accent" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M1,1 L9,4 L1,7" fill="none" stroke="#2449FF" stroke-width="1.4" stroke-linecap="square" stroke-linejoin="miter"/></marker>
+</defs>
+<rect width="1600" height="900" fill="#FFFFFF"/>
+<line x1="56" y1="64" x2="1544" y2="64" stroke="#E0E0E5" stroke-width="1"/>
+<text x="56" y="44" fill="#67676F" font-size="10" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="500" text-anchor="start" letter-spacing="0.14em">03 / SYSTEM ARCHITECTURE</text>
+<text x="1544" y="44" fill="#67676F" font-size="10" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="500" text-anchor="end" letter-spacing="0.14em">SOURCE-GROUNDED / CLI v0.2.1</text>
+<text x="56" y="150" fill="#151519" font-size="72" font-family="Georgia, &#x27;Times New Roman&#x27;, serif" font-weight="400" text-anchor="start">Ragy</text>
+<text x="58" y="196" fill="#2449FF" font-size="21" font-family="Inter, &#x27;Noto Sans JP&#x27;, -apple-system, BlinkMacSystemFont, &#x27;Segoe UI&#x27;, sans-serif" font-weight="600" text-anchor="start">Local document sync and queries converge on one RAG backbone.</text>
+<text x="300" y="220" fill="#67676F" font-size="10" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="650" text-anchor="middle" letter-spacing="0.1em">SOURCE / ACTOR</text>
+<line x1="413.5" y1="240" x2="413.5" y2="814" stroke="#E0E0E5" stroke-width="0.8" stroke-dasharray="2 8"/>
+<text x="527" y="220" fill="#67676F" font-size="10" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="650" text-anchor="middle" letter-spacing="0.1em">INTERFACE</text>
+<line x1="640.5" y1="240" x2="640.5" y2="814" stroke="#E0E0E5" stroke-width="0.8" stroke-dasharray="2 8"/>
+<text x="754" y="220" fill="#67676F" font-size="10" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="650" text-anchor="middle" letter-spacing="0.1em">ORCHESTRATION</text>
+<line x1="867.5" y1="240" x2="867.5" y2="814" stroke="#E0E0E5" stroke-width="0.8" stroke-dasharray="2 8"/>
+<text x="981" y="220" fill="#67676F" font-size="10" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="650" text-anchor="middle" letter-spacing="0.1em">STATE</text>
+<line x1="1094.5" y1="240" x2="1094.5" y2="814" stroke="#E0E0E5" stroke-width="0.8" stroke-dasharray="2 8"/>
+<text x="1208" y="220" fill="#67676F" font-size="10" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="650" text-anchor="middle" letter-spacing="0.1em">RETRIEVAL</text>
+<line x1="1321.5" y1="240" x2="1321.5" y2="814" stroke="#E0E0E5" stroke-width="0.8" stroke-dasharray="2 8"/>
+<text x="1435" y="220" fill="#67676F" font-size="10" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="650" text-anchor="middle" letter-spacing="0.1em">LOCAL MODEL</text>
+<line x1="56" y1="326" x2="1544" y2="326" stroke="#E0E0E5" stroke-width="0.8"/>
+<text x="56" y="312" fill="#2449FF" font-size="11" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="650" text-anchor="start" letter-spacing="0.12em">01 / DOCUMENT INGESTION</text>
+<line x1="56" y1="531" x2="1544" y2="531" stroke="#E0E0E5" stroke-width="0.8"/>
+<text x="56" y="517" fill="#2449FF" font-size="11" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="650" text-anchor="start" letter-spacing="0.12em">02 / LOCAL RAG BACKBONE</text>
+<line x1="56" y1="736" x2="1544" y2="736" stroke="#E0E0E5" stroke-width="0.8"/>
+<text x="56" y="722" fill="#2449FF" font-size="11" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="650" text-anchor="start" letter-spacing="0.12em">03 / QUERY RUNTIME</text>
+<g id="edge-documents-watcher-0" data-edge-kind="event" data-route-axis="horizontal">
+<path d="M 387.5 326 H 439.5" fill="none" stroke="#2449FF" stroke-width="1.4" stroke-dasharray="7 6" stroke-linecap="square" stroke-linejoin="miter" marker-end="url(#arrow-accent)"/>
+<rect x="384.2" y="300" width="58.6" height="18" rx="2" fill="#FFFFFF"/>
+<text x="413.5" y="313" fill="#67676F" font-size="11" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="500" text-anchor="middle">change</text>
+</g>
+<g id="edge-watcher-worker-1" data-edge-kind="event" data-route-axis="horizontal">
+<path d="M 614.5 326 H 666.5" fill="none" stroke="#2449FF" stroke-width="1.4" stroke-dasharray="7 6" stroke-linecap="square" stroke-linejoin="miter" marker-end="url(#arrow-accent)"/>
+<rect x="604.1" y="300" width="72.8" height="18" rx="2" fill="#FFFFFF"/>
+<text x="640.5" y="313" fill="#67676F" font-size="11" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="500" text-anchor="middle">sync job</text>
+</g>
+<g id="edge-worker-redis-2" data-edge-kind="state-update" data-route-axis="vertical">
+<path d="M 754 374 V 428.5 H 981 V 483" fill="none" stroke="#151519" stroke-width="1.4" stroke-dasharray="7 6" stroke-linecap="square" stroke-linejoin="miter" marker-end="url(#arrow)"/>
+<rect x="834.65" y="406.5" width="65.7" height="18" rx="2" fill="#FFFFFF"/>
+<text x="867.5" y="419.5" fill="#67676F" font-size="11" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="500" text-anchor="middle">enqueue</text>
+</g>
+<g id="edge-redis-dify-3" data-edge-kind="data" data-route-axis="horizontal">
+<path d="M 1068.5 531 H 1120.5" fill="none" stroke="#151519" stroke-width="1.4" stroke-linecap="square" stroke-linejoin="miter" marker-end="url(#arrow)"/>
+<rect x="1022.6" y="505" width="143.8" height="18" rx="2" fill="#FFFFFF"/>
+<text x="1094.5" y="518" fill="#67676F" font-size="11" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="500" text-anchor="middle">index / cache miss</text>
+</g>
+<g id="edge-dify-ollama-4" data-edge-kind="query" data-route-axis="horizontal">
+<path d="M 1295.5 531 H 1347.5" fill="none" stroke="#151519" stroke-width="1.4" stroke-linecap="square" stroke-linejoin="miter" marker-end="url(#arrow)"/>
+<rect x="1256.7" y="505" width="129.6" height="18" rx="2" fill="#FFFFFF"/>
+<text x="1321.5" y="518" fill="#67676F" font-size="11" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="500" text-anchor="middle">embed / generate</text>
+</g>
+<g id="edge-developer-mcp-5" data-edge-kind="query" data-route-axis="horizontal">
+<path d="M 387.5 736 H 439.5" fill="none" stroke="#2449FF" stroke-width="1.4" stroke-linecap="square" stroke-linejoin="miter" marker-end="url(#arrow-accent)"/>
+<rect x="377.1" y="710" width="72.8" height="18" rx="2" fill="#FFFFFF"/>
+<text x="413.5" y="723" fill="#67676F" font-size="11" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="500" text-anchor="middle">question</text>
+</g>
+<g id="edge-mcp-search-6" data-edge-kind="query" data-route-axis="horizontal">
+<path d="M 614.5 736 H 666.5" fill="none" stroke="#2449FF" stroke-width="1.4" stroke-linecap="square" stroke-linejoin="miter" marker-end="url(#arrow-accent)"/>
+<rect x="611.2" y="710" width="58.6" height="18" rx="2" fill="#FFFFFF"/>
+<text x="640.5" y="723" fill="#67676F" font-size="11" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="500" text-anchor="middle">search</text>
+</g>
+<g id="edge-search-redis-7" data-edge-kind="query" data-route-axis="vertical">
+<path d="M 754 688 V 633.5 H 981 V 579" fill="none" stroke="#151519" stroke-width="1.4" stroke-linecap="square" stroke-linejoin="miter" marker-end="url(#arrow)"/>
+<rect x="841.75" y="611.5" width="51.5" height="18" rx="2" fill="#FFFFFF"/>
+<text x="867.5" y="624.5" fill="#67676F" font-size="11" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="500" text-anchor="middle">cache</text>
+</g>
+<g id="component-documents" data-component-id="documents" data-kind="file">
+<rect x="212.5" y="278" width="175" height="96" rx="4" fill="#FFFFFF" stroke="#E0E0E5" stroke-width="1.4"/>
+<text x="300" y="319" fill="#242429" font-size="22" font-family="Inter, &#x27;Noto Sans JP&#x27;, -apple-system, BlinkMacSystemFont, &#x27;Segoe UI&#x27;, sans-serif" font-weight="650" text-anchor="middle">Docs / code</text>
+<text x="300" y="347" fill="#67676F" font-size="11.01" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="400" text-anchor="middle">Markdown · PDF · Office</text>
+</g>
+<g id="component-watcher" data-component-id="watcher" data-kind="service">
+<rect x="439.5" y="278" width="175" height="96" rx="4" fill="#FFFFFF" stroke="#E0E0E5" stroke-width="1.4"/>
+<text x="527" y="319" fill="#242429" font-size="22" font-family="Inter, &#x27;Noto Sans JP&#x27;, -apple-system, BlinkMacSystemFont, &#x27;Segoe UI&#x27;, sans-serif" font-weight="650" text-anchor="middle">Sync watcher</text>
+<text x="527" y="347" fill="#67676F" font-size="9.38" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="400" text-anchor="middle">hash-based change detection</text>
+</g>
+<g id="component-worker" data-component-id="worker" data-kind="service">
+<rect x="666.5" y="278" width="175" height="96" rx="4" fill="#FFFFFF" stroke="#E0E0E5" stroke-width="1.4"/>
+<text x="754" y="319" fill="#242429" font-size="22" font-family="Inter, &#x27;Noto Sans JP&#x27;, -apple-system, BlinkMacSystemFont, &#x27;Segoe UI&#x27;, sans-serif" font-weight="650" text-anchor="middle">Sync worker</text>
+<text x="754" y="347" fill="#67676F" font-size="12" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="400" text-anchor="middle">Redis job queue</text>
+</g>
+<g id="component-redis" data-component-id="redis" data-kind="queue">
+<rect x="893.5" y="483" width="175" height="96" rx="4" fill="#F0F2FF" stroke="#2449FF" stroke-width="1.4"/>
+<text x="981" y="524" fill="#242429" font-size="22" font-family="Inter, &#x27;Noto Sans JP&#x27;, -apple-system, BlinkMacSystemFont, &#x27;Segoe UI&#x27;, sans-serif" font-weight="650" text-anchor="middle">Redis</text>
+<text x="981" y="552" fill="#67676F" font-size="12" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="400" text-anchor="middle">jobs · semantic cache</text>
+</g>
+<g id="component-dify" data-component-id="dify" data-kind="service">
+<rect x="1120.5" y="483" width="175" height="96" rx="4" fill="#F0F2FF" stroke="#2449FF" stroke-width="1.4"/>
+<text x="1208" y="524" fill="#242429" font-size="22" font-family="Inter, &#x27;Noto Sans JP&#x27;, -apple-system, BlinkMacSystemFont, &#x27;Segoe UI&#x27;, sans-serif" font-weight="650" text-anchor="middle">Dify RAG</text>
+<text x="1208" y="552" fill="#67676F" font-size="10.55" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="400" text-anchor="middle">chunk · index · retrieve</text>
+</g>
+<g id="component-ollama" data-component-id="ollama" data-kind="external">
+<rect x="1347.5" y="483" width="175" height="96" rx="18" fill="#151519" stroke="#151519" stroke-width="1.4"/>
+<text x="1435" y="524" fill="#FFFFFF" font-size="22" font-family="Inter, &#x27;Noto Sans JP&#x27;, -apple-system, BlinkMacSystemFont, &#x27;Segoe UI&#x27;, sans-serif" font-weight="650" text-anchor="middle">Ollama</text>
+<text x="1435" y="552" fill="#F0F2FF" font-size="11.51" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="400" text-anchor="middle">embedding · generation</text>
+</g>
+<g id="component-developer" data-component-id="developer" data-kind="actor">
+<rect x="212.5" y="688" width="175" height="96" rx="4" fill="#FFFFFF" stroke="#E0E0E5" stroke-width="1.4"/>
+<text x="300" y="729" fill="#242429" font-size="17.18" font-family="Inter, &#x27;Noto Sans JP&#x27;, -apple-system, BlinkMacSystemFont, &#x27;Segoe UI&#x27;, sans-serif" font-weight="650" text-anchor="middle">Developer / agent</text>
+<text x="300" y="757" fill="#67676F" font-size="12" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="400" text-anchor="middle">local search</text>
+</g>
+<g id="component-mcp" data-component-id="mcp" data-kind="service">
+<rect x="439.5" y="688" width="175" height="96" rx="4" fill="#FFFFFF" stroke="#E0E0E5" stroke-width="1.4"/>
+<text x="527" y="729" fill="#242429" font-size="22" font-family="Inter, &#x27;Noto Sans JP&#x27;, -apple-system, BlinkMacSystemFont, &#x27;Segoe UI&#x27;, sans-serif" font-weight="650" text-anchor="middle">CLI / MCP</text>
+<text x="527" y="757" fill="#67676F" font-size="12" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="400" text-anchor="middle">JSON · text</text>
+</g>
+<g id="component-search" data-component-id="search" data-kind="service">
+<rect x="666.5" y="688" width="175" height="96" rx="4" fill="#FFFFFF" stroke="#E0E0E5" stroke-width="1.4"/>
+<text x="754" y="729" fill="#242429" font-size="14.76" font-family="Inter, &#x27;Noto Sans JP&#x27;, -apple-system, BlinkMacSystemFont, &#x27;Segoe UI&#x27;, sans-serif" font-weight="650" text-anchor="middle">Search orchestrator</text>
+<text x="754" y="757" fill="#67676F" font-size="12" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="400" text-anchor="middle">cache · RAG request</text>
+</g>
+<line x1="56" y1="788" x2="1544" y2="788" stroke="#E0E0E5" stroke-width="1"/>
+<circle cx="270" cy="828" r="4" fill="#2449FF"/>
+<text x="288" y="832" fill="#67676F" font-size="10" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="500" text-anchor="start" letter-spacing="0.1em">LOCAL-FIRST</text>
+<circle cx="683.33" cy="828" r="4" fill="#2449FF"/>
+<text x="701.33" y="832" fill="#67676F" font-size="10" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="500" text-anchor="start" letter-spacing="0.1em">INCREMENTAL SYNC</text>
+<circle cx="1096.67" cy="828" r="4" fill="#2449FF"/>
+<text x="1114.67" y="832" fill="#67676F" font-size="10" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="500" text-anchor="start" letter-spacing="0.1em">HYBRID RETRIEVAL</text>
+</svg>

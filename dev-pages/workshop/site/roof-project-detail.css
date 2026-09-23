@@ -1,0 +1,86 @@
+/* A consistent chapter rhythm, scoped to product stories. */
+.work-detail-page .detail-head{padding-bottom:36px}
+.work-detail-page .detail-summary{max-width:720px}
+.work-detail-page .project-figure{padding:24px;margin:32px 0 48px}
+.work-detail-page .detail-grid{grid-template-columns:minmax(0,1fr) 190px;gap:64px;align-items:start;margin-top:0}
+.work-detail-page .project-story{display:block;min-width:0;padding:0;border:0}
+.work-detail-page .project-chapter,.work-detail-page .chapter-content{min-width:0;max-width:100%}
+.project-story .project-chapter{border-top:1px solid var(--line);padding:34px 0 46px;scroll-margin-top:28px}
+.project-story .chapter-heading{display:flex;align-items:baseline;gap:18px;margin-bottom:23px}
+.chapter-number{font:500 14px/1.5 'Noto Sans JP',sans-serif;font-variant-numeric:tabular-nums;color:var(--muted)}
+.project-story .chapter-heading h2{font-family:Barlow,sans-serif;font-weight:800;font-size:36px;line-height:1.15;letter-spacing:.01em;margin:0;color:var(--ink)}
+.project-story .chapter-content>p{font-size:16px;line-height:2.05;max-width:42em;margin:0;color:var(--ink)}
+.project-story .flow-list{margin:0;padding:0;gap:16px;list-style:none;counter-reset:step}
+.project-story .flow-list>li{margin:0;padding:21px 23px;border:0;background:color-mix(in srgb,var(--ink) 4%,var(--bg));min-width:0}
+.project-story .flow-list h3{font-size:18px;line-height:1.5;margin:10px 0 12px;font-weight:500}
+.project-story .flow-list p{font-size:14px;line-height:1.9;margin:0;color:var(--muted)}
+.project-story .architecture-figure{margin:0;background:#fff;border-color:var(--line)}
+.project-story .decision-list{border-top:1px solid var(--line)}
+.project-story .decision-list>section{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:28px;padding:25px 0;border-top:0;border-bottom:1px solid var(--line)}
+.project-story .decision-list h3{font-size:18px;line-height:1.6;font-weight:500;margin:0}
+.project-story .decision-list p{font-size:14px;line-height:1.95;color:var(--muted);margin:0}
+.project-story .evidence-list{margin:0;padding:0;list-style:none}
+.project-story .evidence-list li{border-top:1px solid var(--line);padding:17px 0;margin:0;font-size:15px;line-height:1.9}
+.project-story .evidence-list li:last-child{border-bottom:1px solid var(--line)}
+.project-next{margin-top:27px;padding:24px 27px;background:color-mix(in srgb,var(--ink) 4%,var(--bg))}
+.project-story .project-next h3{font-family:Barlow,sans-serif;font-size:22px;line-height:1.3;letter-spacing:.03em;margin:0 0 15px}
+.project-story .project-next ul{margin:0;padding-left:18px;font-size:14px;line-height:1.9}
+.project-story .project-next li{margin:8px 0;padding-left:4px}
+.work-detail-page .detail-aside{padding-top:0}
+.project-toc{color:var(--muted)}
+.project-toc summary{font:700 16px/1.6 Barlow,sans-serif;letter-spacing:.04em;padding:12px 0 16px;border-top:1px solid var(--line)}
+.project-toc .toc-list{margin-top:10px!important;max-height:none;overflow:visible}
+.project-toc .toc-list a{display:flex;align-items:baseline;gap:12px;line-height:1.6;font-size:11px;padding:10px 0}
+.project-toc .toc-list a>span{font-size:10px;opacity:.65;font-variant-numeric:tabular-nums}
+.project-toc .toc-list a[aria-current=true]{color:var(--ink);font-weight:600;text-underline-offset:5px}
+.project-facts{margin-top:30px}
+.project-facts>h2{font:700 16px/1.6 Barlow,sans-serif;letter-spacing:.04em;margin-bottom:12px}
+.project-facts .facts-list{margin:0}
+.project-facts .facts-list>div{padding:13px 0}
+.project-facts .facts-list dd{font-size:12px;line-height:1.8;margin-top:5px}
+@media(max-width:1050px){
+ .work-detail-page .detail-grid{grid-template-columns:minmax(0,1fr) 180px;gap:36px}
+ .project-story .chapter-heading h2{font-size:32px}
+ .project-story .decision-list>section{gap:24px}
+}
+@media(max-width:800px){
+ .work-detail-page .detail-grid{display:flex;flex-direction:column;gap:26px}
+ .work-detail-page .detail-aside{width:100%;display:flex;flex-direction:column;gap:22px}
+ .project-toc{padding-bottom:0}
+ .project-toc summary{padding:12px 0;border-top:0}
+ .project-toc .toc-list{display:grid;grid-template-columns:1fr 1fr;gap:0 25px;padding-bottom:15px!important}
+ .project-facts{margin:0;order:-1}
+ .project-facts>h2{display:none}
+ .project-facts .facts-list{margin:0}
+ .project-facts .facts-list>div{padding:15px 0 0}
+ .work-detail-page .project-figure{margin-bottom:30px}
+}
+@media(max-width:700px){
+ .work-detail-page .detail-head{padding-bottom:28px}
+ .work-detail-page .project-figure{padding:12px;margin:26px 0}
+ .project-story .project-chapter{padding:27px 0 35px;scroll-margin-top:22px}
+ .project-story .chapter-heading{gap:14px;margin-bottom:21px}
+ .project-story .chapter-heading h2{font-size:30px;line-height:1.2}
+ .chapter-number{font-size:12px}
+ .project-story .chapter-content>p{font-size:15px;line-height:2}
+ .project-story .flow-list{gap:12px;grid-template-columns:1fr}
+ .project-story .flow-list>li{padding:20px}
+ .project-story .decision-list>section{grid-template-columns:1fr;gap:12px;padding:22px 0}
+ .project-story .decision-list h3{font-size:18px}
+ .project-story .evidence-list li{font-size:14px}
+ .project-next{padding:21px;margin-top:24px}
+ .project-facts .facts-list{gap:16px}
+ .project-facts .facts-list dd{font-size:11px}
+}
+
+/* Japanese supporting headings follow the body type, below English chapters. */
+:lang(ja) .project-next h3{font-family:'Noto Sans JP',sans-serif;font-size:18px;font-weight:500;letter-spacing:0;line-height:1.6}
+:lang(ja) .project-toc summary,:lang(ja) .project-facts>h2{font-family:'Noto Sans JP',sans-serif;font-size:14px;font-weight:500;letter-spacing:0}
+
+/* Wide system diagrams stay legible and remain keyboard-scrollable. */
+.roof-diagram-scroll{overflow-x:auto;max-width:100%;overscroll-behavior-inline:contain;scrollbar-width:thin}
+.roof-diagram-scroll:focus-visible{outline:2px solid var(--ink);outline-offset:-2px}
+.project-story .architecture-figure .roof-diagram-scroll img{width:100%;min-width:720px;max-width:none;margin:0}
+.roof-diagram-hint{font-size:11px;line-height:1.7;color:#536970;padding:10px 16px;border-top:1px solid #c5cecd}
+.work-detail-page .detail-grid{margin-top:40px}
+.work-detail-page .project-figure+.detail-grid{margin-top:0}

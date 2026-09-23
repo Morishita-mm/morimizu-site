@@ -24,18 +24,28 @@ export const dynamic = 'force-dynamic';
 export default async function JournalPage({
   searchParams,
 }: {
-  searchParams: Promise<{ before?: string; sort?: string }>;
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
   const params = await searchParams;
   const sort = params.sort === 'asc' ? 'asc' : 'desc';
-  const { entries, next } = await getJournalEntries(params.before, sort);
+  const before = typeof params.before === 'string' ? params.before : undefined;
+  const { entries, next } = await getJournalEntries(before, sort);
+  const query = new URLSearchParams();
+  for (const [key, value] of Object.entries(params)) {
+    if (Array.isArray(value)) for (const item of value) query.append(key, item);
+    else if (value !== undefined) query.set(key, value);
+  }
   return (
-    <SiteShell path="/journal">
+    <SiteShell
+      path="/journal"
+      initialLocale={params.lang === 'en' ? 'en' : 'ja'}
+    >
       <NotesContent
         articles={getAllQiitaArticles().map(articleSummary)}
         initialSection="journal"
         initialJournal={{ entries, next }}
         initialSort={sort}
+        initialJournalQuery={query.toString()}
       />
     </SiteShell>
   );

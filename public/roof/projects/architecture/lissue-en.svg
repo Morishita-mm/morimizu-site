@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="architecture-title architecture-description">
+<title id="architecture-title">Lissue</title>
+<desc id="architecture-description">Lissue architecture showing human and agent work converging on task use cases, SQLite, JSON exchange, and Git sharing.</desc>
+<defs>
+<marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M1,1 L9,4 L1,7" fill="none" stroke="#151519" stroke-width="1.4" stroke-linecap="square" stroke-linejoin="miter"/></marker>
+<marker id="arrow-accent" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M1,1 L9,4 L1,7" fill="none" stroke="#2449FF" stroke-width="1.4" stroke-linecap="square" stroke-linejoin="miter"/></marker>
+</defs>
+<rect width="1600" height="900" fill="#FFFFFF"/>
+<line x1="56" y1="64" x2="1544" y2="64" stroke="#E0E0E5" stroke-width="1"/>
+<text x="56" y="44" fill="#67676F" font-size="10" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="500" text-anchor="start" letter-spacing="0.14em">02 / SYSTEM ARCHITECTURE</text>
+<text x="1544" y="44" fill="#67676F" font-size="10" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="500" text-anchor="end" letter-spacing="0.14em">SOURCE-GROUNDED / v0.2.0</text>
+<text x="56" y="150" fill="#151519" font-size="72" font-family="Georgia, &#x27;Times New Roman&#x27;, serif" font-weight="400" text-anchor="start">Lissue</text>
+<text x="58" y="196" fill="#2449FF" font-size="21" font-family="Inter, &#x27;Noto Sans JP&#x27;, -apple-system, BlinkMacSystemFont, &#x27;Segoe UI&#x27;, sans-serif" font-weight="600" text-anchor="start">Human and agent work converges on one task core and shared state.</text>
+<text x="300" y="220" fill="#67676F" font-size="10" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="650" text-anchor="middle" letter-spacing="0.1em">ACTORS</text>
+<line x1="413.5" y1="240" x2="413.5" y2="814" stroke="#E0E0E5" stroke-width="0.8" stroke-dasharray="2 8"/>
+<text x="527" y="220" fill="#67676F" font-size="10" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="650" text-anchor="middle" letter-spacing="0.1em">INTERFACES</text>
+<line x1="640.5" y1="240" x2="640.5" y2="814" stroke="#E0E0E5" stroke-width="0.8" stroke-dasharray="2 8"/>
+<text x="754" y="220" fill="#67676F" font-size="10" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="650" text-anchor="middle" letter-spacing="0.1em">APPLICATION</text>
+<line x1="867.5" y1="240" x2="867.5" y2="814" stroke="#E0E0E5" stroke-width="0.8" stroke-dasharray="2 8"/>
+<text x="981" y="220" fill="#67676F" font-size="10" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="650" text-anchor="middle" letter-spacing="0.1em">LOCAL STATE</text>
+<line x1="1094.5" y1="240" x2="1094.5" y2="814" stroke="#E0E0E5" stroke-width="0.8" stroke-dasharray="2 8"/>
+<text x="1208" y="220" fill="#67676F" font-size="10" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="650" text-anchor="middle" letter-spacing="0.1em">EXCHANGE</text>
+<line x1="1321.5" y1="240" x2="1321.5" y2="814" stroke="#E0E0E5" stroke-width="0.8" stroke-dasharray="2 8"/>
+<text x="1435" y="220" fill="#67676F" font-size="10" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="650" text-anchor="middle" letter-spacing="0.1em">SHARING</text>
+<line x1="56" y1="326" x2="1544" y2="326" stroke="#E0E0E5" stroke-width="0.8"/>
+<text x="56" y="312" fill="#2449FF" font-size="11" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="650" text-anchor="start" letter-spacing="0.12em">01 / HUMAN WORK</text>
+<line x1="56" y1="531" x2="1544" y2="531" stroke="#E0E0E5" stroke-width="0.8"/>
+<text x="56" y="517" fill="#2449FF" font-size="11" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="650" text-anchor="start" letter-spacing="0.12em">02 / SHARED SYSTEM</text>
+<line x1="56" y1="736" x2="1544" y2="736" stroke="#E0E0E5" stroke-width="0.8"/>
+<text x="56" y="722" fill="#2449FF" font-size="11" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="650" text-anchor="start" letter-spacing="0.12em">03 / AGENT WORK</text>
+<g id="edge-developer-human-ui-0" data-edge-kind="command" data-route-axis="horizontal">
+<path d="M 387.5 326 H 439.5" fill="none" stroke="#2449FF" stroke-width="1.4" stroke-linecap="square" stroke-linejoin="miter" marker-end="url(#arrow-accent)"/>
+<rect x="380.65" y="300" width="65.7" height="18" rx="2" fill="#FFFFFF"/>
+<text x="413.5" y="313" fill="#67676F" font-size="11" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="500" text-anchor="middle">operate</text>
+</g>
+<g id="edge-human-ui-task-usecase-1" data-edge-kind="command" data-route-axis="vertical">
+<path d="M 527 374 V 428.5 H 754 V 483" fill="none" stroke="#2449FF" stroke-width="1.4" stroke-linecap="square" stroke-linejoin="miter" marker-end="url(#arrow-accent)"/>
+<rect x="607.65" y="406.5" width="65.7" height="18" rx="2" fill="#FFFFFF"/>
+<text x="640.5" y="419.5" fill="#67676F" font-size="11" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="500" text-anchor="middle">command</text>
+</g>
+<g id="edge-ai-agent-agent-cli-2" data-edge-kind="command" data-route-axis="horizontal">
+<path d="M 387.5 736 H 439.5" fill="none" stroke="#2449FF" stroke-width="1.4" stroke-linecap="square" stroke-linejoin="miter" marker-end="url(#arrow-accent)"/>
+<rect x="384.2" y="710" width="58.6" height="18" rx="2" fill="#FFFFFF"/>
+<text x="413.5" y="723" fill="#67676F" font-size="11" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="500" text-anchor="middle">invoke</text>
+</g>
+<g id="edge-agent-cli-task-usecase-3" data-edge-kind="command" data-route-axis="vertical">
+<path d="M 527 688 V 633.5 H 754 V 579" fill="none" stroke="#2449FF" stroke-width="1.4" stroke-linecap="square" stroke-linejoin="miter" marker-end="url(#arrow-accent)"/>
+<rect x="607.65" y="611.5" width="65.7" height="18" rx="2" fill="#FFFFFF"/>
+<text x="640.5" y="624.5" fill="#67676F" font-size="11" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="500" text-anchor="middle">command</text>
+</g>
+<g id="edge-task-usecase-sqlite-4" data-edge-kind="state-update" data-route-axis="horizontal">
+<path d="M 841.5 531 H 893.5" fill="none" stroke="#151519" stroke-width="1.4" stroke-dasharray="7 6" stroke-linecap="square" stroke-linejoin="miter" marker-end="url(#arrow)"/>
+<rect x="845.3" y="505" width="44.4" height="18" rx="2" fill="#FFFFFF"/>
+<text x="867.5" y="518" fill="#67676F" font-size="11" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="500" text-anchor="middle">save</text>
+</g>
+<g id="edge-sqlite-json-files-5" data-edge-kind="state-update" data-route-axis="horizontal">
+<path d="M 1068.5 531 H 1120.5" fill="none" stroke="#151519" stroke-width="1.4" stroke-dasharray="7 6" stroke-linecap="square" stroke-linejoin="miter" marker-end="url(#arrow)"/>
+<rect x="1072.3" y="505" width="44.4" height="18" rx="2" fill="#FFFFFF"/>
+<text x="1094.5" y="518" fill="#67676F" font-size="11" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="500" text-anchor="middle">sync</text>
+</g>
+<g id="edge-json-files-git-6" data-edge-kind="observation" data-route-axis="horizontal">
+<path d="M 1295.5 531 H 1347.5" fill="none" stroke="#2449FF" stroke-width="1.4" stroke-linecap="square" stroke-linejoin="miter" marker-end="url(#arrow-accent)"/>
+<rect x="1295.75" y="505" width="51.5" height="18" rx="2" fill="#FFFFFF"/>
+<text x="1321.5" y="518" fill="#67676F" font-size="11" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="500" text-anchor="middle">track</text>
+</g>
+<g id="component-developer" data-component-id="developer" data-kind="actor">
+<rect x="212.5" y="278" width="175" height="96" rx="4" fill="#FFFFFF" stroke="#E0E0E5" stroke-width="1.4"/>
+<text x="300" y="319" fill="#242429" font-size="22" font-family="Inter, &#x27;Noto Sans JP&#x27;, -apple-system, BlinkMacSystemFont, &#x27;Segoe UI&#x27;, sans-serif" font-weight="650" text-anchor="middle">Developer</text>
+<text x="300" y="347" fill="#67676F" font-size="12" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="400" text-anchor="middle">interactive work</text>
+</g>
+<g id="component-human-ui" data-component-id="human-ui" data-kind="service">
+<rect x="439.5" y="278" width="175" height="96" rx="4" fill="#FFFFFF" stroke="#E0E0E5" stroke-width="1.4"/>
+<text x="527" y="319" fill="#242429" font-size="22" font-family="Inter, &#x27;Noto Sans JP&#x27;, -apple-system, BlinkMacSystemFont, &#x27;Segoe UI&#x27;, sans-serif" font-weight="650" text-anchor="middle">CLI / TUI</text>
+<text x="527" y="347" fill="#67676F" font-size="12" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="400" text-anchor="middle">browse · edit · claim</text>
+</g>
+<g id="component-task-usecase" data-component-id="task-usecase" data-kind="service">
+<rect x="666.5" y="483" width="175" height="96" rx="4" fill="#F0F2FF" stroke="#2449FF" stroke-width="1.4"/>
+<text x="754" y="524" fill="#242429" font-size="22" font-family="Inter, &#x27;Noto Sans JP&#x27;, -apple-system, BlinkMacSystemFont, &#x27;Segoe UI&#x27;, sans-serif" font-weight="650" text-anchor="middle">Task use case</text>
+<text x="754" y="552" fill="#67676F" font-size="12" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="400" text-anchor="middle">add · claim · context</text>
+</g>
+<g id="component-sqlite" data-component-id="sqlite" data-kind="store">
+<rect x="893.5" y="483" width="175" height="96" rx="4" fill="#F0F2FF" stroke="#2449FF" stroke-width="1.4"/>
+<text x="981" y="524" fill="#242429" font-size="22" font-family="Inter, &#x27;Noto Sans JP&#x27;, -apple-system, BlinkMacSystemFont, &#x27;Segoe UI&#x27;, sans-serif" font-weight="650" text-anchor="middle">SQLite / WAL</text>
+<text x="981" y="552" fill="#67676F" font-size="12" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="400" text-anchor="middle">.lissue/data.db</text>
+</g>
+<g id="component-json-files" data-component-id="json-files" data-kind="file">
+<rect x="1120.5" y="483" width="175" height="96" rx="4" fill="#FFFFFF" stroke="#E0E0E5" stroke-width="1.4"/>
+<text x="1208" y="524" fill="#242429" font-size="22" font-family="Inter, &#x27;Noto Sans JP&#x27;, -apple-system, BlinkMacSystemFont, &#x27;Segoe UI&#x27;, sans-serif" font-weight="650" text-anchor="middle">Task JSON</text>
+<text x="1208" y="552" fill="#67676F" font-size="12" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="400" text-anchor="middle">one task / one file</text>
+</g>
+<g id="component-git" data-component-id="git" data-kind="external">
+<rect x="1347.5" y="483" width="175" height="96" rx="18" fill="#151519" stroke="#151519" stroke-width="1.4"/>
+<text x="1435" y="524" fill="#FFFFFF" font-size="22" font-family="Inter, &#x27;Noto Sans JP&#x27;, -apple-system, BlinkMacSystemFont, &#x27;Segoe UI&#x27;, sans-serif" font-weight="650" text-anchor="middle">Git</text>
+<text x="1435" y="552" fill="#F0F2FF" font-size="12" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="400" text-anchor="middle">diff · merge · share</text>
+</g>
+<g id="component-ai-agent" data-component-id="ai-agent" data-kind="agent">
+<rect x="212.5" y="688" width="175" height="96" rx="4" fill="#FFFFFF" stroke="#E0E0E5" stroke-width="1.4"/>
+<text x="300" y="729" fill="#242429" font-size="22" font-family="Inter, &#x27;Noto Sans JP&#x27;, -apple-system, BlinkMacSystemFont, &#x27;Segoe UI&#x27;, sans-serif" font-weight="650" text-anchor="middle">AI agent</text>
+<text x="300" y="757" fill="#67676F" font-size="12" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="400" text-anchor="middle">coding assistant</text>
+</g>
+<g id="component-agent-cli" data-component-id="agent-cli" data-kind="service">
+<rect x="439.5" y="688" width="175" height="96" rx="4" fill="#FFFFFF" stroke="#E0E0E5" stroke-width="1.4"/>
+<text x="527" y="729" fill="#242429" font-size="22" font-family="Inter, &#x27;Noto Sans JP&#x27;, -apple-system, BlinkMacSystemFont, &#x27;Segoe UI&#x27;, sans-serif" font-weight="650" text-anchor="middle">CLI / JSON</text>
+<text x="527" y="757" fill="#67676F" font-size="12" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="400" text-anchor="middle">structured I/O</text>
+</g>
+<line x1="56" y1="788" x2="1544" y2="788" stroke="#E0E0E5" stroke-width="1"/>
+<circle cx="270" cy="828" r="4" fill="#2449FF"/>
+<text x="288" y="832" fill="#67676F" font-size="10" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="500" text-anchor="start" letter-spacing="0.1em">ONE TASK CORE</text>
+<circle cx="683.33" cy="828" r="4" fill="#2449FF"/>
+<text x="701.33" y="832" fill="#67676F" font-size="10" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="500" text-anchor="start" letter-spacing="0.1em">LOCAL-FIRST STATE</text>
+<circle cx="1096.67" cy="828" r="4" fill="#2449FF"/>
+<text x="1114.67" y="832" fill="#67676F" font-size="10" font-family="&#x27;IBM Plex Mono&#x27;, &#x27;SFMono-Regular&#x27;, Consolas, monospace" font-weight="500" text-anchor="start" letter-spacing="0.1em">GIT SHARING</text>
+</svg>

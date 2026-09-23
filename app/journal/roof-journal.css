@@ -1,0 +1,444 @@
+/* Preserve Journal's existing interaction and editor structure within the house theme. */
+.wrap.ja-admin,
+.journal,
+dialog.ja-modal {
+  --black: var(--ink);
+  --white: var(--bg);
+  --gray: var(--muted);
+  --blue: var(--ink);
+  --light: color-mix(in srgb, var(--ink) 4%, var(--bg));
+  color: var(--ink);
+}
+.wrap.ja-admin {
+  max-width: 1184px;
+  padding-top: 0;
+  padding-bottom: 64px;
+}
+.wrap.ja-admin .ja-breadcrumb {
+  margin: 0;
+  padding: 28px 0;
+  font-size: 11px;
+  gap: 13px;
+}
+.wrap.ja-admin .ja-breadcrumb a:first-child {
+  font-weight: 500;
+}
+.wrap.ja-admin .ja-heading {
+  padding: 10px 0 35px;
+  margin-bottom: 28px;
+  border-bottom: 1px solid var(--line);
+}
+.wrap.ja-admin .ja-heading h1 {
+  font-size: clamp(28px, 3.6vw, 42px);
+  line-height: 1.5;
+  letter-spacing: 0.015em;
+  font-weight: 600;
+  margin: 14px 0;
+}
+.wrap.ja-admin .ja-eyebrow {
+  color: var(--muted);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  font-size: 11px;
+}
+.wrap.ja-admin .ja-button,
+dialog.ja-modal .ja-button {
+  min-height: 44px;
+  border-radius: 0;
+  font-weight: 500;
+  background: transparent;
+  color: var(--ink);
+  padding: 10px 16px;
+}
+.wrap.ja-admin .ja-button:hover,
+dialog.ja-modal .ja-button:hover {
+  background: color-mix(in srgb, var(--ink) 6%, transparent);
+}
+.wrap.ja-admin .ja-primary,
+dialog.ja-modal .ja-primary {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--bg) !important;
+}
+.wrap.ja-admin .ja-primary:hover,
+dialog.ja-modal .ja-primary:hover {
+  background: color-mix(in srgb, var(--ink) 87%, var(--bg));
+}
+.wrap.ja-admin
+  :is(
+    .ja-list,
+    .ja-list-head,
+    .ja-writing,
+    .ja-sidebar section,
+    .ja-dropzone,
+    .ja-import-help,
+    .ja-import-check,
+    .ja-error,
+    .ja-badge,
+    .ja-icon-action,
+    .ja-menu > div,
+    .ja-menu a,
+    .ja-menu button,
+    .ja-tags button,
+    .ja-tags span,
+    .ja-preview .e-tags span,
+    .ja-filters input,
+    .ja-filters select,
+    .ja-search,
+    .ja-writing textarea,
+    .ja-sidebar input,
+    .ja-sidebar select,
+    .ja-diff pre,
+    .ja-import-help code
+  ),
+dialog.ja-modal
+  :is(.ja-badge, .ja-diff pre, .ja-history-layout button, .ja-error) {
+  border-radius: 0;
+}
+.wrap.ja-admin .ja-tabs {
+  gap: 30px;
+}
+.wrap.ja-admin .ja-tabs button {
+  padding: 17px 0;
+  font-weight: 400;
+}
+.wrap.ja-admin .ja-tabs button[aria-current] {
+  color: var(--ink);
+  border-bottom-color: var(--ink);
+  font-weight: 600;
+}
+.wrap.ja-admin .ja-tabs span {
+  border-radius: 0;
+  background: transparent;
+}
+.wrap.ja-admin .ja-filters {
+  gap: 14px;
+  padding: 24px 0 12px;
+}
+.wrap.ja-admin .ja-filters input,
+.wrap.ja-admin .ja-filters select {
+  min-height: 44px;
+  background: transparent;
+}
+.wrap.ja-admin
+  :is(.ja-list, .ja-writing, .ja-sidebar section, .ja-import-check) {
+  background: transparent;
+}
+.wrap.ja-admin .ja-list {
+  border-inline: 0;
+}
+.wrap.ja-admin .ja-list-head {
+  padding-inline: 0;
+  background: transparent;
+  border-bottom: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.wrap.ja-admin .ja-row {
+  padding: 25px 0;
+}
+.wrap.ja-admin .ja-row-title a {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.8;
+}
+.wrap.ja-admin .ja-row-title a:hover {
+  text-decoration: underline;
+  text-underline-offset: 5px;
+}
+.wrap.ja-admin .ja-tags {
+  gap: 5px 12px;
+}
+.wrap.ja-admin .ja-tags :is(button, span) {
+  background: transparent;
+  border-bottom: 1px solid var(--line);
+  padding: 0 0 1px;
+  font-size: 10px;
+}
+.wrap.ja-admin .ja-badge {
+  font-weight: 400;
+  padding: 3px 8px;
+}
+.wrap.ja-admin .ja-badge.is-public {
+  background: color-mix(in srgb, var(--sage) 16%, var(--bg));
+  color: var(--ink);
+}
+.wrap.ja-admin .ja-icon-action::after {
+  border-radius: 0;
+  background: var(--bg);
+  color: var(--ink);
+  box-shadow: 0 3px 12px #0001;
+}
+.wrap.ja-admin .ja-writing {
+  padding: 28px;
+  border: 0;
+  border-top: 1px solid var(--line);
+}
+.wrap.ja-admin .ja-writing textarea {
+  background: transparent;
+}
+.wrap.ja-admin .ja-writing .ja-title-input {
+  font-weight: 600;
+  letter-spacing: 0.015em;
+}
+.wrap.ja-admin .ja-writing .ja-body-input {
+  line-height: 2;
+}
+.wrap.ja-admin .ja-editor-top {
+  padding-block: 8px 24px;
+  align-items: center;
+}
+.wrap.ja-admin .ja-editor-layout {
+  gap: 40px;
+}
+.wrap.ja-admin .ja-sidebar section {
+  padding: 20px 0;
+  border: 0;
+  border-top: 1px solid var(--line);
+}
+.wrap.ja-admin .ja-sidebar input,
+.wrap.ja-admin .ja-sidebar select {
+  background: transparent;
+  min-height: 40px;
+}
+.wrap.ja-admin .ja-sidebar h2 {
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+}
+.wrap.ja-admin .ja-dropzone {
+  background: color-mix(in srgb, var(--ink) 3%, var(--bg));
+  padding: 36px 20px;
+}
+.wrap.ja-admin .ja-dropzone.is-dragging {
+  background: color-mix(in srgb, var(--sage) 15%, var(--bg));
+  border-color: var(--ink);
+}
+.wrap.ja-admin .ja-import-help {
+  padding: 24px 0;
+  border: 0;
+  border-top: 1px solid var(--line);
+}
+.wrap.ja-admin input[type='file']::file-selector-button {
+  color: var(--ink);
+  background: var(--bg);
+  border: 1px solid var(--line);
+  padding: 10px 12px;
+  font: inherit;
+  margin-right: 12px;
+  cursor: pointer;
+}
+.wrap.ja-admin :is(input, textarea, select):focus-visible,
+dialog.ja-modal button:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+}
+.wrap.ja-admin .ja-preview .e-tags span {
+  background: transparent;
+  border-bottom: 1px solid var(--line);
+  padding: 0 0 2px;
+}
+.wrap.ja-admin .ja-preview .markdown-body {
+  color: var(--ink);
+  line-height: 2;
+}
+.wrap.ja-admin .ja-preview .markdown-body :is(h1, h2, h3, h4) {
+  color: var(--ink);
+  border: 0;
+}
+.wrap.ja-admin .ja-preview .markdown-body :is(pre, code) {
+  background: var(--light);
+  color: var(--ink);
+}
+dialog.ja-modal {
+  border-radius: 0;
+  background: var(--bg);
+  color: var(--ink);
+  box-shadow: 0 20px 80px #0003;
+}
+dialog.ja-modal::backdrop {
+  background: color-mix(in srgb, var(--ink) 45%, transparent);
+}
+.wrap.ja-admin .ja-danger,
+dialog.ja-modal .ja-danger {
+  color: light-dark(#a3342a, #f1a398) !important;
+}
+.wrap.ja-admin .ja-error,
+dialog.ja-modal .ja-error {
+  color: light-dark(#9a2d24, #f1b2a8);
+  background: color-mix(in srgb, #b54a40 8%, var(--bg));
+  border-color: color-mix(in srgb, #b54a40 50%, var(--line));
+}
+.notes-page.journal .journal-list > .note-row {
+  padding: 29px 0;
+  grid-template-columns: 140px minmax(0, 1fr) 25px;
+  gap: 28px;
+  align-items: center;
+}
+.notes-page.journal .journal-list h2 {
+  margin: 0;
+  font-size: 20px;
+  line-height: 1.7;
+}
+.notes-page.journal .journal-list h2 a:hover {
+  text-decoration: underline;
+  text-underline-offset: 5px;
+}
+.notes-page.journal .journal-list p {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.9;
+  margin: 12px 0 0;
+  max-width: 72ch;
+}
+.notes-page.journal .journal-card-footer {
+  margin-top: 0;
+  justify-content: flex-start;
+  gap: 8px 24px;
+}
+.notes-page.journal .journal-card-footer .tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px 15px;
+}
+.notes-page.journal .tag-list > span,
+.roof-article.journal .tag-list > span {
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 1px;
+}
+.notes-page.journal .journal-admin-link {
+  margin: 36px 0 0;
+  font-size: 12px;
+}
+.notes-page.journal .journal-admin-link a {
+  color: var(--muted);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.roof-article.journal .journal-summary {
+  font-size: 16px;
+  color: var(--muted);
+  line-height: 1.95;
+  max-width: 72ch;
+  margin: 0 0 20px;
+}
+.roof-article.journal .journal-findings {
+  margin: 34px 0 0;
+  padding: 18px 24px;
+  border-left: 2px solid var(--accent);
+  background: color-mix(in srgb, var(--ink) 3%, var(--bg));
+  font-size: 14px;
+}
+.roof-article.journal .journal-projects {
+  font-size: 12px;
+  gap: 10px 18px;
+  margin-top: 18px;
+  color: var(--muted);
+}
+.roof-article.journal .journal-projects a {
+  color: inherit;
+}
+.roof-article.journal .journal-related h2 {
+  font-size: 20px;
+}
+.roof-article.journal .journal-related li {
+  padding-block: 16px;
+}
+.roof-article.journal .journal-related li span {
+  font-size: 11px;
+}
+.roof-article.journal .journal-related a {
+  color: var(--ink);
+  font-size: 15px;
+}
+.journal .journal-authorship-ai {
+  border-radius: 0;
+  color: var(--muted);
+  font-size: 11px;
+}
+@media (max-width: 760px) {
+  .wrap.ja-admin .ja-breadcrumb {
+    padding: 22px 0;
+  }
+  .wrap.ja-admin .ja-heading {
+    padding-top: 5px;
+  }
+  .wrap.ja-admin .ja-tabs {
+    gap: 24px;
+  }
+  .wrap.ja-admin .ja-filters {
+    gap: 12px;
+  }
+  .wrap.ja-admin .ja-editor-layout {
+    gap: 24px;
+  }
+  .wrap.ja-admin .ja-writing {
+    padding: 20px 0;
+  }
+  .wrap.ja-admin .ja-row {
+    padding: 22px 0;
+  }
+  .wrap.ja-admin .ja-row-title a {
+    font-size: 15px;
+  }
+  .wrap.ja-admin .ja-editor-top {
+    align-items: flex-start;
+  }
+  .wrap.ja-admin .ja-editor-top .ja-button {
+    padding-inline: 10px;
+  }
+  .wrap.ja-admin .ja-import-check {
+    padding: 18px;
+  }
+  .wrap.ja-admin .ja-body-input {
+    font-size: 16px;
+  }
+  .roof-article.journal .journal-summary {
+    font-size: 15px;
+  }
+}
+@media (max-width: 700px) {
+  .notes-page.journal .journal-list > .note-row {
+    grid-template-columns: minmax(0, 1fr) 20px;
+    gap: 12px;
+    padding: 25px 0;
+  }
+  .notes-page.journal .journal-list h2 {
+    font-size: 17px;
+    line-height: 1.8;
+  }
+  .notes-page.journal .journal-card-footer {
+    gap: 4px 15px;
+  }
+  .notes-page.journal .note-meta {
+    font-size: 10px;
+    flex-wrap: wrap;
+  }
+  .roof-article.journal .journal-findings {
+    padding: 14px 18px;
+    font-size: 13px;
+  }
+}
+
+.journal-sort-fallback {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  min-height: 46px;
+  font-size: 13px;
+  color: var(--muted);
+}
+.journal-sort-fallback a {
+  padding: 10px 0;
+}
+.journal-sort-fallback a[aria-current] {
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 5px;
+}
+
+@media (scripting: none) {
+  .notes-page .journal-sort-enhanced {
+    display: none;
+  }
+}

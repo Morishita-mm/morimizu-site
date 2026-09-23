@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" class="original-project-icon" data-original-icon="lissue" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M28 26v48c0 12 10 22 22 22h44"/>
+  <path d="M48 26v32c0 10 8 18 18 18h28" stroke="var(--accent, #2449ff)" stroke-width="6"/>
+  <circle cx="28" cy="26" r="5"/>
+  <circle cx="28" cy="74" r="5"/>
+  <circle cx="48" cy="26" r="5" fill="var(--accent, #2449ff)" stroke="var(--accent, #2449ff)"/>
+  <circle cx="94" cy="76" r="6" fill="var(--accent, #2449ff)" stroke="var(--accent, #2449ff)"/>
+  <circle cx="94" cy="96" r="5" fill="currentColor" stroke="currentColor"/>
+</svg>

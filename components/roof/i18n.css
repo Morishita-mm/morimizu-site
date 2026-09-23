@@ -1,0 +1,34 @@
+/* Shared language control, English section names, and résumé links. */
+.language-toggle{font:600 12px/1 'Noto Sans JP',sans-serif;letter-spacing:.04em;color:inherit;background:none;border:1px solid var(--line);border-radius:50%;width:44px;height:44px;flex:0 0 auto;cursor:pointer;transition:background-color .2s,border-color .2s}
+.language-toggle:hover{background:color-mix(in srgb,var(--ink) 7%,transparent)}
+.language-toggle:focus-visible{outline:2px solid currentColor;outline-offset:4px}
+.section-heading h2,.about-copy h2,.about-section>h2{font-family:Barlow,sans-serif;font-weight:800;letter-spacing:.01em}
+.about-actions{display:flex;flex-direction:column;align-items:flex-start;gap:16px;white-space:nowrap}
+.about-copy .about-person-name{font-size:20px;font-weight:600;margin:4px 0 10px;color:var(--ink)}
+.resume-link{white-space:nowrap}
+.footer-nav .resume-link{display:inline-flex;gap:4px;align-items:center}
+.footer-nav .resume-link .icon{width:14px;height:14px}
+.original-language-note{font-size:13px;color:var(--muted);margin:18px 0 0}
+html[lang=en] .lead{max-width:24ch;white-space:normal}
+html[lang=en] .hero-description{max-width:38ch;white-space:normal}
+html[lang=en] .room-label>span{font-size:clamp(9px,1.05vw,13px)}
+@media(max-width:700px){
+ .header-actions{gap:12px}
+ .language-toggle{width:44px;height:44px;font-size:10px}
+ .topnav{gap:16px}
+ .topnav a{font-size:11px}
+ .about-actions{grid-column:2;flex-direction:row;flex-wrap:wrap;gap:20px;margin-left:0}
+ .site-footer{flex-wrap:wrap;gap:24px}
+ .footer-nav{gap:18px}
+}
+@media(max-width:430px){
+ .site-header{padding-top:18px;padding-bottom:12px;min-height:100px;flex-wrap:wrap;gap:4px}
+ .site-header>.brand{flex:0 0 auto}
+ .header-actions{display:contents}
+ .language-toggle{margin-left:auto}
+ .sky-toggle{margin-left:8px}
+ .topnav{order:4;width:100%;justify-content:flex-start;gap:24px}
+ .topnav a{font-size:11px;padding:10px 0}
+ .about-copy .about-person-name{font-size:17px}
+ .footer-nav{width:100%;order:3;flex-wrap:wrap}
+}

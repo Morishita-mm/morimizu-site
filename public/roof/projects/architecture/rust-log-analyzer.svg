@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Rust Log Analyzer system architecture</title>
+  <desc id="desc">Raw logs are published to Redis, consumed in parallel by a Rust TUI and a Python Polars analyzer, then aggregated statistics return through Redis to the terminal.</desc>
+  <defs>
+    <marker id="arrow-jade" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M1 1L9 5L1 9" fill="none" stroke="#327871" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></marker>
+    <marker id="arrow-ink" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M1 1L9 5L1 9" fill="none" stroke="#17241e" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></marker>
+    <style>
+      .sans{font-family:-apple-system,BlinkMacSystemFont,"Noto Sans JP","Hiragino Sans",sans-serif}.serif{font-family:Georgia,"Times New Roman",serif}.mono{font-family:"SFMono-Regular",Consolas,"Liberation Mono",monospace}.ink{fill:#17241e}.soft{fill:#536159}.jade{fill:#327871}.rule{stroke:#17241e;stroke-opacity:.18;stroke-width:1}.surface{fill:#fbfaf5;stroke:#17241e;stroke-opacity:.25;stroke-width:1.5}.accent{fill:#eaf1ec;stroke:#327871;stroke-width:2}.dark{fill:#17241e}.nodeTitle{font-size:22px;font-weight:500}.nodeMeta{font-size:14px;letter-spacing:.02em}.micro{font-size:13px;letter-spacing:.13em}.flow{fill:none;stroke:#327871;stroke-width:2.4;stroke-linecap:round;marker-end:url(#arrow-jade)}.flowInk{fill:none;stroke:#17241e;stroke-width:1.8;stroke-linecap:round;stroke-opacity:.72;marker-end:url(#arrow-ink)}
+    </style>
+  </defs>
+  <rect width="1600" height="900" fill="#f4f1e8"/>
+  <circle cx="1485" cy="105" r="112" fill="none" stroke="#327871" stroke-opacity=".08" stroke-width="2"/><circle cx="1485" cy="105" r="72" fill="none" stroke="#327871" stroke-opacity=".08" stroke-width="2"/><circle cx="1485" cy="105" r="31" fill="none" stroke="#327871" stroke-opacity=".14" stroke-width="2"/>
+  <g class="mono micro soft"><text x="56" y="52">03 / SYSTEM ARCHITECTURE</text><text x="1544" y="52" text-anchor="end">MESSAGE-DRIVEN / PROTOTYPE</text></g>
+  <line x1="56" y1="76" x2="1544" y2="76" class="rule"/>
+  <text x="58" y="177" class="serif ink" font-size="100" font-weight="500">Rust Log Analyzer</text>
+  <text x="60" y="225" class="sans jade" font-size="25" font-weight="500">ログの配送・集計・表示を、疎結合なメッセージでつなぐ。</text>
+
+  <g transform="translate(56 328)">
+    <text x="0" y="0" class="mono micro jade">PRODUCERS</text>
+    <rect x="0" y="34" width="246" height="146" rx="8" class="surface"/>
+    <text x="26" y="80" class="sans ink nodeTitle">Log sources</text>
+    <text x="26" y="112" class="mono soft nodeMeta">containers / services</text>
+    <text x="26" y="137" class="mono soft nodeMeta">dummy_log_sender.py</text>
+    <text x="26" y="162" class="sans soft nodeMeta">JSONログを発行</text>
+  </g>
+
+  <g transform="translate(410 298)">
+    <text x="0" y="0" class="mono micro jade">MESSAGE BROKER</text>
+    <circle cx="130" cy="194" r="128" fill="#17241e"/>
+    <circle cx="130" cy="194" r="92" fill="none" stroke="#8fc3b9" stroke-opacity=".35" stroke-width="2"/>
+    <circle cx="130" cy="194" r="55" fill="none" stroke="#8fc3b9" stroke-opacity=".35" stroke-width="2"/>
+    <text x="130" y="186" text-anchor="middle" class="sans" font-size="28" font-weight="500" fill="#fbfaf5">Redis</text>
+    <text x="130" y="218" text-anchor="middle" class="mono" font-size="14" fill="#8fc3b9">PUB / SUB</text>
+    <text x="130" y="255" text-anchor="middle" class="mono" font-size="13" fill="#fbfaf5">logs.ingest</text>
+    <text x="130" y="278" text-anchor="middle" class="mono" font-size="13" fill="#fbfaf5">stats.update</text>
+  </g>
+
+  <g transform="translate(746 296)">
+    <text x="0" y="0" class="mono micro jade">PROCESSORS</text>
+    <rect x="0" y="34" width="302" height="160" rx="8" class="accent"/>
+    <text x="28" y="80" class="sans ink nodeTitle">Rust Collector</text>
+    <text x="28" y="112" class="mono soft nodeMeta">Tokio + Ratatui</text>
+    <text x="28" y="138" class="mono soft nodeMeta">logs + stats / async UI</text>
+    <text x="28" y="166" class="mono soft nodeMeta">regex · j/k · OSC 52</text>
+
+    <rect x="0" y="246" width="302" height="160" rx="8" class="surface"/>
+    <text x="28" y="292" class="sans ink nodeTitle">Python Analyzer</text>
+    <text x="28" y="324" class="mono soft nodeMeta">Polars + redis-py</text>
+    <text x="28" y="350" class="mono soft nodeMeta">1 second window aggregation</text>
+    <text x="28" y="378" class="mono soft nodeMeta">error rate · top services</text>
+  </g>
+
+  <g transform="translate(1184 328)">
+    <text x="0" y="0" class="mono micro jade">INTERFACE</text>
+    <rect x="0" y="34" width="360" height="356" rx="8" class="surface"/>
+    <rect x="28" y="67" width="304" height="212" rx="5" fill="#17241e"/>
+    <line x1="50" y1="102" x2="310" y2="102" stroke="#8fc3b9" stroke-opacity=".45"/>
+    <line x1="50" y1="132" x2="242" y2="132" stroke="#fbfaf5" stroke-opacity=".45"/>
+    <line x1="50" y1="162" x2="286" y2="162" stroke="#fbfaf5" stroke-opacity=".28"/>
+    <line x1="50" y1="192" x2="206" y2="192" stroke="#fbfaf5" stroke-opacity=".28"/>
+    <rect x="50" y="218" width="122" height="36" rx="4" fill="#327871"/>
+    <text x="111" y="241" text-anchor="middle" class="mono" font-size="12" fill="#fbfaf5">ERROR 12.4%</text>
+    <text x="28" y="326" class="sans ink nodeTitle">Terminal user</text>
+    <text x="28" y="358" class="sans soft nodeMeta">表示・絞り込み・選択・コピー</text>
+  </g>
+
+  <path d="M302 435C348 435 365 435 410 435" class="flow"/>
+  <text x="355" y="416" text-anchor="middle" class="mono soft nodeMeta">raw JSON logs</text>
+  <path d="M668 435C704 435 712 435 746 435" class="flow"/>
+  <text x="706" y="415" text-anchor="middle" class="mono soft nodeMeta">logs + stats</text>
+  <path d="M632 566C691 566 696 622 746 622" class="flow"/>
+  <text x="690" y="602" text-anchor="middle" class="mono soft nodeMeta">logs.ingest</text>
+  <path d="M746 668C674 668 634 629 606 588" class="flowInk"/>
+  <text x="670" y="698" text-anchor="middle" class="mono soft nodeMeta">stats.update</text>
+  <path d="M1048 410C1100 410 1121 434 1184 434" class="flow"/>
+  <text x="1116" y="407" text-anchor="middle" class="mono soft nodeMeta">render</text>
+  <path d="M1184 601C1112 601 1102 495 1048 470" class="flowInk"/>
+  <text x="1112" y="575" text-anchor="middle" class="mono soft nodeMeta">user input</text>
+
+  <line x1="56" y1="790" x2="1544" y2="790" class="rule"/>
+  <g class="mono micro soft"><text x="56" y="835">DESIGN INTENT</text><text x="307" y="835">MESSAGE-DRIVEN</text><text x="588" y="835">ASYNC TUI</text><text x="818" y="835">SPECIALIZED PROCESSORS</text><text x="1196" y="835">LOOSE COUPLING</text></g>
+  <circle cx="287" cy="830" r="4" fill="#327871"/><circle cx="568" cy="830" r="4" fill="#327871"/><circle cx="798" cy="830" r="4" fill="#327871"/><circle cx="1176" cy="830" r="4" fill="#327871"/>
+</svg>

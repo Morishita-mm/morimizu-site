@@ -18,11 +18,13 @@ export function NotesContent({
   initialSection,
   initialJournal,
   initialSort = 'desc',
+  initialJournalQuery = '',
 }: {
   articles: ArticleSummary[];
   initialSection: 'journal' | 'qiita';
   initialJournal?: ListData;
   initialSort?: 'asc' | 'desc';
+  initialJournalQuery?: string;
 }) {
   const { t } = useLocale();
   const [section, setSection] = useState(initialSection);
@@ -98,9 +100,10 @@ export function NotesContent({
     void load(new URL(event.currentTarget.href), true);
   }
   return (
-    <div className="shell journal">
+    <div className="wrap page-main notes-page journal">
       <NotesHeading
         section={section}
+        count={section === 'qiita' ? articles.length : undefined}
         tabs={<NotesTabs section={section} onNavigate={navigate} />}
       />
       <div aria-busy={busy}>
@@ -108,7 +111,11 @@ export function NotesContent({
         {error && <p role="alert">{error}</p>}
         {section === 'journal' && journal ? (
           <>
-            <JournalList initialData={journal} initialSort={sort} />
+            <JournalList
+              initialData={journal}
+              initialSort={sort}
+              initialQuery={initialJournalQuery}
+            />
             <p className="journal-admin-link">
               <a href="/journal/admin">
                 {t('記事を管理（管理者） →', 'Manage articles (admin) →')}
