@@ -46,6 +46,12 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Audit all dependencies
+        run: npm audit --audit-level=low
+
+      - name: Verify dependency compatibility adapters
+        run: npm run test:dependencies
+
       - name: Sync public Qiita articles
         env:
           QIITA_ARTICLES_DIR: ${{ github.workspace }}/_qiita
@@ -58,6 +64,9 @@ jobs:
         env:
           QIITA_ARTICLES_DIR: ${{ github.workspace }}/_qiita
         run: npm run build
+
+      - name: Verify built Worker and authentication boundary
+        run: node scripts/verify-worker-runtime.mjs
 
       - name: Upload private preview version
         env:

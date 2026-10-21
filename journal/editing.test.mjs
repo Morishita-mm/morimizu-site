@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { Miniflare } from 'miniflare';
+import { Miniflare, convertV4MiniflareOptions } from 'miniflare';
 import {
   createDraft,
   saveDraft,
@@ -22,12 +22,14 @@ import {
 import { readFrontMatter } from '../lib/content/frontmatter.mjs';
 
 await test('editable drafts, concurrent saves, publication snapshots, history and deletion', async (t) => {
-  const mf = new Miniflare({
-    modules: true,
-    script: 'export default {fetch(){return new Response("ok")}}',
-    compatibilityDate: '2026-05-15',
-    d1Databases: { JOURNAL_DB: 'editing-test' },
-  });
+  const mf = new Miniflare(
+    convertV4MiniflareOptions({
+      modules: true,
+      script: 'export default {fetch(){return new Response("ok")}}',
+      compatibilityDate: '2026-05-15',
+      d1Databases: { JOURNAL_DB: 'editing-test' },
+    }),
+  );
   t.after(() => mf.dispose());
   const db = await mf.getD1Database('JOURNAL_DB');
   for (const file of [

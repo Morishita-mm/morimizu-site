@@ -1,7 +1,7 @@
 // Local tooling only. This module is never imported into the deployed Worker.
 import { readFile, readdir } from 'node:fs/promises';
-import { resolve } from 'node:path';
-import { Miniflare } from 'miniflare';
+import { dirname, resolve } from 'node:path';
+import { Miniflare, convertV4MiniflareOptions } from 'miniflare';
 import { unstable_getMiniflareWorkerOptions } from 'wrangler';
 import { exportJWK, generateKeyPair, SignJWT } from 'jose';
 
@@ -23,33 +23,37 @@ export async function createLocalJournalRuntime({ persist = false } = {}) {
     JOURNAL_UPLOAD_TOKEN: crypto.randomUUID() + crypto.randomUUID(),
   };
   const moduleFiles = await readdir('dist/server', { recursive: true });
-  const mf = new Miniflare({
-    ...config.workerOptions,
-    modules: [
-      { type: 'ESModule', path: config.main },
-      ...moduleFiles
-        .filter((p) => p !== 'index.js' && /\.m?js$/.test(p))
-        .map((p) => ({ type: 'ESModule', path: resolve('dist/server', p) })),
-      ...moduleFiles
-        .filter((p) => p.endsWith('.wasm'))
-        .map((p) => ({
-          type: 'CompiledWasm',
-          path: resolve('dist/server', p),
-        })),
-    ],
-    modulesRoot: resolve('dist/server'),
-    bindings,
-    host: '127.0.0.1',
-    port: 0,
-    d1Databases: { JOURNAL_DB: 'journal-local' },
-    d1Persist: persist,
-    outboundService: (request) =>
-      request.url === `${bindings.JOURNAL_ACCESS_TEAM}/cdn-cgi/access/certs`
-        ? Response.json({ keys: [jwk] })
-        : new Response('External connections are disabled in local preview', {
-            status: 502,
-          }),
-  });
+  const mf = new Miniflare(
+    convertV4MiniflareOptions({
+      ...config.workerOptions,
+      modules: [
+        { type: 'ESModule', path: config.main },
+        ...moduleFiles
+          .filter((p) => p !== 'index.js' && /\.m?js$/.test(p))
+          .map((p) => ({ type: 'ESModule', path: resolve('dist/server', p) })),
+        ...moduleFiles
+          .filter((p) => p.endsWith('.wasm'))
+          .map((p) => ({
+            type: 'CompiledWasm',
+            path: resolve('dist/server', p),
+          })),
+      ],
+      modulesRoot: resolve('dist/server'),
+      bindings,
+      host: '127.0.0.1',
+      port: 0,
+      d1Databases: { JOURNAL_DB: 'journal-local' },
+      // Miniflare now appends /d1 to its shared persistence root. Preserve the
+      // existing API, whose persist argument is the D1 directory itself.
+      resourcePersistencePath: persist ? dirname(persist) : undefined,
+      outboundService: (request) =>
+        request.url === `${bindings.JOURNAL_ACCESS_TEAM}/cdn-cgi/access/certs`
+          ? Response.json({ keys: [jwk] })
+          : new Response('External connections are disabled in local preview', {
+              status: 502,
+            }),
+    }),
+  );
   try {
     await mf.ready;
     const db = await mf.getD1Database('JOURNAL_DB');

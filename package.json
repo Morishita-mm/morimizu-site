@@ -31,6 +31,7 @@
     "prejournal:preview": "npm run build",
     "journal:preview": "node scripts/journal-preview.mjs",
     "test:content": "node --test scripts/content/*.test.mjs",
+    "test:dependencies": "node --test scripts/dependencies/*.test.mjs",
     "test:roof": "node --test components/roof-home/*.test.mjs components/roof/*.test.mjs",
     "benchmark:content": "node scripts/benchmark-content.mjs",
     "test:content:browser": "node scripts/verify-content-runtime.mjs",
@@ -46,20 +47,19 @@
     "js-yaml": "4.3.2",
     "katex": "^0.18.5",
     "lucide-react": "1.31.0",
-    "mermaid": "^11.17.2",
-    "react": "19.2.9",
-    "react-dom": "19.2.9",
-    "react-server-dom-webpack": "19.2.9",
+    "mermaid": "12.2.0",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "react-server-dom-webpack": "19.3.1",
     "rehype-katex": "^7.0.1",
-    "shadcn": "4.18.0",
     "tailwind-merge": "3.6.0",
     "tw-animate-css": "1.4.0",
     "vfile": "^6.0.3",
-    "vinext": "1.0.0-beta.5"
+    "vinext": "1.3.0"
   },
   "devDependencies": {
-    "@cloudflare/vite-plugin": "1.37.1",
-    "@cloudflare/workers-types": "4.20260515.1",
+    "@cloudflare/vite-plugin": "1.64.0",
+    "@cloudflare/workers-types": "5.20261021.1",
     "@openai/sites-vite-plugin": "0.2.0",
     "@tailwindcss/postcss": "4.2.1",
     "@types/hast": "^3.0.5",
@@ -67,22 +67,32 @@
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
     "@vitejs/plugin-react": "6.0.2",
-    "@vitejs/plugin-rsc": "0.5.26",
+    "@vitejs/plugin-rsc": "0.5.38",
     "agentation": "^3.0.2",
+    "fast-glob": "file:tools/build-glob",
     "fontkit": "2.0.4",
     "fontverter": "2.0.0",
-    "oxfmt": "0.61.0",
+    "oxfmt": "0.74.0",
     "oxlint": "1.76.0",
     "oxlint-tsgolint": "7.0.2001",
     "playwright": "1.63.0",
-    "sharp": "0.34.5",
+    "sharp": "0.35.5",
     "subset-font": "2.7.0",
     "tailwindcss": "4.2.1",
     "typescript": "5.9.3",
-    "vite": "8.0.13",
-    "wrangler": "4.92.0"
+    "vite": "8.3.5",
+    "wrangler": "4.151.3"
   },
   "type": "module",
+  "overrides": {
+    "rehype-katex": {
+      "katex": "$katex"
+    },
+    "fflate": "0.7.5",
+    "vite-plugin-dynamic-import": {
+      "fast-glob": "$fast-glob"
+    }
+  },
   "imports": {
     "#content-wasm": {
       "workerd": "./lib/content/wasm.workerd.mjs",

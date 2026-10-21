@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { mkdtemp, readFile, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { Miniflare } from 'miniflare';
+import { Miniflare, convertV4MiniflareOptions } from 'miniflare';
 import { generateKeyPair, exportJWK, SignJWT } from 'jose';
 import { handleJournal } from './http.mjs';
 import {
@@ -24,9 +24,9 @@ await test('D1 lifecycle, HTTP authorization, concurrency, persistence and porta
     script: 'export default { fetch(){ return new Response("ok"); } }',
     compatibilityDate: '2026-05-15',
     d1Databases: { JOURNAL_DB: 'journal-test' },
-    d1Persist: directory,
+    resourcePersistencePath: directory,
   };
-  let mf = new Miniflare(options);
+  let mf = new Miniflare(convertV4MiniflareOptions(options));
   t.after(async () => {
     await mf.dispose();
     await rm(directory, { recursive: true, force: true });
@@ -713,11 +713,13 @@ await test('D1 lifecycle, HTTP authorization, concurrency, persistence and porta
           .all()
       ).results;
       await mf.dispose();
-      mf = new Miniflare({
-        ...options,
-        script:
-          'export default {fetch(){return new Response("new site design");}}',
-      });
+      mf = new Miniflare(
+        convertV4MiniflareOptions({
+          ...options,
+          script:
+            'export default {fetch(){return new Response("new site design");}}',
+        }),
+      );
       db = await mf.getD1Database('JOURNAL_DB');
       env.JOURNAL_DB = db;
       assert.deepEqual(await state(), before);
@@ -735,7 +737,12 @@ await test('D1 lifecycle, HTTP authorization, concurrency, persistence and porta
       const backupEntries = (
         await db.prepare('SELECT * FROM journal_entries').all()
       ).results;
-      const restored = new Miniflare({ ...options, d1Persist: false });
+      const restored = new Miniflare(
+        convertV4MiniflareOptions({
+          ...options,
+          resourcePersistencePath: undefined,
+        }),
+      );
       try {
         const target = await restored.getD1Database('JOURNAL_DB');
         for (const statement of sql.split(';').filter((s) => s.trim()))
